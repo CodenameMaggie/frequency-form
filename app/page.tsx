@@ -122,24 +122,28 @@ export default function HomePage() {
       </section>
 
       {/* SECTION 3: TWO TIERS - Fixed Proportions */}
-      <section className="py-20 md:py-28">
-        <div className="container max-w-6xl px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+      <section className="py-16 md:py-20">
+        <div className="container max-w-5xl px-6">
+          <h2 className="font-serif text-3xl md:text-4xl text-center text-[rgb(var(--color-primary))] mb-12 font-light">
+            Two Tiers of Natural Fiber
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
 
             {/* Healing Tier */}
-            <div className="relative">
-              <div className="aspect-[3/4] bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
+            <div className="text-center">
+              <div className="h-48 md:h-56 bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
                 <span className="text-[rgb(var(--color-text))] opacity-20 text-xs font-light">
                   Healing Tier Image
                 </span>
               </div>
-              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-accent))] text-[rgb(var(--color-background))] text-[0.625rem] tracking-[0.15em] mb-4 uppercase">
+              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-accent))] text-[rgb(var(--color-background))] text-[0.625rem] tracking-[0.15em] mb-3 uppercase">
                 5,000 Hz
               </div>
               <h3 className="font-serif text-2xl text-[rgb(var(--color-primary))] mb-4 font-light">
                 Healing Tier
               </h3>
-              <ul className="space-y-2 mb-8 text-[rgb(var(--color-text))] opacity-75">
+              <ul className="space-y-1 mb-6 text-[rgb(var(--color-text))] opacity-75 text-sm">
                 <li>Linen</li>
                 <li>Wool</li>
                 <li>Cashmere</li>
@@ -152,19 +156,19 @@ export default function HomePage() {
             </div>
 
             {/* Foundation Tier */}
-            <div className="relative">
-              <div className="aspect-[3/4] bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
+            <div className="text-center">
+              <div className="h-48 md:h-56 bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
                 <span className="text-[rgb(var(--color-text))] opacity-20 text-xs font-light">
                   Foundation Tier Image
                 </span>
               </div>
-              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-muted))] text-[rgb(var(--color-text))] text-[0.625rem] tracking-[0.15em] mb-4 uppercase">
+              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-muted))] text-[rgb(var(--color-text))] text-[0.625rem] tracking-[0.15em] mb-3 uppercase">
                 100 Hz
               </div>
               <h3 className="font-serif text-2xl text-[rgb(var(--color-primary))] mb-4 font-light">
                 Foundation Tier
               </h3>
-              <ul className="space-y-2 mb-8 text-[rgb(var(--color-text))] opacity-75">
+              <ul className="space-y-1 mb-6 text-[rgb(var(--color-text))] opacity-75 text-sm">
                 <li>Organic Cotton</li>
                 <li>Hemp</li>
               </ul>
@@ -177,9 +181,9 @@ export default function HomePage() {
       </section>
 
       {/* SECTION 4: FEATURED PRODUCTS */}
-      <section className="section-padding bg-[rgb(var(--color-muted))]">
-        <div className="container">
-          <h2 className="font-serif text-4xl md:text-5xl text-center text-[rgb(var(--color-primary))] mb-16">
+      <section className="py-16 md:py-20 bg-[rgb(var(--color-muted))]">
+        <div className="container px-6">
+          <h2 className="font-serif text-3xl md:text-4xl text-center text-[rgb(var(--color-primary))] mb-12">
             New Arrivals
           </h2>
 
@@ -228,27 +232,27 @@ export default function HomePage() {
       </section>
 
       {/* SECTION 5: THE PROMISE */}
-      <section className="section-padding">
-        <div className="container max-w-4xl text-center">
-          <h2 className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-primary))] mb-8">
+      <section className="py-16 md:py-20">
+        <div className="container max-w-3xl text-center px-6">
+          <h2 className="font-serif text-3xl md:text-4xl text-[rgb(var(--color-primary))] mb-6">
             What We Never Carry
           </h2>
-          <p className="text-lg text-[rgb(var(--color-text))] mb-6 leading-relaxed">
+          <p className="text-base md:text-lg text-[rgb(var(--color-text))] mb-6 leading-relaxed mx-auto">
             Synthetic fabrics—polyester, nylon, acrylic, rayon—measure at 15 Hz. The same frequency as diseased tissue. We reject them entirely.
           </p>
-          <p className="text-lg text-[rgb(var(--color-text))] leading-relaxed">
+          <p className="text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed mx-auto">
             We also honor the ancient wisdom of <em>shatnez</em>: linen and wool are never blended. Their opposing energy flows cancel each other to 0 Hz. Our AI styling system ensures these fabrics are never paired in your wardrobe.
           </p>
         </div>
       </section>
 
       {/* SECTION 6: EMAIL SIGNUP */}
-      <section className="section-padding bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))]">
-        <div className="container max-w-2xl text-center">
-          <h2 className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-background))] mb-4">
+      <section className="py-16 md:py-20 bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))]">
+        <div className="container max-w-2xl text-center px-6">
+          <h2 className="font-serif text-3xl md:text-4xl text-[rgb(var(--color-background))] mb-4">
             Join the Frequency
           </h2>
-          <p className="text-lg text-[rgb(var(--color-background))] opacity-80 mb-8">
+          <p className="text-base md:text-lg text-[rgb(var(--color-background))] opacity-80 mb-8">
             Be the first to know about new arrivals and exclusive collections.
           </p>
           <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
