@@ -128,49 +128,57 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography Hierarchy */
+/* Typography Hierarchy - Refined & Elegant */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  font-weight: 400;
-  line-height: 1.2;
+  font-weight: 300;
+  line-height: 1.15;
   color: rgb(var(--color-primary));
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  margin: 0;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  margin-bottom: 1.5rem;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  margin-bottom: 2rem;
+  font-weight: 300;
 }
 
 h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 1.25rem;
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  margin-bottom: 1.75rem;
+  font-weight: 300;
 }
 
 h3 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  margin-bottom: 1rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  margin-bottom: 1.5rem;
+  font-weight: 300;
 }
 
 h4 {
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
-  margin-bottom: 0.875rem;
+  font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+  margin-bottom: 1.25rem;
+  font-weight: 400;
 }
 
 p {
-  margin-bottom: 1rem;
-  max-width: 70ch;
+  margin: 0 0 1.5rem 0;
+  max-width: 65ch;
+  line-height: 1.8;
+  font-size: 1.0625rem;
 }
 
-/* Small caps for labels */
+/* Small caps for labels - More refined */
 .label,
 .small-caps {
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgb(var(--color-accent));
+  opacity: 0.9;
 }
 
 /* Links */
@@ -193,18 +201,52 @@ a:hover {
   padding-right: var(--container-padding);
 }
 
-/* Buttons */
+/* Buttons - Refined styling */
 button {
   font-family: var(--font-sans);
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all var(--transition-fast) ease;
+  transition: all var(--transition-base) ease;
+  border: none;
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+}
+
+.btn-primary {
+  background: rgb(var(--color-primary));
+  color: rgb(var(--color-background));
+  padding: 1rem 2.5rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(var(--color-primary), 0.2);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: rgb(var(--color-primary));
+  padding: 1rem 2.5rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid rgb(var(--color-primary));
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+  background: rgb(var(--color-primary));
+  color: rgb(var(--color-background));
+  transform: translateY(-1px);
 }
 
 /* Forms */
