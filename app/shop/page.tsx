@@ -168,13 +168,13 @@ function ShopPageContent() {
   const hasActiveFilters = selectedTier !== 'all' || selectedBrand !== 'all';
 
   return (
-    <div className="container py-12">
+    <div className="container py-12 px-6">
       {/* Header */}
       <div className="mb-12 text-center">
-        <h1 className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-primary))] mb-4">
+        <h1 className="font-serif text-3xl md:text-4xl text-[rgb(var(--color-primary))] mb-4 font-light">
           Shop
         </h1>
-        <p className="text-lg text-[rgb(var(--color-text))] opacity-70">
+        <p className="text-base md:text-lg text-[rgb(var(--color-text))] opacity-70">
           Curated natural fibers from artisan makers
         </p>
       </div>

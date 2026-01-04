@@ -138,11 +138,11 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   // If product not found, show not found message
   if (!product) {
     return (
-      <div className="container py-16 text-center">
-        <h1 className="font-serif text-4xl text-[rgb(var(--color-primary))] mb-4">
+      <div className="container py-16 text-center px-6">
+        <h1 className="font-serif text-3xl md:text-4xl text-[rgb(var(--color-primary))] mb-4 font-light">
           Product Not Found
         </h1>
-        <p className="text-[rgb(var(--color-text))] mb-8">
+        <p className="text-base text-[rgb(var(--color-text))] mb-8">
           The product you're looking for doesn't exist.
         </p>
         <Link
@@ -161,7 +161,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     .slice(0, 4);
 
   return (
-    <div className="container py-12">
+    <div className="container py-12 px-6">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-[rgb(var(--color-text))] opacity-70">
         <Link href="/shop" className="hover:opacity-100">Shop</Link>
@@ -179,7 +179,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         {/* Left Column - Images */}
         <div className="sticky top-24 self-start">
           {/* Main Image */}
-          <div className="aspect-[3/4] bg-[rgb(var(--color-muted))] mb-4 flex items-center justify-center">
+          <div className="aspect-[4/5] bg-[rgb(var(--color-muted))] mb-4 flex items-center justify-center">
             <span className="text-[rgb(var(--color-text))] opacity-30">
               [Product Image {selectedImage + 1}]
             </span>
@@ -220,17 +220,17 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           </p>
 
           {/* Product Name */}
-          <h1 className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-primary))] mb-4">
+          <h1 className="font-serif text-3xl md:text-4xl text-[rgb(var(--color-primary))] mb-4 font-light">
             {product.name}
           </h1>
 
           {/* Price */}
-          <p className="text-2xl text-[rgb(var(--color-text))] mb-8 font-medium">
+          <p className="text-xl md:text-2xl text-[rgb(var(--color-text))] mb-8">
             ${(product.price / 100).toFixed(0)}
           </p>
 
           {/* Short Description */}
-          <p className="text-lg text-[rgb(var(--color-text))] leading-relaxed mb-8">
+          <p className="text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed mb-8">
             {product.description}
           </p>
 
@@ -331,10 +331,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
       {/* Full Product Description */}
       <div className="max-w-3xl mx-auto mb-16 text-center">
-        <h2 className="font-serif text-3xl text-[rgb(var(--color-primary))] mb-6">
+        <h2 className="font-serif text-2xl md:text-3xl text-[rgb(var(--color-primary))] mb-6 font-light">
           About This Piece
         </h2>
-        <p className="text-lg text-[rgb(var(--color-text))] leading-relaxed mb-6">
+        <p className="text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed mb-6">
           {product.description}
         </p>
         <div className="text-left bg-[rgb(var(--color-muted))] p-8">
@@ -350,7 +350,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div>
-          <h2 className="font-serif text-3xl text-center text-[rgb(var(--color-primary))] mb-12">
+          <h2 className="font-serif text-2xl md:text-3xl text-center text-[rgb(var(--color-primary))] mb-12 font-light">
             You May Also Like
           </h2>
           <ProductGrid products={relatedProducts} columns={4} />

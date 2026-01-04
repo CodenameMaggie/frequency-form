@@ -18,18 +18,18 @@ export default function Footer() {
 
   return (
     <footer className="bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))] mt-20">
-      <div className="container">
+      <div className="container px-6">
         {/* Main Footer Content */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
 
           {/* Logo & Tagline */}
           <div className="lg:col-span-2">
             <Link href="/">
-              <h2 className="font-serif text-2xl tracking-[0.2em] text-[rgb(var(--color-background))] mb-3">
+              <h2 className="font-serif text-xl tracking-[0.2em] text-[rgb(var(--color-background))] mb-3 font-light">
                 FREQUENCY & FORM
               </h2>
             </Link>
-            <p className="font-serif italic text-[rgb(var(--color-background))] opacity-80 text-lg mb-6">
+            <p className="font-serif italic text-[rgb(var(--color-background))] opacity-80 text-base mb-6 font-light">
               Dress in Alignment
             </p>
             <p className="text-sm text-[rgb(var(--color-background))] opacity-70 leading-relaxed max-w-md">
@@ -139,9 +139,9 @@ export default function Footer() {
         </div>
 
         {/* Newsletter Signup */}
-        <div className="border-t border-[rgb(var(--color-background))] border-opacity-20 py-12">
+        <div className="border-t border-[rgb(var(--color-background))] border-opacity-20 py-10 md:py-12">
           <div className="max-w-md mx-auto text-center">
-            <h3 className="font-serif text-2xl text-[rgb(var(--color-background))] mb-2">
+            <h3 className="font-serif text-xl md:text-2xl text-[rgb(var(--color-background))] mb-2 font-light">
               Join the Frequency
             </h3>
             <p className="text-sm text-[rgb(var(--color-background))] opacity-70 mb-6">
