@@ -43,23 +43,19 @@ export default function HomePage() {
 
   return (
     <>
-      {/* SECTION 1: HERO - Editorial & Refined */}
-      <section className="relative flex items-center justify-center" style={{ minHeight: 'calc(100vh - 5rem)' }}>
-        <div className="container max-w-5xl text-center px-8 py-20 md:py-32">
-          <p className="label text-[rgb(var(--color-accent))] mb-8 tracking-[0.25em]">
-            NATURAL FIBERS ONLY
+      {/* SECTION 1: HERO - Properly Proportioned */}
+      <section className="relative py-24 md:py-32">
+        <div className="container max-w-4xl text-center px-6">
+          <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-accent))] mb-6 font-medium">
+            Natural Fibers Only
           </p>
-          <h1 className="font-serif text-[clamp(3.5rem,8vw,7rem)] text-[rgb(var(--color-primary))] mb-10 leading-[0.95] tracking-[-0.02em] font-light">
-            Dress in
-            <br />
-            Alignment
+          <h1 className="font-serif text-[2.75rem] md:text-[4rem] lg:text-[4.5rem] text-[rgb(var(--color-primary))] mb-6 leading-[1.1] tracking-tight font-light">
+            Dress in Alignment
           </h1>
-          <p className="text-[1.125rem] md:text-[1.25rem] text-[rgb(var(--color-text))] opacity-80 mb-16 max-w-2xl mx-auto leading-[1.7] font-light">
-            Healing-tier fabrics at 5,000 Hz. Foundation essentials in organic cotton.
-            <br className="hidden md:block" />
-            Never synthetics.
+          <p className="text-base md:text-lg text-[rgb(var(--color-text))] opacity-75 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Healing-tier fabrics at 5,000 Hz. Foundation essentials in organic cotton. Never synthetics.
           </p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/shop?tier=healing" className="btn-primary inline-block">
               Shop Healing Tier
             </Link>
@@ -70,54 +66,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 2: THE SCIENCE - Refined Layout */}
-      <section className="py-32 bg-[rgb(var(--color-muted))]">
-        <div className="container max-w-4xl px-8">
-          <h2 className="font-serif text-[clamp(2.5rem,5vw,4.5rem)] text-center text-[rgb(var(--color-primary))] mb-12 font-light tracking-[-0.01em]">
+      {/* SECTION 2: THE SCIENCE - Better Proportions */}
+      <section className="py-20 md:py-28 bg-[rgb(var(--color-muted))]">
+        <div className="container max-w-5xl px-6">
+          <h2 className="font-serif text-3xl md:text-4xl text-center text-[rgb(var(--color-primary))] mb-8 font-light">
             The Frequency of Fabric
           </h2>
-          <p className="text-center text-[1.1875rem] text-[rgb(var(--color-text))] opacity-85 mb-20 max-w-3xl mx-auto leading-[1.8] font-light">
+          <p className="text-center text-base md:text-lg text-[rgb(var(--color-text))] opacity-75 mb-16 max-w-3xl mx-auto leading-relaxed">
             In 2003, Dr. Heidi Yellen discovered that certain natural fibers resonate at 5,000 Hz—the same frequency that promotes healing in the human body. Her research using the Ag-Environ machine revealed that what we wear profoundly affects our energy.
           </p>
 
-          {/* Three Stats - More Elegant */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-20 max-w-5xl mx-auto">
-            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-8">
-              <p className="font-serif text-[3.5rem] text-[rgb(var(--color-accent))] mb-4 font-light tracking-tight">
+          {/* Three Stats - Properly Sized */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-6">
+              <p className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-accent))] mb-3 font-light">
                 5,000 Hz
               </p>
-              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-3">
+              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-2">
                 Healing Tier
               </p>
-              <p className="text-[0.9375rem] text-[rgb(var(--color-text))] opacity-70 leading-relaxed font-light">
+              <p className="text-sm text-[rgb(var(--color-text))] opacity-70 leading-relaxed">
                 Linen, Wool, Cashmere, Silk
               </p>
             </div>
-            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-8">
-              <p className="font-serif text-[3.5rem] text-[rgb(var(--color-text))] mb-4 font-light tracking-tight">
+            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-6">
+              <p className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-text))] mb-3 font-light">
                 100 Hz
               </p>
-              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-3">
+              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-2">
                 Foundation Tier
               </p>
-              <p className="text-[0.9375rem] text-[rgb(var(--color-text))] opacity-70 leading-relaxed font-light">
+              <p className="text-sm text-[rgb(var(--color-text))] opacity-70 leading-relaxed">
                 Organic Cotton, Hemp
               </p>
             </div>
-            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-8">
-              <p className="font-serif text-[3.5rem] text-[rgb(var(--color-never))] mb-4 font-light tracking-tight">
+            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-6">
+              <p className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-never))] mb-3 font-light">
                 15 Hz
               </p>
-              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-3">
+              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-2">
                 Synthetics (Never)
               </p>
-              <p className="text-[0.9375rem] text-[rgb(var(--color-text))] opacity-70 leading-relaxed font-light">
+              <p className="text-sm text-[rgb(var(--color-text))] opacity-70 leading-relaxed">
                 Polyester, Nylon, Acrylic
               </p>
             </div>
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-12">
             <Link href="/about" className="btn-secondary inline-block">
               Learn More
             </Link>
@@ -125,61 +121,55 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 3: TWO TIERS */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      {/* SECTION 3: TWO TIERS - Fixed Proportions */}
+      <section className="py-20 md:py-28">
+        <div className="container max-w-6xl px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
 
             {/* Healing Tier */}
             <div className="relative">
-              <div className="aspect-[4/5] bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
-                <span className="text-[rgb(var(--color-text))] opacity-30 text-sm">
-                  [Healing Tier Image]
+              <div className="aspect-[3/4] bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
+                <span className="text-[rgb(var(--color-text))] opacity-20 text-xs font-light">
+                  Healing Tier Image
                 </span>
               </div>
-              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-accent))] text-[rgb(var(--color-background))] text-xs tracking-wider mb-4">
-                5,000 HZ
+              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-accent))] text-[rgb(var(--color-background))] text-[0.625rem] tracking-[0.15em] mb-4 uppercase">
+                5,000 Hz
               </div>
-              <h3 className="font-serif text-3xl text-[rgb(var(--color-primary))] mb-4">
+              <h3 className="font-serif text-2xl text-[rgb(var(--color-primary))] mb-4 font-light">
                 Healing Tier
               </h3>
-              <ul className="space-y-2 mb-6">
-                <li className="text-[rgb(var(--color-text))]">Linen</li>
-                <li className="text-[rgb(var(--color-text))]">Wool</li>
-                <li className="text-[rgb(var(--color-text))]">Cashmere</li>
-                <li className="text-[rgb(var(--color-text))]">Silk</li>
-                <li className="text-[rgb(var(--color-text))]">Natural Fur</li>
+              <ul className="space-y-2 mb-8 text-[rgb(var(--color-text))] opacity-75">
+                <li>Linen</li>
+                <li>Wool</li>
+                <li>Cashmere</li>
+                <li>Silk</li>
+                <li>Natural Fur</li>
               </ul>
-              <Link
-                href="/shop?tier=healing"
-                className="inline-block px-6 py-3 bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))] text-sm tracking-wider hover:opacity-90 transition-opacity"
-              >
-                SHOP HEALING TIER
+              <Link href="/shop?tier=healing" className="btn-primary inline-block">
+                Shop Healing Tier
               </Link>
             </div>
 
             {/* Foundation Tier */}
             <div className="relative">
-              <div className="aspect-[4/5] bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
-                <span className="text-[rgb(var(--color-text))] opacity-30 text-sm">
-                  [Foundation Tier Image]
+              <div className="aspect-[3/4] bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
+                <span className="text-[rgb(var(--color-text))] opacity-20 text-xs font-light">
+                  Foundation Tier Image
                 </span>
               </div>
-              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-muted))] text-[rgb(var(--color-text))] text-xs tracking-wider mb-4">
-                100 HZ
+              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-muted))] text-[rgb(var(--color-text))] text-[0.625rem] tracking-[0.15em] mb-4 uppercase">
+                100 Hz
               </div>
-              <h3 className="font-serif text-3xl text-[rgb(var(--color-primary))] mb-4">
+              <h3 className="font-serif text-2xl text-[rgb(var(--color-primary))] mb-4 font-light">
                 Foundation Tier
               </h3>
-              <ul className="space-y-2 mb-6">
-                <li className="text-[rgb(var(--color-text))]">Organic Cotton</li>
-                <li className="text-[rgb(var(--color-text))]">Hemp</li>
+              <ul className="space-y-2 mb-8 text-[rgb(var(--color-text))] opacity-75">
+                <li>Organic Cotton</li>
+                <li>Hemp</li>
               </ul>
-              <Link
-                href="/shop?tier=foundation"
-                className="inline-block px-6 py-3 bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))] text-sm tracking-wider hover:opacity-90 transition-opacity"
-              >
-                SHOP FOUNDATION TIER
+              <Link href="/shop?tier=foundation" className="btn-primary inline-block">
+                Shop Foundation Tier
               </Link>
             </div>
           </div>

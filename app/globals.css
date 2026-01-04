@@ -128,45 +128,41 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography Hierarchy - Refined & Elegant */
+/* Typography Hierarchy - Balanced & Functional */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   font-weight: 300;
-  line-height: 1.15;
+  line-height: 1.2;
   color: rgb(var(--color-primary));
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 
 h1 {
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  margin-bottom: 2rem;
-  font-weight: 300;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1.5rem;
 }
 
 h2 {
-  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-  margin-bottom: 1.75rem;
-  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1.25rem;
 }
 
 h3 {
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-  margin-bottom: 1.5rem;
-  font-weight: 300;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 1rem;
 }
 
 h4 {
-  font-size: clamp(1.25rem, 2.5vw, 1.875rem);
-  margin-bottom: 1.25rem;
-  font-weight: 400;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  margin-bottom: 0.875rem;
 }
 
 p {
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1rem 0;
   max-width: 65ch;
-  line-height: 1.8;
-  font-size: 1.0625rem;
+  line-height: 1.7;
+  font-size: 1rem;
 }
 
 /* Small caps for labels - More refined */

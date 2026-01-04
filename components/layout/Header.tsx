@@ -13,9 +13,9 @@ export default function Header() {
       <div className="container">
         <div className="flex items-center justify-between h-20">
 
-          {/* Logo */}
+          {/* Logo - More proportional */}
           <Link href="/" className="flex-shrink-0">
-            <h1 className="font-serif text-xl md:text-2xl tracking-[0.2em] text-[rgb(var(--color-primary))] hover:opacity-70 transition-opacity">
+            <h1 className="font-serif text-base md:text-lg tracking-[0.15em] text-[rgb(var(--color-primary))] hover:opacity-70 transition-opacity font-normal">
               FREQUENCY & FORM
             </h1>
           </Link>
