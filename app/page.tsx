@@ -28,7 +28,7 @@ export default function HomePage() {
         </div>
 
         {/* Hero Text */}
-        <p className="font-sans text-base leading-[2.2] text-[#5a6a7a] max-w-[520px] mx-auto font-light">
+        <p className="font-sans text-base leading-[2.2] text-[#5a6a7a] max-w-[520px] mx-auto font-light text-center">
           Curated natural fiber garments for women and men. Each piece selected not just for its beauty, but for its frequency—the invisible energy that touches your skin and shapes how you feel.
         </p>
       </section>
@@ -135,7 +135,7 @@ export default function HomePage() {
           <h2 className="font-serif text-[28px] font-light text-[#1e2a3a] mb-4 tracking-[0.05em]">
             Request an Invitation
           </h2>
-          <p className="font-sans text-sm text-[#5a6a7a] font-light mb-8 leading-[1.8]">
+          <p className="font-sans text-sm text-[#5a6a7a] font-light mb-8 leading-[1.8] text-center">
             We're welcoming a select circle who understand that what touches your skin shapes your energy. Be among the first to shop the collection.
           </p>
           <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
