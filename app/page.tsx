@@ -107,8 +107,8 @@ export default function HomePage() {
       {/* The Promise Section */}
       <section className="py-[50px] px-6 bg-[#f5f0e4]">
         <div className="max-w-[900px] mx-auto text-center">
-          <div className="text-center mb-3">
-            <p className="font-sans text-[9px] uppercase text-[#b8a888] font-medium tracking-[0.4em] inline-block pl-[0.4em]">
+          <div className="flex justify-center mb-3">
+            <p className="font-sans text-[9px] uppercase text-[#b8a888] font-medium tracking-[0.4em] pl-[0.4em]">
               Our Promise
             </p>
           </div>
