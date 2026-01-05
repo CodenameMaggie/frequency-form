@@ -7,6 +7,7 @@ import FabricTooltip from '@/components/product/FabricTooltip';
 import ProductGrid from '@/components/product/ProductGrid';
 import { Product } from '@/components/product/ProductCard';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useCartStore } from '@/lib/cart-store';
 
 // Mock product data (will be replaced with database queries later)
 const MOCK_PRODUCTS: Product[] = [
@@ -134,6 +135,23 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const { addItem, openCart } = useCartStore();
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    // Add item to cart
+    addItem(product, quantity, selectedSize);
+
+    // Show success state
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
+
+    // Open cart drawer
+    setTimeout(() => openCart(), 300);
+  };
 
   // If product not found, show not found message
   if (!product) {
@@ -304,10 +322,13 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
           {/* Add to Cart Button */}
           <button
-            className="w-full mt-8 px-8 py-4 bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))] text-sm tracking-wider hover:opacity-90 transition-opacity disabled:opacity-50"
+            onClick={handleAddToCart}
+            className="w-full mt-8 px-8 py-4 bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))] text-sm tracking-wider hover:opacity-90 transition-all disabled:opacity-50"
             disabled={product.sizes && product.sizes.length > 0 && !selectedSize}
           >
-            {product.sizes && product.sizes.length > 0 && !selectedSize
+            {addedToCart
+              ? 'ADDED TO CART ✓'
+              : product.sizes && product.sizes.length > 0 && !selectedSize
               ? 'SELECT A SIZE'
               : 'ADD TO CART'}
           </button>
