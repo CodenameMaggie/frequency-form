@@ -6,26 +6,17 @@ import { ShoppingCart, Search, Menu, X } from 'lucide-react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cartCount] = useState(0); // Will be connected to cart state later
+  const [cartCount] = useState(0);
 
   return (
-    <>
-      {/* Top Bar */}
-      <div className="bg-[rgb(var(--navy))] py-3.5 px-6 text-center">
-        <p className="text-[9px] tracking-[0.5em] uppercase text-[rgb(var(--champagne))] font-sans font-normal">
-          By Invitation Only · Founding Circle 2026
-        </p>
-      </div>
-
-      {/* Main Header */}
-      <header className="sticky top-0 z-50 bg-[rgb(var(--color-background))] border-b border-[rgb(var(--champagne-light))] transition-colors">
+    <header className="sticky top-0 z-50 bg-[rgb(var(--color-background))] border-b border-[rgb(var(--champagne-light))] transition-colors">
       <div className="container">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
 
-          {/* Logo - More proportional */}
+          {/* Logo - Small and refined */}
           <Link href="/" className="flex-shrink-0">
-            <h1 className="font-serif text-base md:text-lg tracking-[0.15em] text-[rgb(var(--color-primary))] hover:opacity-70 transition-opacity font-normal">
-              FREQUENCY & FORM
+            <h1 className="font-serif text-xs md:text-sm tracking-[0.15em] text-[rgb(var(--navy))] hover:opacity-70 transition-opacity font-light">
+              Frequency & Form
             </h1>
           </Link>
 
@@ -33,19 +24,19 @@ export default function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/shop"
-              className="text-sm tracking-wider text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-colors"
+              className="text-xs tracking-wider text-[rgb(var(--text-muted))] hover:text-[rgb(var(--navy))] transition-colors font-sans"
             >
               Shop
             </Link>
             <Link
               href="/about"
-              className="text-sm tracking-wider text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-colors"
+              className="text-xs tracking-wider text-[rgb(var(--text-muted))] hover:text-[rgb(var(--navy))] transition-colors font-sans"
             >
               The Science
             </Link>
             <Link
               href="/about"
-              className="text-sm tracking-wider text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-colors"
+              className="text-xs tracking-wider text-[rgb(var(--text-muted))] hover:text-[rgb(var(--navy))] transition-colors font-sans"
             >
               About
             </Link>
@@ -58,7 +49,7 @@ export default function Header() {
               className="p-2 hover:opacity-70 transition-opacity"
               aria-label="Search"
             >
-              <Search className="w-5 h-5 text-[rgb(var(--color-text))]" />
+              <Search className="w-4 h-4 text-[rgb(var(--text-muted))]" />
             </button>
 
             {/* Cart Icon with Count */}
@@ -67,9 +58,9 @@ export default function Header() {
               className="relative p-2 hover:opacity-70 transition-opacity"
               aria-label="Shopping cart"
             >
-              <ShoppingCart className="w-5 h-5 text-[rgb(var(--color-text))]" />
+              <ShoppingCart className="w-4 h-4 text-[rgb(var(--text-muted))]" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[rgb(var(--color-accent))] text-[rgb(var(--color-background))] text-xs font-sans font-medium rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[rgb(var(--champagne))] text-[rgb(var(--navy))] text-xs font-sans font-medium rounded-full w-5 h-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -82,9 +73,9 @@ export default function Header() {
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-[rgb(var(--color-text))]" />
+                <X className="w-5 h-5 text-[rgb(var(--text-muted))]" />
               ) : (
-                <Menu className="w-6 h-6 text-[rgb(var(--color-text))]" />
+                <Menu className="w-5 h-5 text-[rgb(var(--text-muted))]" />
               )}
             </button>
           </div>
@@ -93,25 +84,25 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[rgb(var(--color-muted))] bg-[rgb(var(--color-background))]">
+        <div className="md:hidden border-t border-[rgb(var(--champagne-light))] bg-[rgb(var(--color-background))]">
           <nav className="container py-6 flex flex-col space-y-4">
             <Link
               href="/shop"
-              className="text-lg tracking-wider text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-colors py-2"
+              className="text-sm tracking-wider text-[rgb(var(--text-muted))] hover:text-[rgb(var(--navy))] transition-colors py-2 font-sans"
               onClick={() => setMobileMenuOpen(false)}
             >
               Shop
             </Link>
             <Link
               href="/about"
-              className="text-lg tracking-wider text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-colors py-2"
+              className="text-sm tracking-wider text-[rgb(var(--text-muted))] hover:text-[rgb(var(--navy))] transition-colors py-2 font-sans"
               onClick={() => setMobileMenuOpen(false)}
             >
               The Science
             </Link>
             <Link
               href="/about"
-              className="text-lg tracking-wider text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-colors py-2"
+              className="text-sm tracking-wider text-[rgb(var(--text-muted))] hover:text-[rgb(var(--navy))] transition-colors py-2 font-sans"
               onClick={() => setMobileMenuOpen(false)}
             >
               About
@@ -120,6 +111,5 @@ export default function Header() {
         </div>
       )}
     </header>
-    </>
   );
 }
