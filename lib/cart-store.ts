@@ -14,8 +14,8 @@ interface CartStore {
 
   // Actions
   addItem: (product: Product, quantity: number, size?: string) => void;
-  removeItem: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  removeItem: (productId: number | string) => void;
+  updateQuantity: (productId: number | string, quantity: number) => void;
   clearCart: () => void;
   openCart: () => void;
   closeCart: () => void;
