@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { CartItem } from '@/lib/cart-store';
+import { getProductById } from '@/lib/products';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,9 +15,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Calculate total server-side to prevent client-side tampering
+    // Calculate total server-side using actual product prices from database
+    // This prevents price tampering from the client
     const subtotal = items.reduce((total, item) => {
-      return total + (item.product.price * item.quantity);
+      const serverProduct = getProductById(item.product.id);
+      if (!serverProduct) {
+        throw new Error(`Product ${item.product.id} not found`);
+      }
+      // Use server-side price, not client-sent price
+      return total + (serverProduct.price * item.quantity);
     }, 0);
 
     // Calculate shipping (free over $20000 cents = $200)

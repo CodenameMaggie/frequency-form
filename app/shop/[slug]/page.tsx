@@ -5,50 +5,14 @@ import Link from 'next/link';
 import FrequencyBadge from '@/components/product/FrequencyBadge';
 import FabricTooltip from '@/components/product/FabricTooltip';
 import ProductGrid from '@/components/product/ProductGrid';
-import { Product } from '@/components/product/ProductCard';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useCartStore } from '@/lib/cart-store';
-
-// Mock product data (will be replaced with database queries later)
-const MOCK_PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: 'Italian Linen Shirt',
-    brand: '100% Capri',
-    price: 28500,
-    tier: 'healing',
-    slug: 'italian-linen-shirt'
-  },
-  {
-    id: 2,
-    name: 'Cashmere Crewneck Sweater',
-    brand: 'Brunello Cucinelli',
-    price: 129500,
-    tier: 'healing',
-    slug: 'cashmere-crewneck-sweater'
-  },
-  {
-    id: 3,
-    name: 'Egyptian Cotton Crew Tee',
-    brand: 'Kotn',
-    price: 5800,
-    tier: 'foundation',
-    slug: 'egyptian-cotton-crew-tee'
-  },
-  {
-    id: 4,
-    name: 'Merino Wool Turtleneck',
-    brand: 'Loro Piana',
-    price: 74500,
-    tier: 'healing',
-    slug: 'merino-wool-turtleneck'
-  },
-];
+import { PRODUCTS, getProductBySlug } from '@/lib/products';
 
 // Extended mock product details
 const PRODUCT_DETAILS: any = {
   'italian-linen-shirt': {
-    ...MOCK_PRODUCTS[0],
+    ...getProductBySlug('italian-linen-shirt'),
     images: ['/placeholder1.jpg', '/placeholder2.jpg', '/placeholder3.jpg'],
     description: 'Crafted from 100% Italian linen, this shirt embodies timeless elegance and healing energy. The natural fabric resonates at 5,000 Hz, promoting tissue regeneration and well-being throughout your day.',
     fabricType: 'linen' as const,
@@ -60,7 +24,7 @@ const PRODUCT_DETAILS: any = {
     category: 'Shirts'
   },
   'cashmere-crewneck-sweater': {
-    ...MOCK_PRODUCTS[1],
+    ...getProductBySlug('cashmere-crewneck-sweater'),
     images: ['/placeholder1.jpg', '/placeholder2.jpg'],
     description: 'Luxury Italian cashmere that promotes relaxation and emotional stability. Hand-finished by master artisans in Solomeo.',
     fabricType: 'cashmere' as const,
@@ -72,7 +36,7 @@ const PRODUCT_DETAILS: any = {
     category: 'Sweaters'
   },
   'egyptian-cotton-crew-tee': {
-    ...MOCK_PRODUCTS[2],
+    ...getProductBySlug('egyptian-cotton-crew-tee'),
     images: ['/placeholder1.jpg'],
     description: 'Essential organic Egyptian cotton tee. Matches human body frequency at 100 Hz. Perfect for everyday wear.',
     fabricType: 'cotton' as const,
@@ -84,7 +48,7 @@ const PRODUCT_DETAILS: any = {
     category: 'T-Shirts'
   },
   'merino-wool-turtleneck': {
-    ...MOCK_PRODUCTS[3],
+    ...getProductBySlug('merino-wool-turtleneck'),
     images: ['/placeholder1.jpg', '/placeholder2.jpg'],
     description: 'Superfine merino wool turtleneck. Grounding, protective, thermoregulating. A winter essential.',
     fabricType: 'wool' as const,
@@ -174,7 +138,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   }
 
   // Related products (exclude current product)
-  const relatedProducts = MOCK_PRODUCTS
+  const relatedProducts = PRODUCTS
     .filter(p => p.id !== product.id && p.tier === product.tier)
     .slice(0, 4);
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { CartItem } from '@/lib/cart-store';
+import { getProductById } from '@/lib/products';
 
 // Use service role key for server-side operations
 const supabaseAdmin = createClient(
@@ -86,18 +87,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create order items
-    const orderItems = items.map((item) => ({
-      order_id: order.id,
-      product_id: item.product.id,
-      product_name: item.product.name,
-      product_brand: item.product.brand,
-      fabric_type: item.product.tier, // We'll use tier as fabric type for now
-      frequency_hz: item.product.tier === 'healing' ? 5000 : 100,
-      quantity: item.quantity,
-      price: item.product.price,
-      size: item.size || null,
-    }));
+    // Create order items using server-side product data
+    const orderItems = items.map((item) => {
+      const serverProduct = getProductById(item.product.id);
+      if (!serverProduct) {
+        throw new Error(`Product ${item.product.id} not found`);
+      }
+
+      return {
+        order_id: order.id,
+        product_id: serverProduct.id,
+        product_name: serverProduct.name,
+        product_brand: serverProduct.brand,
+        fabric_type: serverProduct.tier, // We'll use tier as fabric type for now
+        frequency_hz: serverProduct.tier === 'healing' ? 5000 : 100,
+        quantity: item.quantity,
+        price: serverProduct.price, // Use server-side price, not client price
+        size: item.size || null,
+      };
+    });
 
     const { error: itemsError } = await supabaseAdmin
       .from('order_items')

@@ -3,108 +3,8 @@
 import { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ProductGrid from '@/components/product/ProductGrid';
-import { Product } from '@/components/product/ProductCard';
-import { X, SlidersHorizontal } from 'lucide-react';
-
-// Mock product data (will be replaced with database data later)
-const MOCK_PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: 'Italian Linen Shirt',
-    brand: '100% Capri',
-    price: 28500,
-    tier: 'healing',
-    slug: 'italian-linen-shirt'
-  },
-  {
-    id: 2,
-    name: 'Linen Wide Leg Trousers',
-    brand: '100% Capri',
-    price: 32500,
-    tier: 'healing',
-    slug: 'linen-wide-leg-trousers'
-  },
-  {
-    id: 3,
-    name: 'Linen Blazer',
-    brand: '100% Capri',
-    price: 49500,
-    tier: 'healing',
-    slug: 'linen-blazer'
-  },
-  {
-    id: 4,
-    name: 'Egyptian Cotton Crew Tee',
-    brand: 'Kotn',
-    price: 5800,
-    tier: 'foundation',
-    slug: 'egyptian-cotton-crew-tee'
-  },
-  {
-    id: 5,
-    name: 'Organic Cotton Oxford Shirt',
-    brand: 'Kotn',
-    price: 9800,
-    tier: 'foundation',
-    slug: 'organic-cotton-oxford-shirt'
-  },
-  {
-    id: 6,
-    name: 'Cashmere Crewneck Sweater',
-    brand: 'Brunello Cucinelli',
-    price: 129500,
-    tier: 'healing',
-    slug: 'cashmere-crewneck-sweater'
-  },
-  {
-    id: 7,
-    name: 'Cashmere Cardigan',
-    brand: 'Brunello Cucinelli',
-    price: 169500,
-    tier: 'healing',
-    slug: 'cashmere-cardigan'
-  },
-  {
-    id: 8,
-    name: 'Merino Wool Turtleneck',
-    brand: 'Loro Piana',
-    price: 74500,
-    tier: 'healing',
-    slug: 'merino-wool-turtleneck'
-  },
-  {
-    id: 9,
-    name: 'Silk Pocket Square',
-    brand: 'Loro Piana',
-    price: 29500,
-    tier: 'healing',
-    slug: 'silk-pocket-square'
-  },
-  {
-    id: 10,
-    name: 'Organic Cotton Tank',
-    brand: 'Pact',
-    price: 2800,
-    tier: 'foundation',
-    slug: 'organic-cotton-tank'
-  },
-  {
-    id: 11,
-    name: 'Organic Cotton Leggings',
-    brand: 'Pact',
-    price: 5500,
-    tier: 'foundation',
-    slug: 'organic-cotton-leggings'
-  },
-  {
-    id: 12,
-    name: 'Baby Cashmere Scarf',
-    brand: 'Loro Piana',
-    price: 89500,
-    tier: 'healing',
-    slug: 'baby-cashmere-scarf'
-  },
-];
+import { SlidersHorizontal } from 'lucide-react';
+import { PRODUCTS } from '@/lib/products';
 
 function ShopPageContent() {
   const searchParams = useSearchParams();
@@ -118,13 +18,13 @@ function ShopPageContent() {
 
   // Get unique brands from products
   const brands = useMemo(() => {
-    const brandSet = new Set(MOCK_PRODUCTS.map(p => p.brand));
+    const brandSet = new Set(PRODUCTS.map(p => p.brand));
     return Array.from(brandSet).sort();
   }, []);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let filtered = [...MOCK_PRODUCTS];
+    let filtered = [...PRODUCTS];
 
     // Filter by tier
     if (selectedTier !== 'all') {
