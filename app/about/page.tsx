@@ -44,7 +44,7 @@ export default function AboutPage() {
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[rgb(var(--color-primary))] mb-6 font-light">
             The Science of Fabric Frequency
           </h1>
-          <p className="text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed opacity-75">
+          <p className="text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed opacity-75 text-center">
             Why what you wear matters more than you think
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function AboutPage() {
             The Research
           </h2>
 
-          <div className="space-y-6 text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed max-w-3xl mx-auto">
+          <div className="space-y-6 text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed max-w-3xl mx-auto text-center">
             <p>
               In 2003, Dr. Heidi Yellen conducted groundbreaking research measuring the bioenergetic frequencies of different fabrics using the Ag-Environ machine, a device originally developed to measure the energy of foods and their effect on the human body.
             </p>
@@ -220,7 +220,7 @@ export default function AboutPage() {
             The Linen + Wool Rule
           </h2>
 
-          <div className="max-w-2xl mx-auto space-y-6 text-base md:text-lg leading-relaxed">
+          <div className="max-w-2xl mx-auto space-y-6 text-base md:text-lg leading-relaxed text-center">
             <p>
               Ancient wisdom meets modern science: linen and wool must never be worn together.
             </p>
