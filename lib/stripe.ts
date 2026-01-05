@@ -3,7 +3,8 @@ import { loadStripe, Stripe as StripeJS } from '@stripe/stripe-js';
 
 // Server-side Stripe instance
 // This should only be used in server components or API routes
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+// Using placeholder during build if no key is provided
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder_for_build', {
   apiVersion: '2025-12-15.clover',
   typescript: true,
 });
