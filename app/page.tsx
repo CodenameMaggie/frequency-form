@@ -1,275 +1,149 @@
 import Link from 'next/link';
 
 export default function HomePage() {
-  // Mock product data for featured products
-  const featuredProducts = [
-    {
-      id: 1,
-      name: 'Italian Linen Shirt',
-      brand: '100% Capri',
-      price: 28500,
-      tier: 'healing',
-      image: '/placeholder.jpg',
-      slug: 'italian-linen-shirt'
-    },
-    {
-      id: 2,
-      name: 'Egyptian Cotton Tee',
-      brand: 'Kotn',
-      price: 5800,
-      tier: 'foundation',
-      image: '/placeholder.jpg',
-      slug: 'egyptian-cotton-tee'
-    },
-    {
-      id: 3,
-      name: 'Cashmere Sweater',
-      brand: 'Brunello Cucinelli',
-      price: 129500,
-      tier: 'healing',
-      image: '/placeholder.jpg',
-      slug: 'cashmere-sweater'
-    },
-    {
-      id: 4,
-      name: 'Merino Wool Turtleneck',
-      brand: 'Loro Piana',
-      price: 74500,
-      tier: 'healing',
-      image: '/placeholder.jpg',
-      slug: 'merino-wool-turtleneck'
-    },
-  ];
-
   return (
     <>
-      {/* SECTION 1: HERO - Properly Proportioned */}
-      <section className="relative py-24 md:py-32">
-        <div className="container max-w-4xl text-center px-6">
-          <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-accent))] mb-6 font-medium">
-            Natural Fibers Only
-          </p>
-          <h1 className="font-serif text-[2.75rem] md:text-[4rem] lg:text-[4.5rem] text-[rgb(var(--color-primary))] mb-6 leading-[1.1] tracking-tight font-light">
-            Dress in Alignment
-          </h1>
-          <p className="text-base md:text-lg text-[rgb(var(--color-text))] opacity-75 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Healing-tier fabrics at 5,000 Hz. Foundation essentials in organic cotton. Never synthetics.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="/shop?tier=healing" className="btn-primary inline-block">
-              Shop Healing Tier
-            </Link>
-            <Link href="/shop?tier=foundation" className="btn-secondary inline-block">
-              Shop Foundation Tier
-            </Link>
-          </div>
+      {/* Hero Section */}
+      <section className="max-w-[900px] mx-auto px-6 pt-[60px] pb-20 text-center">
+        {/* Hero Line */}
+        <div className="w-px h-[50px] mx-auto mb-7 bg-gradient-to-b from-transparent to-[rgb(var(--champagne))]"></div>
+
+        {/* Logo */}
+        <h1 className="text-[clamp(32px,8vw,52px)] font-light tracking-[0.15em] uppercase mb-3 text-[rgb(var(--navy))]">
+          Frequency & Form
+        </h1>
+
+        {/* Tagline */}
+        <p className="text-[19px] italic font-light text-[rgb(var(--champagne-dark))] mb-9 tracking-[0.04em]">
+          Dress in Alignment
+        </p>
+
+        {/* Divider */}
+        <div className="flex items-center justify-center gap-4 mb-9">
+          <span className="w-[50px] h-px bg-[rgb(var(--champagne))]"></span>
+          <i className="w-1.5 h-1.5 bg-[rgb(var(--navy))] rounded-full"></i>
+          <span className="w-[50px] h-px bg-[rgb(var(--champagne))]"></span>
         </div>
+
+        {/* Hero Text */}
+        <p className="text-base leading-[2.2] text-[rgb(var(--text-muted))] max-w-[520px] mx-auto font-sans font-light">
+          Curated natural fiber garments for women and men. Each piece selected not just for its beauty, but for its frequency—the invisible energy that touches your skin and shapes how you feel.
+        </p>
       </section>
 
-      {/* SECTION 2: THE SCIENCE - Better Proportions */}
-      <section className="py-20 md:py-28 bg-[rgb(var(--color-muted))]">
-        <div className="container max-w-5xl px-6">
-          <h2 className="font-serif text-3xl md:text-4xl text-center text-[rgb(var(--color-primary))] mb-8 font-light">
-            The Frequency of Fabric
-          </h2>
-          <p className="text-center text-base md:text-lg text-[rgb(var(--color-text))] opacity-75 mb-16 max-w-3xl mx-auto leading-relaxed">
-            In 2003, Dr. Heidi Yellen discovered that certain natural fibers resonate at 5,000 Hz—the same frequency that promotes healing in the human body. Her research using the Ag-Environ machine revealed that what we wear profoundly affects our energy.
-          </p>
+      {/* The Science Section */}
+      <section className="max-w-[900px] mx-auto px-6 mb-[70px]">
+        {/* Section Label */}
+        <p className="text-center text-[9px] tracking-[0.4em] uppercase text-[rgb(var(--champagne-dark))] font-sans font-medium mb-3">
+          The Science
+        </p>
 
-          {/* Three Stats - Properly Sized */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
-            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-6">
-              <p className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-accent))] mb-3 font-light">
-                5,000 Hz
-              </p>
-              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-2">
-                Healing Tier
-              </p>
-              <p className="text-sm text-[rgb(var(--color-text))] opacity-70 leading-relaxed">
-                Linen, Wool, Cashmere, Silk
-              </p>
+        {/* Section Title */}
+        <h2 className="text-center text-[28px] font-light text-[rgb(var(--navy))] mb-4 tracking-[0.05em]">
+          The Frequency of Fabric
+        </h2>
+
+        {/* Section Subtitle */}
+        <p className="text-center text-sm text-[rgb(var(--text-muted))] font-sans font-light mb-10 max-w-[500px] mx-auto leading-[1.8]">
+          In 2003, Dr. Heidi Yellen measured the bioenergetic frequencies of fabrics. What she discovered changed everything we thought we knew about getting dressed.
+        </p>
+
+        {/* Frequency Tiers */}
+        <div className="flex flex-col gap-[3px] mb-6">
+
+          {/* Elevating Tier - Champagne */}
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-[140px] bg-[rgb(var(--champagne))] p-6 md:py-6 md:px-5 flex flex-col justify-center text-center">
+              <span className="text-[26px] font-light text-[rgb(var(--navy))] mb-0.5">5,000 Hz</span>
+              <span className="text-[8px] tracking-[0.25em] uppercase font-sans font-medium text-[rgb(var(--navy))]">Elevating</span>
             </div>
-            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-6">
-              <p className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-text))] mb-3 font-light">
-                100 Hz
-              </p>
-              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-2">
-                Foundation Tier
-              </p>
-              <p className="text-sm text-[rgb(var(--color-text))] opacity-70 leading-relaxed">
-                Organic Cotton, Hemp
-              </p>
-            </div>
-            <div className="text-center border-t border-[rgb(var(--color-primary))] border-opacity-20 pt-6">
-              <p className="font-serif text-4xl md:text-5xl text-[rgb(var(--color-never))] mb-3 font-light">
-                15 Hz
-              </p>
-              <p className="text-[0.6875rem] tracking-[0.2em] uppercase text-[rgb(var(--color-text))] opacity-60 mb-2">
-                Synthetics (Never)
-              </p>
-              <p className="text-sm text-[rgb(var(--color-text))] opacity-70 leading-relaxed">
-                Polyester, Nylon, Acrylic
-              </p>
+            <div className="flex-1 bg-[rgb(var(--champagne-pale))] p-6 md:py-6 md:px-7 flex flex-col justify-center">
+              <h3 className="text-lg font-normal mb-1.5 tracking-[0.05em] text-[rgb(var(--navy))]">Healing Tier</h3>
+              <p className="text-[13px] font-sans font-light mb-2 text-[rgb(var(--text-muted))]">Linen · Wool · Cashmere · Hemp</p>
+              <p className="text-xs font-sans font-light italic opacity-80 text-[rgb(var(--text-muted))]">50× your body's natural frequency. These fabrics don't just clothe you—they elevate you.</p>
             </div>
           </div>
 
-          <div className="text-center mt-12">
-            <Link href="/about" className="btn-secondary inline-block">
-              Learn More
-            </Link>
+          {/* Harmonizing Tier - Ivory/White */}
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-[140px] bg-white border border-[rgb(var(--champagne-light))] md:border-r-0 p-6 md:py-6 md:px-5 flex flex-col justify-center text-center">
+              <span className="text-[26px] font-light text-[rgb(var(--champagne-dark))] mb-0.5">100 Hz</span>
+              <span className="text-[8px] tracking-[0.25em] uppercase font-sans font-medium text-[rgb(var(--champagne-dark))]">Harmonizing</span>
+            </div>
+            <div className="flex-1 bg-white border border-[rgb(var(--champagne-light))] md:border-l-0 p-6 md:py-6 md:px-7 flex flex-col justify-center">
+              <h3 className="text-lg font-normal mb-1.5 tracking-[0.05em] text-[rgb(var(--navy))]">Foundation Tier</h3>
+              <p className="text-[13px] font-sans font-light mb-2 text-[rgb(var(--text-muted))]">Organic Cotton</p>
+              <p className="text-xs font-sans font-light italic opacity-80 text-[rgb(var(--text-soft))]">Perfectly in tune with your body. Neutral, comfortable, and never depleting.</p>
+            </div>
           </div>
+
+          {/* Never Tier - Dark Navy */}
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-[140px] bg-[rgb(var(--navy))] p-6 md:py-6 md:px-5 flex flex-col justify-center text-center">
+              <span className="text-[26px] font-light text-[#c9a0a0] mb-0.5">0–15 Hz</span>
+              <span className="text-[8px] tracking-[0.25em] uppercase font-sans font-medium text-[#c9a0a0]">Depleting</span>
+            </div>
+            <div className="flex-1 bg-[rgb(var(--navy))] p-6 md:py-6 md:px-7 flex flex-col justify-center">
+              <h3 className="text-lg font-normal mb-1.5 tracking-[0.05em] text-[rgb(var(--ivory))]">What We Never Carry</h3>
+              <p className="text-[13px] font-sans font-light mb-2 text-[#a08080] line-through decoration-[#806060]">Polyester · Nylon · Acrylic · Rayon</p>
+              <p className="text-xs font-sans font-light italic text-[#c9a0a0]">The same frequency as diseased tissue. We believe you deserve better.</p>
+            </div>
+          </div>
+
         </div>
-      </section>
 
-      {/* SECTION 3: TWO TIERS - Fixed Proportions */}
-      <section className="py-16 md:py-20">
-        <div className="container max-w-5xl px-6">
-          <h2 className="font-serif text-3xl md:text-4xl text-center text-[rgb(var(--color-primary))] mb-12 font-light">
-            Two Tiers of Natural Fiber
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-
-            {/* Healing Tier */}
-            <div className="text-center">
-              <div className="h-48 md:h-56 bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
-                <span className="text-[rgb(var(--color-text))] opacity-20 text-xs font-light">
-                  Healing Tier Image
-                </span>
-              </div>
-              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-accent))] text-[rgb(var(--color-background))] text-[0.625rem] tracking-[0.15em] mb-3 uppercase">
-                5,000 Hz
-              </div>
-              <h3 className="font-serif text-2xl text-[rgb(var(--color-primary))] mb-4 font-light">
-                Healing Tier
-              </h3>
-              <ul className="space-y-1 mb-6 text-[rgb(var(--color-text))] opacity-75 text-sm">
-                <li>Linen</li>
-                <li>Wool</li>
-                <li>Cashmere</li>
-                <li>Silk</li>
-                <li>Natural Fur</li>
-              </ul>
-              <Link href="/shop?tier=healing" className="btn-primary inline-block">
-                Shop Healing Tier
-              </Link>
-            </div>
-
-            {/* Foundation Tier */}
-            <div className="text-center">
-              <div className="h-48 md:h-56 bg-[rgb(var(--color-muted))] mb-6 flex items-center justify-center">
-                <span className="text-[rgb(var(--color-text))] opacity-20 text-xs font-light">
-                  Foundation Tier Image
-                </span>
-              </div>
-              <div className="inline-block px-3 py-1 bg-[rgb(var(--color-muted))] text-[rgb(var(--color-text))] text-[0.625rem] tracking-[0.15em] mb-3 uppercase">
-                100 Hz
-              </div>
-              <h3 className="font-serif text-2xl text-[rgb(var(--color-primary))] mb-4 font-light">
-                Foundation Tier
-              </h3>
-              <ul className="space-y-1 mb-6 text-[rgb(var(--color-text))] opacity-75 text-sm">
-                <li>Organic Cotton</li>
-                <li>Hemp</li>
-              </ul>
-              <Link href="/shop?tier=foundation" className="btn-primary inline-block">
-                Shop Foundation Tier
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: FEATURED PRODUCTS */}
-      <section className="py-16 md:py-20 bg-[rgb(var(--color-muted))]">
-        <div className="container px-6">
-          <h2 className="font-serif text-3xl md:text-4xl text-center text-[rgb(var(--color-primary))] mb-12">
-            New Arrivals
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProducts.map((product) => (
-              <Link
-                key={product.id}
-                href={`/shop/${product.slug}`}
-                className="group"
-              >
-                <div className="relative mb-4 aspect-[3/4] bg-[rgb(var(--color-background))] overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-[rgb(var(--color-text))] opacity-20">
-                    [Product Image]
-                  </div>
-                  {/* Frequency Badge */}
-                  <div className={`absolute top-3 right-3 px-2 py-1 text-xs tracking-wider ${
-                    product.tier === 'healing'
-                      ? 'bg-[rgb(var(--color-accent))] text-[rgb(var(--color-background))]'
-                      : 'bg-[rgb(var(--color-muted))] text-[rgb(var(--color-text))]'
-                  }`}>
-                    {product.tier === 'healing' ? '5,000 HZ' : '100 HZ'}
-                  </div>
-                </div>
-                <p className="text-xs text-[rgb(var(--color-text))] opacity-60 mb-1">
-                  {product.brand}
-                </p>
-                <h4 className="font-serif text-lg text-[rgb(var(--color-primary))] mb-2 group-hover:opacity-70 transition-opacity">
-                  {product.name}
-                </h4>
-                <p className="text-[rgb(var(--color-text))]">
-                  ${(product.price / 100).toFixed(0)}
-                </p>
-              </Link>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              href="/shop"
-              className="inline-block px-8 py-4 border border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] text-sm tracking-wider hover:bg-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-background))] transition-all"
-            >
-              VIEW ALL PRODUCTS
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 5: THE PROMISE */}
-      <section className="py-16 md:py-20">
-        <div className="container max-w-3xl text-center px-6">
-          <h2 className="font-serif text-3xl md:text-4xl text-[rgb(var(--color-primary))] mb-6">
-            What We Never Carry
-          </h2>
-          <p className="text-base md:text-lg text-[rgb(var(--color-text))] mb-6 leading-relaxed mx-auto">
-            Synthetic fabrics—polyester, nylon, acrylic, rayon—measure at 15 Hz. The same frequency as diseased tissue. We reject them entirely.
-          </p>
-          <p className="text-base md:text-lg text-[rgb(var(--color-text))] leading-relaxed mx-auto">
-            We also honor the ancient wisdom of <em>shatnez</em>: linen and wool are never blended. Their opposing energy flows cancel each other to 0 Hz. Our AI styling system ensures these fabrics are never paired in your wardrobe.
+        {/* Body Reference */}
+        <div className="text-center p-5 bg-[rgb(var(--ivory-warm))] border-l-[3px] border-[rgb(var(--champagne))] mt-6">
+          <p className="text-[13px] text-[rgb(var(--text-muted))] font-sans font-light">
+            The healthy human body resonates at <strong className="text-[rgb(var(--navy))] font-medium">100 Hz</strong>. Everything you wear either elevates that frequency, matches it, or drains it.
           </p>
         </div>
       </section>
 
-      {/* SECTION 6: EMAIL SIGNUP */}
-      <section className="py-16 md:py-20 bg-[rgb(var(--color-primary))] text-[rgb(var(--color-background))]">
-        <div className="container max-w-2xl text-center px-6">
-          <h2 className="font-serif text-3xl md:text-4xl text-[rgb(var(--color-background))] mb-4">
-            Join the Frequency
-          </h2>
-          <p className="text-base md:text-lg text-[rgb(var(--color-background))] opacity-80 mb-8">
-            Be the first to know about new arrivals and exclusive collections.
-          </p>
-          <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-            <input
-              type="email"
-              placeholder="Your email"
-              required
-              className="flex-1 px-6 py-4 bg-[rgb(var(--color-background))] bg-opacity-10 border border-[rgb(var(--color-background))] border-opacity-30 text-[rgb(var(--color-background))] placeholder-[rgb(var(--color-background))] placeholder-opacity-50 focus:border-opacity-60 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="px-8 py-4 bg-[rgb(var(--color-accent))] text-[rgb(var(--color-primary))] font-medium text-sm tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap"
-            >
-              SUBSCRIBE
-            </button>
-          </form>
-        </div>
+      {/* The Promise Section */}
+      <section className="text-center py-[50px] px-6 bg-[rgb(var(--champagne-pale))] mb-[70px]">
+        <p className="text-[9px] tracking-[0.4em] uppercase text-[rgb(var(--champagne-dark))] font-sans font-medium mb-3">
+          Our Promise
+        </p>
+        <h2 className="text-[28px] font-light text-[rgb(var(--navy))] mb-4 tracking-[0.05em]">
+          The Linen & Wool Rule
+        </h2>
+        <p className="text-[15px] leading-[2.2] text-[rgb(var(--text-muted))] max-w-[480px] mx-auto mb-6 font-sans font-light">
+          Ancient wisdom knew what science now confirms: linen and wool should never be worn together. Their energy flows in opposite directions—when combined, they cancel to zero.
+        </p>
+        <p className="text-[13px] italic text-[rgb(var(--navy))] max-w-[400px] mx-auto">
+          Our curation ensures these fabrics are never paired. What touches your skin matters too much to leave to chance.
+        </p>
+      </section>
+
+      {/* Signup Section */}
+      <section className="text-center max-w-[420px] mx-auto px-6 pb-20">
+        <p className="text-[9px] tracking-[0.4em] uppercase text-[rgb(var(--champagne-dark))] font-sans font-medium mb-3">
+          Join Us
+        </p>
+        <h2 className="text-[28px] font-light text-[rgb(var(--navy))] mb-3 tracking-[0.05em]">
+          Request an Invitation
+        </h2>
+        <p className="text-sm text-[rgb(var(--text-muted))] font-sans font-light mb-8 leading-[1.8]">
+          We're welcoming a select circle who understand that what touches your skin shapes your energy. Be among the first to shop the collection.
+        </p>
+        <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="email"
+            placeholder="Your email address"
+            required
+            className="px-5 py-4 bg-white border border-[rgb(var(--champagne))] text-[rgb(var(--navy))] text-[13px] font-sans font-light text-center outline-none transition-colors focus:border-[rgb(var(--navy))] placeholder:text-[rgb(var(--champagne-dark))]"
+          />
+          <button
+            type="submit"
+            className="px-8 py-4 bg-[rgb(var(--navy))] text-[rgb(var(--champagne-light))] text-[10px] font-sans font-medium tracking-[0.28em] uppercase transition-colors hover:bg-[rgb(var(--navy-light))]"
+          >
+            Request Invitation
+          </button>
+        </form>
+        <p className="mt-6 text-[11px] text-[rgb(var(--text-soft))] font-sans font-light">
+          Women & Men · Natural Fibers Only
+        </p>
       </section>
     </>
   );

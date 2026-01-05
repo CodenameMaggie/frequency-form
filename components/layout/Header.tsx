@@ -9,7 +9,16 @@ export default function Header() {
   const [cartCount] = useState(0); // Will be connected to cart state later
 
   return (
-    <header className="sticky top-0 z-50 bg-[rgb(var(--color-background))] border-b border-[rgb(var(--color-muted))] transition-colors">
+    <>
+      {/* Top Bar */}
+      <div className="bg-[rgb(var(--navy))] py-3.5 px-6 text-center">
+        <p className="text-[9px] tracking-[0.5em] uppercase text-[rgb(var(--champagne))] font-sans font-normal">
+          By Invitation Only · Founding Circle 2026
+        </p>
+      </div>
+
+      {/* Main Header */}
+      <header className="sticky top-0 z-50 bg-[rgb(var(--color-background))] border-b border-[rgb(var(--champagne-light))] transition-colors">
       <div className="container">
         <div className="flex items-center justify-between h-20">
 
@@ -111,5 +120,6 @@ export default function Header() {
         </div>
       )}
     </header>
+    </>
   );
 }

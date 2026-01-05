@@ -1,71 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap');
 @import "tailwindcss";
 
 /* ============================================================================
-   SEASONAL COLOR PALETTES
-   Spring/Summer: Softer, lighter palettes (Mar-Aug)
-   Fall/Winter: Deeper, richer palettes (Sep-Feb)
+   FREQUENCY & FORM COLOR PALETTE
+   Champagne (feminine, warm) + Navy (masculine, grounding)
    ============================================================================ */
 
 :root {
-  /* Default to Fall/Winter - Classic Navy & Gold */
-  --color-primary: 26 31 61; /* Midnight Navy */
-  --color-background: 250 249 246; /* Ivory */
-  --color-accent: 201 169 98; /* Champagne Gold */
-  --color-text: 45 45 45; /* Charcoal */
-  --color-muted: 232 230 225; /* Soft Gray */
+  /* Champagne - Feminine Foundation */
+  --champagne: 212 200 168; /* #d4c8a8 */
+  --champagne-light: 232 220 196; /* #e8dcc4 */
+  --champagne-pale: 245 240 228; /* #f5f0e4 */
+  --champagne-dark: 184 168 136; /* #b8a888 */
 
-  /* Semantic color mapping */
-  --color-primary-rgb: var(--color-primary);
-  --color-background-rgb: var(--color-background);
-  --color-accent-rgb: var(--color-accent);
-  --color-text-rgb: var(--color-text);
-  --color-muted-rgb: var(--color-muted);
+  /* Navy - Masculine Accent */
+  --navy: 30 42 58; /* #1e2a3a */
+  --navy-light: 46 58 74; /* #2e3a4a */
+  --navy-soft: 58 74 90; /* #3a4a5a */
+
+  /* Background */
+  --ivory: 250 248 244; /* #faf8f4 */
+  --ivory-warm: 245 240 232; /* #f5f0e8 */
+
+  /* Text */
+  --text-dark: 30 42 58; /* #1e2a3a - Navy */
+  --text-muted: 90 106 122; /* #5a6a7a */
+  --text-soft: 138 154 170; /* #8a9aaa */
+
+  /* Semantic color mapping for components */
+  --color-primary-rgb: var(--navy);
+  --color-background-rgb: var(--ivory);
+  --color-accent-rgb: var(--champagne);
+  --color-text-rgb: var(--text-dark);
+  --color-muted-rgb: var(--champagne-pale);
 }
 
-/* Spring/Summer Palette - Slate & Blush (Mar 1 - Aug 31) */
-.season-spring-summer {
-  --color-primary: 42 52 65; /* Deep Slate */
-  --color-background: 250 248 245; /* Off White */
-  --color-accent: 201 169 166; /* Dusty Rose */
-  --color-text: 54 54 54; /* Charcoal */
-  --color-muted: 233 229 224; /* Warm Gray */
-}
-
-/* Fall/Winter Palette - Classic Navy & Gold (Sep 1 - Feb 28/29) */
-.season-fall-winter {
-  --color-primary: 26 31 61; /* Midnight Navy */
-  --color-background: 250 249 246; /* Ivory */
-  --color-accent: 201 169 98; /* Champagne Gold */
-  --color-text: 45 45 45; /* Charcoal */
-  --color-muted: 232 230 225; /* Soft Gray */
-}
-
-/* Alternative Fall/Winter - Navy, Cream & Burgundy */
-.palette-burgundy {
-  --color-primary: 30 42 58; /* Deep Navy */
-  --color-background: 248 246 241; /* Cream */
-  --color-accent: 114 47 55; /* Burgundy */
-  --color-text: 61 69 80; /* Slate */
-  --color-muted: 235 231 223; /* Linen */
-}
-
-/* Alternative Fall/Winter - Espresso & Ivory */
-.palette-espresso {
-  --color-primary: 44 24 16; /* Espresso */
-  --color-background: 255 255 248; /* Ivory */
-  --color-accent: 166 139 91; /* Aged Gold */
-  --color-text: 61 41 20; /* Dark Brown */
-  --color-muted: 240 235 224; /* Parchment */
-}
-
-/* Alternative Spring/Summer - Warm Neutral & Black */
-.palette-warm-neutral {
-  --color-primary: 10 10 10; /* True Black */
-  --color-background: 254 253 251; /* Warm White */
-  --color-accent: 196 167 125; /* Camel */
-  --color-text: 26 26 26; /* Soft Black */
-  --color-muted: 229 224 216; /* Stone */
+/* Frequency tier colors */
+:root {
+  --color-elevating: var(--champagne);
+  --color-elevating-pale: var(--champagne-pale);
+  --color-harmonizing: 255 255 255; /* White */
+  --color-depleting: var(--navy);
+  --color-depleting-text: 201 112 112; /* Muted red for synthetics */
 }
 
 /* ============================================================================
@@ -87,8 +63,8 @@
   --color-never: 239 68 68; /* Red for synthetics warning */
 
   /* Typography */
-  --font-serif: 'Georgia', 'Times New Roman', serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Spacing */
   --spacing-xs: 0.5rem;
@@ -121,20 +97,20 @@
 body {
   background: rgb(var(--color-background));
   color: rgb(var(--color-text));
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography Hierarchy - Balanced & Functional */
+/* Typography Hierarchy - Elegant & Refined */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   font-weight: 300;
   line-height: 1.2;
-  color: rgb(var(--color-primary));
-  letter-spacing: -0.01em;
+  color: rgb(var(--navy));
+  letter-spacing: 0.05em;
   margin: 0;
 }
 
