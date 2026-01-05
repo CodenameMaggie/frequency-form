@@ -14,7 +14,7 @@ export default function HomePage() {
         </h1>
 
         {/* Tagline */}
-        <p className="font-serif text-[19px] italic font-light text-[#b8a888] mb-9 tracking-[0.04em]">
+        <p className="font-serif text-[19px] italic font-light text-[#b8a888] mb-9 tracking-[0.04em] text-center">
           Dress in Alignment
         </p>
 
@@ -34,7 +34,7 @@ export default function HomePage() {
       {/* The Science Section */}
       <section className="max-w-[900px] mx-auto px-6 mb-[70px]">
         {/* Section Label */}
-        <p className="text-center text-[9px] tracking-[0.4em] uppercase text-[#b8a888] font-sans font-medium mb-3">
+        <p className="w-full text-center text-[9px] tracking-[0.4em] uppercase text-[#b8a888] font-sans font-medium mb-3">
           The Science
         </p>
 
