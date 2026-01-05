@@ -14,9 +14,11 @@ export default function HomePage() {
         </h1>
 
         {/* Tagline */}
-        <p className="font-serif text-[19px] italic font-light text-[#b8a888] mb-9 text-center">
-          <span className="inline-block tracking-[0.04em] -mr-[0.04em]">Dress in Alignment</span>
-        </p>
+        <div className="text-center mb-9">
+          <p className="font-serif text-[19px] italic font-light text-[#b8a888] tracking-[0.04em] inline-block pl-[0.04em]">
+            Dress in Alignment
+          </p>
+        </div>
 
         {/* Divider */}
         <div className="flex items-center justify-center gap-4 mb-9">
@@ -34,9 +36,11 @@ export default function HomePage() {
       {/* The Science Section */}
       <section className="max-w-[900px] mx-auto px-6 mb-[70px]">
         {/* Section Label */}
-        <p className="w-full text-center text-[9px] uppercase text-[#b8a888] font-sans font-medium mb-3">
-          <span className="inline-block tracking-[0.4em] -mr-[0.4em]">The Science</span>
-        </p>
+        <div className="w-full text-center mb-3">
+          <p className="text-[9px] uppercase text-[#b8a888] font-sans font-medium tracking-[0.4em] inline-block pl-[0.4em]">
+            The Science
+          </p>
+        </div>
 
         {/* Section Title */}
         <h2 className="font-serif text-center text-[28px] font-light text-[#1e2a3a] mb-4 tracking-[0.05em]">
@@ -103,9 +107,11 @@ export default function HomePage() {
       {/* The Promise Section */}
       <section className="py-[50px] px-6 bg-[#f5f0e4]">
         <div className="max-w-[900px] mx-auto text-center">
-          <p className="font-sans text-[9px] uppercase text-[#b8a888] font-medium mb-3">
-            <span className="inline-block tracking-[0.4em] -mr-[0.4em]">Our Promise</span>
-          </p>
+          <div className="text-center mb-3">
+            <p className="font-sans text-[9px] uppercase text-[#b8a888] font-medium tracking-[0.4em] inline-block pl-[0.4em]">
+              Our Promise
+            </p>
+          </div>
           <h2 className="font-serif text-[28px] font-light text-[#1e2a3a] mb-6 tracking-[0.05em]">
             The Linen & Wool Rule
           </h2>
@@ -121,9 +127,11 @@ export default function HomePage() {
       {/* Signup Section */}
       <section className="py-20 px-6">
         <div className="max-w-[420px] mx-auto text-center">
-          <p className="font-sans text-[9px] uppercase text-[#b8a888] font-medium mb-3">
-            <span className="inline-block tracking-[0.4em] -mr-[0.4em]">Join Us</span>
-          </p>
+          <div className="text-center mb-3">
+            <p className="font-sans text-[9px] uppercase text-[#b8a888] font-medium tracking-[0.4em] inline-block pl-[0.4em]">
+              Join Us
+            </p>
+          </div>
           <h2 className="font-serif text-[28px] font-light text-[#1e2a3a] mb-4 tracking-[0.05em]">
             Request an Invitation
           </h2>
