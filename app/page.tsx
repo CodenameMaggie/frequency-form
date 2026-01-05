@@ -115,10 +115,10 @@ export default function HomePage() {
           <h2 className="font-serif text-[28px] font-light text-[#1e2a3a] mb-6 tracking-[0.05em]">
             The Linen & Wool Rule
           </h2>
-          <p className="font-sans text-[15px] leading-[2.2] text-[#5a6a7a] max-w-[480px] mx-auto mb-6 font-light">
+          <p className="font-sans text-[15px] leading-[2.2] text-[#5a6a7a] max-w-[480px] mx-auto mb-6 font-light text-center">
             Ancient wisdom knew what science now confirms: linen and wool should never be worn together. Their energy flows in opposite directions—when combined, they cancel to zero.
           </p>
-          <p className="font-serif text-[13px] italic text-[#1e2a3a] max-w-[400px] mx-auto leading-relaxed">
+          <p className="font-serif text-[13px] italic text-[#1e2a3a] max-w-[400px] mx-auto leading-relaxed text-center">
             Our curation ensures these fabrics are never paired. What touches your skin matters too much to leave to chance.
           </p>
         </div>
