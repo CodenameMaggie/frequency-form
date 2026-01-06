@@ -13,22 +13,14 @@ COPY package*.json ./
 # Install all dependencies (including dev dependencies like dotenv)
 RUN npm ci
 
-# Copy lib directory first (explicitly)
-COPY lib/ /app/lib/
-
-# Copy server directory (explicitly)
-COPY server/ /app/server/
-
-# Copy api directory (explicitly)
-COPY api/ /app/api/
-
-# Copy rest of application code
+# Copy application code
 COPY . .
 
-# Debug: Verify critical directories exist
-RUN echo "=== Checking lib directory ===" && ls -la /app/lib/ && echo "=== lib files found! ===" || echo "ERROR: lib directory not found!"
-RUN echo "=== Checking server directory ===" && ls -la /app/server/ | head -20 && echo "=== server files found! ===" || echo "ERROR: server directory not found!"
-RUN echo "=== Checking api/bots directory ===" && ls -la /app/api/bots/ | head -10 && echo "=== api/bots files found! ===" || echo "ERROR: api/bots directory not found!"
+# Debug: Verify critical directories and files exist
+RUN echo "=== Directory structure ===" && ls -la /app/ && echo ""
+RUN echo "=== lib directory ===" && ls -la /app/lib/ 2>/dev/null || echo "ERROR: lib directory not found!"
+RUN echo "=== server directory ===" && ls -la /app/server/ 2>/dev/null | head -20 || echo "ERROR: server directory not found!"
+RUN echo "=== api/bots directory ===" && ls -la /app/api/bots/ 2>/dev/null | head -10 || echo "ERROR: api/bots directory not found!"
 
 # Expose port
 EXPOSE 3000
