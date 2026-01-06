@@ -13,6 +13,9 @@ RUN npm ci
 # Copy application code
 COPY . .
 
+# Debug: List what was copied
+RUN ls -la /app/lib/ || echo "lib directory not found!"
+
 # Expose port
 EXPOSE 3000
 
