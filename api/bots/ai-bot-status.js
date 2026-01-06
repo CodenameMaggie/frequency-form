@@ -1,4 +1,3 @@
-const db = require('../server/db');
 const { aiRateLimit } = require('../lib/serverless-rate-limiter');
 const { withAuth } = require('../lib/api-wrapper');
 const { validateInput, getValidatedData } = require('../lib/validation-middleware');

@@ -5,7 +5,6 @@
  */
 
 const axios = require('axios');
-const db = require('../server/db');
 const { withCronAuth } = require('../lib/api-wrapper');
 const { queryAtlas } = require('./atlas-knowledge');
 const { createClient } = require('@supabase/supabase-js');

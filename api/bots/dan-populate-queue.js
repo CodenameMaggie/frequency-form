@@ -4,7 +4,6 @@
  * Requires cron authentication
  */
 
-const db = require('../server/db');
 const { withCronAuth } = require('../lib/api-wrapper');
 
 async function handler(req, res) {

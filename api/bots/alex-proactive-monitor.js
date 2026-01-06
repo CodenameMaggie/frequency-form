@@ -1,4 +1,3 @@
-const db = require('../server/db');
 const { queryAtlas } = require('./atlas-knowledge');
 const { withCronAuth } = require('../lib/api-wrapper');
 

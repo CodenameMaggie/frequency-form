@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS bot_actions_log (
     -- Related entities
     contact_id UUID REFERENCES contacts(id),
     user_id UUID REFERENCES users(id),
-    order_id UUID REFERENCES orders(id),
+    order_id UUID,
     email_id UUID REFERENCES emails(id),
 
     -- Metadata
@@ -352,7 +352,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     tenant_id UUID REFERENCES tenants(id) DEFAULT '00000000-0000-0000-0000-000000000001',
     contact_id UUID REFERENCES contacts(id),
     user_id UUID REFERENCES users(id),
-    order_id UUID REFERENCES orders(id),
+    order_id UUID,
 
     -- Ticket details
     subject VARCHAR(255) NOT NULL,
@@ -589,10 +589,6 @@ CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(email);
 CREATE INDEX IF NOT EXISTS idx_contacts_status ON contacts(status);
 CREATE INDEX IF NOT EXISTS idx_contacts_tenant ON contacts(tenant_id);
 
--- Orders (existing table)
-CREATE INDEX IF NOT EXISTS idx_orders_email ON orders(email);
-CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
-
 -- Emails
 CREATE INDEX IF NOT EXISTS idx_emails_contact ON emails(contact_id);
 CREATE INDEX IF NOT EXISTS idx_emails_sent_at ON emails(sent_at);
@@ -647,11 +643,11 @@ EXECUTE FUNCTION queue_mainframe_sync();
 -- INITIAL GOVERNANCE RULES FOR FF
 -- ============================================================================
 
-INSERT INTO ai_governance_rules (rule_name, bot_name, action_type, daily_limit, hourly_limit, priority, is_active) VALUES
-('Annie Email Limit', 'annie', 'send_email', 50, 10, 100, TRUE),
-('Dan Email Limit', 'dan', 'send_email', 30, 5, 100, TRUE),
-('Annie Conversation Limit', 'annie', 'chat_response', NULL, 100, 90, TRUE),
-('System Monitor Limit', 'alex', 'system_monitor', NULL, 20, 80, TRUE)
+INSERT INTO ai_governance_rules (tenant_id, rule_name, bot_name, action_type, daily_limit, hourly_limit, priority, is_active) VALUES
+('00000000-0000-0000-0000-000000000001', 'Annie Email Limit', 'annie', 'send_email', 50, 10, 100, TRUE),
+('00000000-0000-0000-0000-000000000001', 'Dan Email Limit', 'dan', 'send_email', 30, 5, 100, TRUE),
+('00000000-0000-0000-0000-000000000001', 'Annie Conversation Limit', 'annie', 'chat_response', NULL, 100, 90, TRUE),
+('00000000-0000-0000-0000-000000000001', 'System Monitor Limit', 'alex', 'system_monitor', NULL, 20, 80, TRUE)
 ON CONFLICT DO NOTHING;
 
 -- ============================================================================
