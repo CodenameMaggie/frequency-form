@@ -3,7 +3,7 @@
  * Dave (Accountant) monitors financial goals and updates progress
  */
 
-const { withCronAuth } = require('../lib/api-wrapper');
+const { withCronAuth } = require('../../lib/api-wrapper');
 const { queryAtlas } = require('./atlas-knowledge');
 
 async function handler(req, res) {

@@ -3,8 +3,8 @@
  * AI handles support tickets and sends health checks to inactive clients
  */
 
-const { withCronAuth } = require('../lib/api-wrapper');
-const { sendEmail } = require('../lib/email-sender');
+const { withCronAuth } = require('../../lib/api-wrapper');
+const { sendEmail } = require('../../lib/email-sender');
 const { queryAtlas } = require('./atlas-knowledge');
 const { createClient } = require('@supabase/supabase-js');
 

@@ -1,5 +1,5 @@
 const { queryAtlas } = require('./atlas-knowledge');
-const { withCronAuth } = require('../lib/api-wrapper');
+const { withCronAuth } = require('../../lib/api-wrapper');
 
 /**
  * ALEX PROACTIVE SYSTEM MONITOR

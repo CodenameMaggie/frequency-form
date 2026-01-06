@@ -1,8 +1,8 @@
-const { aiRateLimit } = require('../lib/serverless-rate-limiter');
-const { withAuth } = require('../lib/api-wrapper');
-const { validateInput, getValidatedData } = require('../lib/validation-middleware');
-const { csrfMiddleware } = require('../lib/csrf-protection');
-const { applyCorsHeaders } = require('../lib/cors-helper');
+const { aiRateLimit } = require('../../lib/serverless-rate-limiter');
+const { withAuth } = require('../../lib/api-wrapper');
+const { validateInput, getValidatedData } = require('../../lib/validation-middleware');
+const { csrfMiddleware } = require('../../lib/csrf-protection');
+const { applyCorsHeaders } = require('../../lib/cors-helper');
 
 async function handler(req, res) {
   // Apply CORS headers

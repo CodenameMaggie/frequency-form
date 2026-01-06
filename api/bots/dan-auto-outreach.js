@@ -4,10 +4,10 @@
  */
 
 const axios = require('axios');
-const { withCronAuth } = require('../lib/api-wrapper');
-const { sendEmail } = require('../lib/email-sender');
-const { renderEmail } = require('../lib/email-templates/renderer');
-const outreachTemplate = require('../lib/email-templates/emails/outreach-invitation');
+const { withCronAuth } = require('../../lib/api-wrapper');
+const { sendEmail } = require('../../lib/email-sender');
+const { renderEmail } = require('../../lib/email-templates/renderer');
+const outreachTemplate = require('../../lib/email-templates/emails/outreach-invitation');
 const { createClient } = require('@supabase/supabase-js');
 
 // CRITICAL: Use Supabase service role to bypass RLS

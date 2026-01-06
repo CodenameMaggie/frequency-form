@@ -5,8 +5,8 @@
  */
 
 const bcrypt = require('bcryptjs');
-const { withCronAuth } = require('../lib/api-wrapper');
-const { sendEmail } = require('../lib/email-sender');
+const { withCronAuth } = require('../../lib/api-wrapper');
+const { sendEmail } = require('../../lib/email-sender');
 const { createClient } = require('@supabase/supabase-js');
 
 // Use Supabase service role to bypass RLS

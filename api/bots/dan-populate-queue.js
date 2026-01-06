@@ -4,7 +4,7 @@
  * Requires cron authentication
  */
 
-const { withCronAuth } = require('../lib/api-wrapper');
+const { withCronAuth } = require('../../lib/api-wrapper');
 
 async function handler(req, res) {
   // CORS headers

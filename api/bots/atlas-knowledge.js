@@ -1,6 +1,6 @@
-const { withAuth } = require('../lib/api-wrapper');
-const { validateInput, getValidatedData } = require('../lib/validation-middleware');
-const { csrfMiddleware } = require('../lib/csrf-protection');
+const { withAuth } = require('../../lib/api-wrapper');
+const { validateInput, getValidatedData } = require('../../lib/validation-middleware');
+const { csrfMiddleware } = require('../../lib/csrf-protection');
 /**
  * ATLAS - Knowledge Engine
  *

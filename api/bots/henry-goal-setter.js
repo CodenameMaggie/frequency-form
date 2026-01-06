@@ -3,7 +3,7 @@
  * Henry (Chief of Staff) analyzes business performance and sets strategic financial goals
  */
 
-const { withCronAuth } = require('../lib/api-wrapper');
+const { withCronAuth } = require('../../lib/api-wrapper');
 const { queryAtlas } = require('./atlas-knowledge');
 
 async function handler(req, res) {
