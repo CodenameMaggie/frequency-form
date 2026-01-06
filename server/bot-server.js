@@ -89,7 +89,6 @@ app.get('/health', async (req, res) => {
 
 // Import all bot API handlers (Vercel serverless function format)
 const henryGoalSetter = require('../api/bots/henry-goal-setter');
-const henryTicketMonitor = require('../api/bots/henry-ticket-monitor');
 
 const daveGoalTracker = require('../api/bots/dave-goal-tracker');
 const daveAutoProposal = require('../api/bots/dave-auto-proposal');
@@ -98,7 +97,6 @@ const danFreeScaper = require('../api/bots/dan-free-scraper');
 const danPopulateQueue = require('../api/bots/dan-populate-queue');
 const danAutoOutreach = require('../api/bots/dan-auto-outreach');
 const danReplyHandler = require('../api/bots/dan-reply-handler');
-const danSocialLeadDiscovery = require('../api/bots/dan-social-lead-discovery');
 
 const jordanCompliance = require('../api/bots/jordan-compliance');
 
@@ -114,7 +112,6 @@ const aiKillSwitch = require('../api/bots/ai-kill-switch');
 
 // Register routes - support both GET and POST for all bot endpoints
 app.all('/api/bots/henry-goal-setter', henryGoalSetter);
-app.all('/api/bots/henry-ticket-monitor', henryTicketMonitor);
 
 app.all('/api/bots/dave-goal-tracker', daveGoalTracker);
 app.all('/api/bots/dave-auto-proposal', daveAutoProposal);
@@ -123,7 +120,6 @@ app.all('/api/bots/dan-free-scraper', danFreeScaper);
 app.all('/api/bots/dan-populate-queue', danPopulateQueue);
 app.all('/api/bots/dan-auto-outreach', danAutoOutreach);
 app.all('/api/bots/dan-reply-handler', danReplyHandler);
-app.all('/api/bots/dan-social-lead-discovery', danSocialLeadDiscovery);
 
 app.all('/api/bots/jordan-compliance', jordanCompliance);
 
