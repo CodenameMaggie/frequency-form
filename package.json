@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "express-rate-limit": "^8.2.1",
+    "fabric": "^6.9.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.562.0",
@@ -32,6 +33,7 @@
     "resend": "^3.0.0",
     "stripe": "^20.1.0",
     "tailwind-merge": "^3.4.0",
+    "three": "^0.160.1",
     "uuid": "^10.0.0",
     "zustand": "^5.0.9"
   },
