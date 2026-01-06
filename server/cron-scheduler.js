@@ -234,11 +234,36 @@ cron.schedule('0 * * * *', () => {
 });
 
 // =====================================================================
+// FF STYLE STUDIO BOTS
+// =====================================================================
+
+// FF CLOSET ORGANIZER - Daily at 6 AM
+// Analyzes and organizes virtual closet
+cron.schedule('0 6 * * *', () => {
+  console.log('\n[Cron] ⏰ FF Closet Organizer - Daily 6 AM trigger');
+  callEndpoint('/api/ff/closet-organizer', 'FF Closet Organizer');
+});
+
+// FF TREND SPOTTER - Weekly on Monday at 8 AM
+// Identifies trends to inspire designs
+cron.schedule('0 8 * * 1', () => {
+  console.log('\n[Cron] ⏰ FF Trend Spotter - Weekly Monday 8 AM trigger');
+  callEndpoint('/api/ff/trend-spotter', 'FF Trend Spotter');
+});
+
+// FF DESIGN SUGGESTER - Twice Daily at 9 AM and 3 PM
+// Generates daily design suggestions
+cron.schedule('0 9,15 * * *', () => {
+  console.log('\n[Cron] ⏰ FF Design Suggester - Twice daily trigger');
+  callEndpoint('/api/ff/design-suggester', 'FF Design Suggester');
+});
+
+// =====================================================================
 // GOAL COORDINATOR - Daily at 6 AM
 // Coordinates all bot goals
 // =====================================================================
-cron.schedule('0 6 * * *', () => {
-  console.log('\n[Cron] ⏰ Goal Coordinator - Daily 6 AM trigger');
+cron.schedule('0 7 * * *', () => {
+  console.log('\n[Cron] ⏰ Goal Coordinator - Daily 7 AM trigger');
   callEndpoint('/api/goal-coordinator', 'Goal Coordinator');
 });
 
@@ -251,14 +276,14 @@ setTimeout(async () => {
   console.log('  - Email Queue Processor: Every 5 minutes');
   console.log('  - Dan Free Scraper: Every 10 minutes');
   console.log('  - Dan Populate Queue: Every 15 minutes');
-  console.log('  - Dan Reply Handler: Every 15 minutes 🔥 NEW');
+  console.log('  - Dan Reply Handler: Every 15 minutes 🔥');
   console.log('  - Dan Social Lead Discovery: Every 30 minutes');
   console.log('  - Dan Lead Generator: Every 2 hours');
   console.log('  - Dan Auto Outreach: Hourly 9am-5pm Mon-Fri 📧');
   console.log('  - Dan Auto Social Posts: Daily at 9 AM');
   console.log('  - Social Post Publisher: Every 5 minutes');
-  console.log('  - Annie Auto Onboarding: Every 30 minutes 🎉 NEW');
-  console.log('  - Annie Auto Support: Every hour 🎧 NEW');
+  console.log('  - Annie Auto Onboarding: Every 30 minutes 🎉');
+  console.log('  - Annie Auto Support: Every hour 🎧');
   console.log('  - Henry Goal Setter: Every hour');
   console.log('  - Henry Ticket Monitor: Every 3 hours');
   console.log('  - Dave Goal Tracker: Every 3 hours');
@@ -267,9 +292,13 @@ setTimeout(async () => {
   console.log('  - Deal Pipeline Processor: Every 30 minutes');
   console.log('  - Follow-up Processor: Every 6 hours');
   console.log('  - Auto Follow-up: Every 8 hours');
-  console.log('  - Goal Coordinator: Daily at 6 AM');
+  console.log('  - FF Closet Organizer: Daily at 6 AM 👗 NEW');
+  console.log('  - FF Trend Spotter: Weekly Monday at 8 AM 📈 NEW');
+  console.log('  - FF Design Suggester: Twice daily (9 AM, 3 PM) ✨ NEW');
+  console.log('  - Goal Coordinator: Daily at 7 AM');
   console.log('\n[Cron Scheduler] 🤖 FULLY AUTONOMOUS PIPELINE ACTIVE');
   console.log('[Cron Scheduler] 📧 Lead → Outreach → Reply → Book → Proposal → Payment → Onboard');
+  console.log('[Cron Scheduler] 👗 FF Style Studio → Closet Org → Trend Spot → Design Suggest');
   console.log('[Cron Scheduler] 🎯 Working toward $100M/5-year revenue goal\n');
 
   // Run initial health check (GET request for health endpoints)
