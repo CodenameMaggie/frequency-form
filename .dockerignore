@@ -1,0 +1,19 @@
+# Explicitly DO NOT ignore these critical directories
+!lib/
+!lib/**
+!server/
+!server/**
+!api/
+!api/**
+
+# Ignore these
+node_modules/
+.git/
+.env
+.env.local
+.next/
+.vercel/
+*.log
+dist/
+build/
+coverage/
