@@ -3,6 +3,7 @@ import "./globals.css";
 import { getCurrentSeason } from "@/lib/utils";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import AnnieWidget from "@/components/AnnieWidget";
 
 export const metadata: Metadata = {
   title: "Frequency & Form | Dress in Alignment",
@@ -27,6 +28,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <AnnieWidget />
       </body>
     </html>
   );
