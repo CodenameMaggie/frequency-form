@@ -8,6 +8,7 @@ const supabase = createClient(
 // List of admin user IDs (you can add your user ID here after creating your account)
 // For now, we'll check if the user email matches the admin email
 const ADMIN_EMAILS = [
+  'maggie@frequencyandform.com',
   'kristi@frequencyandform.com',
   'admin@frequencyandform.com',
   // Add more admin emails as needed
