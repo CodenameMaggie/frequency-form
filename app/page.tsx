@@ -61,7 +61,7 @@ export default function HomePage() {
               <span className="font-serif text-[26px] font-light text-[#1e2a3a] mb-0.5">5,000 Hz</span>
               <span className="font-sans text-[8px] tracking-[0.25em] uppercase font-medium text-[#1e2a3a]">Elevating</span>
             </div>
-            <div className="flex-1 bg-[#f5f0e4] p-6 md:py-6 md:px-7 flex flex-col justify-center">
+            <div className="flex-1 bg-[#f5f0e4] p-6 md:py-6 md:px-7 flex flex-col justify-center text-center">
               <h3 className="font-serif text-lg font-normal mb-1.5 tracking-[0.05em] text-[#1e2a3a]">Healing Tier</h3>
               <p className="font-sans text-[13px] font-light mb-2 text-[#5a6a7a]">Linen · Wool · Cashmere · Hemp</p>
               <p className="font-sans text-xs font-light italic opacity-80 text-[#5a6a7a]">50× your body's natural frequency. These fabrics don't just clothe you—they elevate you.</p>
@@ -74,7 +74,7 @@ export default function HomePage() {
               <span className="font-serif text-[26px] font-light text-[#b8a888] mb-0.5">100 Hz</span>
               <span className="font-sans text-[8px] tracking-[0.25em] uppercase font-medium text-[#b8a888]">Harmonizing</span>
             </div>
-            <div className="flex-1 bg-white border border-[#e8dcc4] md:border-l-0 p-6 md:py-6 md:px-7 flex flex-col justify-center">
+            <div className="flex-1 bg-white border border-[#e8dcc4] md:border-l-0 p-6 md:py-6 md:px-7 flex flex-col justify-center text-center">
               <h3 className="font-serif text-lg font-normal mb-1.5 tracking-[0.05em] text-[#1e2a3a]">Foundation Tier</h3>
               <p className="font-sans text-[13px] font-light mb-2 text-[#5a6a7a]">Organic Cotton</p>
               <p className="font-sans text-xs font-light italic opacity-80 text-[#8a9aaa]">Perfectly in tune with your body. Neutral, comfortable, and never depleting.</p>
@@ -87,7 +87,7 @@ export default function HomePage() {
               <span className="font-serif text-[26px] font-light text-white mb-0.5">0–15 Hz</span>
               <span className="font-sans text-[8px] tracking-[0.25em] uppercase font-medium text-white opacity-70">Depleting</span>
             </div>
-            <div className="flex-1 bg-[#1e2a3a] p-6 md:py-6 md:px-7 flex flex-col justify-center">
+            <div className="flex-1 bg-[#1e2a3a] p-6 md:py-6 md:px-7 flex flex-col justify-center text-center">
               <h3 className="font-serif text-lg font-normal mb-2 tracking-[0.05em] text-white">What We Never Carry</h3>
               <p className="font-sans text-[13px] font-light mb-3 text-white opacity-90">Polyester · Nylon · Acrylic · Rayon</p>
               <p className="font-sans text-xs font-light leading-relaxed text-white opacity-70">Synthetic fabrics measure at the same frequency as diseased tissue—just 15 Hz. They drain your natural energy rather than support it. We reject them entirely.</p>
