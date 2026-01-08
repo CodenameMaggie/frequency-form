@@ -1,5 +1,5 @@
-# Use Node.js LTS
-FROM node:18-alpine
+# Use Node.js 20 LTS (minimum requirement)
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
