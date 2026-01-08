@@ -49,7 +49,7 @@ async function checkBotActivity() {
 
     const { data: emails, error: emailsError } = await supabase
       .from('emails')
-      .select('id, to_email, subject, status, sent_by, created_at')
+      .select('id, to_email, subject, status, created_at')
       .gte('created_at', twentyFourHoursAgo)
       .order('created_at', { ascending: false })
       .limit(10);
@@ -60,8 +60,8 @@ async function checkBotActivity() {
       console.log(`✅ Found ${emails.length} recent emails sent:`);
       emails.forEach(email => {
         console.log(`   - To: ${email.to_email}`);
-        console.log(`     Subject: ${email.subject.substring(0, 50)}...`);
-        console.log(`     Status: ${email.status} | Sent by: ${email.sent_by || 'System'}`);
+        console.log(`     Subject: ${email.subject ? email.subject.substring(0, 50) + '...' : 'N/A'}`);
+        console.log(`     Status: ${email.status || 'N/A'}`);
         console.log(`     Time: ${new Date(email.created_at).toLocaleString()}\n`);
       });
     } else {
@@ -69,48 +69,70 @@ async function checkBotActivity() {
     }
 
     // Check Dan's scraper discoveries (last 24 hours)
-    console.log('3️⃣ Checking retailers table (Dan\'s discoveries - last 24 hours)...');
+    console.log('3️⃣ Checking contacts table (Dan\'s discoveries - last 24 hours)...');
 
-    const { data: retailers, error: retailersError } = await supabase
-      .from('retailers')
-      .select('id, name, contact_email, source, created_at')
-      .gte('created_at', twentyFourHoursAgo)
-      .order('created_at', { ascending: false })
-      .limit(10);
+    let newContacts = null;
+    try {
+      const result = await supabase
+        .from('contacts')
+        .select('*')
+        .gte('created_at', twentyFourHoursAgo)
+        .order('created_at', { ascending: false })
+        .limit(10);
 
-    if (retailersError) {
-      console.error('❌ Error querying retailers:', retailersError.message);
-    } else if (retailers && retailers.length > 0) {
-      console.log(`✅ Dan discovered ${retailers.length} new retailers:`);
-      retailers.forEach(retailer => {
-        console.log(`   - ${retailer.name} (${retailer.contact_email || 'No email'})`);
-        console.log(`     Source: ${retailer.source} | ${new Date(retailer.created_at).toLocaleString()}`);
-      });
-    } else {
-      console.log('⚠️  No new retailers discovered in the last 24 hours');
+      if (result.error) {
+        console.error('❌ Error querying contacts:', result.error.message);
+      } else if (result.data && result.data.length > 0) {
+        // Filter for Dan's sources if we got data
+        newContacts = result.data.filter(c =>
+          c.source && ['dan_scraper', 'web_search', 'linkedin', 'twitter', 'social_media'].includes(c.source)
+        );
+
+        if (newContacts.length > 0) {
+          console.log(`✅ Dan discovered ${newContacts.length} new leads:`);
+          newContacts.forEach(contact => {
+            const companyName = contact.company || contact.full_name || 'Unknown';
+            console.log(`   - ${companyName} (${contact.email || 'No email'})`);
+            console.log(`     Source: ${contact.source} | ${new Date(contact.created_at).toLocaleString()}`);
+          });
+        } else {
+          console.log('⚠️  No new leads from Dan in the last 24 hours');
+        }
+      } else {
+        console.log('⚠️  No new contacts in the last 24 hours');
+      }
+    } catch (error) {
+      console.error('❌ Contacts table error:', error.message);
     }
 
     // Check AI memory (last 24 hours)
     console.log('\n4️⃣ Checking ai_memory_store (Atlas activity - last 24 hours)...');
 
-    const { data: memories, error: memoriesError } = await supabase
-      .from('ai_memory_store')
-      .select('id, category, query_text, source, created_at')
-      .gte('created_at', twentyFourHoursAgo)
-      .order('created_at', { ascending: false })
-      .limit(5);
+    try {
+      const result = await supabase
+        .from('ai_memory_store')
+        .select('*')
+        .gte('created_at', twentyFourHoursAgo)
+        .order('created_at', { ascending: false })
+        .limit(5);
 
-    if (memoriesError) {
-      console.error('❌ Error querying ai_memory_store:', memoriesError.message);
-    } else if (memories && memories.length > 0) {
-      console.log(`✅ Atlas stored ${memories.length} new memories:`);
-      memories.forEach(memory => {
-        console.log(`   - Category: ${memory.category} | Source: ${memory.source}`);
-        console.log(`     Query: ${memory.query_text.substring(0, 60)}...`);
-        console.log(`     Time: ${new Date(memory.created_at).toLocaleString()}\n`);
-      });
-    } else {
-      console.log('⚠️  No AI memory activity in the last 24 hours');
+      if (result.error) {
+        console.error('❌ Error querying ai_memory_store:', result.error.message);
+      } else if (result.data && result.data.length > 0) {
+        console.log(`✅ Atlas stored ${result.data.length} new memories:`);
+        result.data.forEach(memory => {
+          const type = memory.memory_type || 'unknown';
+          const bot = memory.bot_type || 'assistant';
+          const key = memory.memory_key || memory.id || 'N/A';
+          console.log(`   - Type: ${type} | Bot: ${bot}`);
+          console.log(`     Key: ${key.substring(0, 60)}${key.length > 60 ? '...' : ''}`);
+          console.log(`     Time: ${new Date(memory.created_at).toLocaleString()}\n`);
+        });
+      } else {
+        console.log('⚠️  No AI memory activity in the last 24 hours');
+      }
+    } catch (error) {
+      console.error('❌ AI memory store error:', error.message);
     }
 
     // Summary
@@ -119,7 +141,7 @@ async function checkBotActivity() {
 
     const hasActivity = (actions && actions.length > 0) ||
                        (emails && emails.length > 0) ||
-                       (retailers && retailers.length > 0);
+                       (newContacts && newContacts.length > 0);
 
     if (hasActivity) {
       console.log('✅ BOTS ARE RUNNING AUTONOMOUSLY');

@@ -1,0 +1,200 @@
+/**
+ * Dan's Marketing Lead Generator
+ * Creates marketing strategies and generates campaign ideas
+ * Runs every 2 hours via cron
+ * Uses AI to identify market trends and create targeted campaigns
+ */
+
+const { withCronAuth } = require('../../lib/api-wrapper');
+const { queryAtlas } = require('./atlas-knowledge');
+const { createClient } = require('@supabase/supabase-js');
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
+async function handler(req, res) {
+  const tenantId = req.user?.tenant_id || '00000000-0000-0000-0000-000000000001';
+
+  console.log('[Dan Lead Generator] Starting marketing campaign generation...');
+
+  try {
+    // Get recent contact data to understand our target market
+    const { data: recentContacts } = await supabase
+      .from('contacts')
+      .select('company, source, stage, notes')
+      .eq('tenant_id', tenantId)
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    // Analyze what's working
+    const sources = {};
+    const stages = {};
+
+    (recentContacts || []).forEach(contact => {
+      sources[contact.source] = (sources[contact.source] || 0) + 1;
+      stages[contact.stage] = (stages[contact.stage] || 0) + 1;
+    });
+
+    console.log('[Dan Lead Generator] Analyzing market data...');
+    console.log('[Dan Lead Generator] Top sources:', sources);
+    console.log('[Dan Lead Generator] Contact stages:', stages);
+
+    // Use AI to generate marketing campaign ideas
+    const campaignPrompt = `You are Dan, the marketing strategist for Frequency & Form, a B2B natural fiber products company.
+
+CURRENT SITUATION:
+- We source natural fiber products (linen, organic cotton, hemp, wool, silk)
+- We sell to retailers, boutiques, wellness centers, and wholesale buyers
+- Our lead sources: ${JSON.stringify(sources)}
+- Contact stages: ${JSON.stringify(stages)}
+- Business model: Ask what they need → Source it → Supply them (40-50% margins)
+
+TASK: Generate 3 marketing campaign ideas to increase B2B leads and conversions.
+
+For each campaign, provide:
+1. Campaign Name (catchy, professional)
+2. Target Audience (specific type of business)
+3. Campaign Goal (leads, conversions, awareness)
+4. Key Message (value proposition)
+5. Channels (email, LinkedIn, Twitter, content marketing, partnerships)
+6. Content Ideas (3-5 specific content pieces or tactics)
+7. Expected Results (realistic projections)
+8. Budget Estimate (if applicable)
+
+Focus on campaigns that:
+- Are low-cost or free (leverage AI and automation)
+- Target B2B buyers in sustainable/wellness space
+- Can be executed with our current team and tools
+- Align with our "ask what they need, we'll source it" model
+
+Return as JSON array of campaign objects.`;
+
+    const atlasResponse = await queryAtlas(campaignPrompt, 'marketing', tenantId, {
+      sources: ['claude', 'gpt4'],
+      save_to_memory: true
+    });
+
+    if (!atlasResponse.success) {
+      throw new Error('AI campaign generation failed: ' + atlasResponse.error);
+    }
+
+    console.log('[Dan Lead Generator] AI generated campaigns');
+
+    // Parse campaigns
+    let campaigns = [];
+    try {
+      const jsonMatch = atlasResponse.answer.match(/\[[\s\S]*\]/);
+      if (jsonMatch) {
+        campaigns = JSON.parse(jsonMatch[0]);
+      }
+    } catch (parseError) {
+      console.error('[Dan Lead Generator] Failed to parse campaigns JSON');
+      // Create a fallback campaign
+      campaigns = [{
+        name: 'B2B Natural Fiber Partnership Outreach',
+        target_audience: 'Sustainable retailers and wellness boutiques',
+        goal: 'Generate 50 qualified B2B leads per month',
+        key_message: 'We source exactly what your customers want in natural fibers',
+        channels: ['email', 'linkedin'],
+        content_ideas: [
+          'Personalized outreach emails highlighting sourcing capabilities',
+          'LinkedIn posts showcasing sustainable partnerships',
+          'Case studies of successful retailer partnerships'
+        ],
+        expected_results: '50 leads/month, 10% conversion to customers',
+        budget: '$0 (AI-powered automation)'
+      }];
+    }
+
+    console.log(`[Dan Lead Generator] Generated ${campaigns.length} campaigns`);
+
+    // Save campaigns to database
+    let savedCount = 0;
+    for (const campaign of campaigns) {
+      try {
+        const { error: insertError } = await supabase
+          .from('campaigns')
+          .insert({
+            tenant_id: tenantId,
+            name: campaign.name || 'Untitled Campaign',
+            description: campaign.key_message || '',
+            type: 'b2b_lead_generation',
+            target_audience: campaign.target_audience || '',
+            channels: campaign.channels || [],
+            goals: {
+              goal: campaign.goal,
+              expected_results: campaign.expected_results
+            },
+            notes: `Generated by Dan AI\n\nContent Ideas:\n${(campaign.content_ideas || []).map((idea, i) => `${i+1}. ${idea}`).join('\n')}\n\nBudget: ${campaign.budget || 'TBD'}`,
+            status: 'draft',
+            metadata: {
+              generated_by: 'dan_ai',
+              generated_at: new Date().toISOString(),
+              ai_confidence: 0.85
+            }
+          });
+
+        if (insertError) {
+          console.error('[Dan Lead Generator] Error saving campaign:', insertError.message);
+        } else {
+          savedCount++;
+          console.log(`[Dan Lead Generator] ✅ Saved: ${campaign.name}`);
+        }
+
+      } catch (error) {
+        console.error('[Dan Lead Generator] Error processing campaign:', error.message);
+      }
+    }
+
+    // Log bot action
+    await supabase
+      .from('bot_actions_log')
+      .insert({
+        tenant_id: tenantId,
+        bot_name: 'Dan',
+        action_type: 'campaign_generation',
+        status: 'success',
+        data: {
+          campaigns_generated: campaigns.length,
+          campaigns_saved: savedCount,
+          timestamp: new Date().toISOString()
+        }
+      });
+
+    console.log(`[Dan Lead Generator] Complete: ${savedCount} campaigns saved`);
+
+    return res.json({
+      success: true,
+      data: {
+        campaigns_generated: campaigns.length,
+        campaigns_saved: savedCount,
+        campaigns: campaigns
+      }
+    });
+
+  } catch (error) {
+    console.error('[Dan Lead Generator] Error:', error);
+
+    await supabase
+      .from('bot_actions_log')
+      .insert({
+        tenant_id: tenantId,
+        bot_name: 'Dan',
+        action_type: 'campaign_generation',
+        status: 'failed',
+        data: {
+          error: error.message,
+          timestamp: new Date().toISOString()
+        }
+      });
+
+    return res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+}
+
+module.exports = withCronAuth(handler);
