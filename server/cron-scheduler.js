@@ -65,11 +65,12 @@ cron.schedule('*/5 * * * *', () => {
 // =====================================================================
 // DAN FREE SCRAPER - Every 10 Minutes
 // Free lead discovery using AI
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('*/10 * * * *', () => {
-  console.log('\n[Cron] ⏰ Dan Free Scraper - 10-minute trigger');
-  callEndpoint('/api/dan-free-scraper', 'Dan Free Scraper');
-});
+// cron.schedule('*/10 * * * *', () => {
+//   console.log('\n[Cron] ⏰ Dan Free Scraper - 10-minute trigger');
+//   callEndpoint('/api/dan-free-scraper', 'Dan Free Scraper');
+// });
 
 // =====================================================================
 // DAN POPULATE QUEUE - Every 15 Minutes
@@ -83,11 +84,12 @@ cron.schedule('*/15 * * * *', () => {
 // =====================================================================
 // DAN SOCIAL LEAD DISCOVERY - Every 30 Minutes
 // Discovers leads from LinkedIn and Twitter using AI
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('*/30 * * * *', () => {
-  console.log('\n[Cron] ⏰ Dan Social Lead Discovery - 30-minute trigger');
-  callEndpoint('/api/dan-social-lead-discovery', 'Dan Social Lead Discovery');
-});
+// cron.schedule('*/30 * * * *', () => {
+//   console.log('\n[Cron] ⏰ Dan Social Lead Discovery - 30-minute trigger');
+//   callEndpoint('/api/dan-social-lead-discovery', 'Dan Social Lead Discovery');
+// });
 
 // =====================================================================
 // CONVERT LEADS TO CONTACTS - Every Hour
@@ -101,65 +103,72 @@ cron.schedule('0 * * * *', () => {
 // =====================================================================
 // ALEX PROACTIVE MONITOR - Every Hour
 // Engineering bot monitoring
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 * * * *', () => {
-  console.log('\n[Cron] ⏰ Alex Proactive Monitor - Hourly trigger');
-  callEndpoint('/api/alex-proactive-monitor', 'Alex Proactive Monitor');
-});
+// cron.schedule('0 * * * *', () => {
+//   console.log('\n[Cron] ⏰ Alex Proactive Monitor - Hourly trigger');
+//   callEndpoint('/api/alex-proactive-monitor', 'Alex Proactive Monitor');
+// });
 
 // =====================================================================
 // HENRY (Chief of Staff) - Every Hour
 // Analyzes business and sets strategic goals
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 * * * *', () => {
-  console.log('\n[Cron] ⏰ Henry Goal Setter - Hourly trigger');
-  callEndpoint('/api/henry-goal-setter', 'Henry Goal Setter');
-});
+// cron.schedule('0 * * * *', () => {
+//   console.log('\n[Cron] ⏰ Henry Goal Setter - Hourly trigger');
+//   callEndpoint('/api/henry-goal-setter', 'Henry Goal Setter');
+// });
 
 // =====================================================================
 // DAVE (Accountant) - Every 3 Hours
 // Tracks financial metrics and updates goal progress
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 */3 * * *', () => {
-  console.log('\n[Cron] ⏰ Dave Goal Tracker - 3-hour trigger');
-  callEndpoint('/api/dave-goal-tracker', 'Dave Goal Tracker');
-});
+// cron.schedule('0 */3 * * *', () => {
+//   console.log('\n[Cron] ⏰ Dave Goal Tracker - 3-hour trigger');
+//   callEndpoint('/api/dave-goal-tracker', 'Dave Goal Tracker');
+// });
 
 // =====================================================================
 // HENRY TICKET MONITOR - Every 3 Hours
 // Monitors support tickets
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 */3 * * *', () => {
-  console.log('\n[Cron] ⏰ Henry Ticket Monitor - 3-hour trigger');
-  callEndpoint('/api/henry-ticket-monitor', 'Henry Ticket Monitor');
-});
+// cron.schedule('0 */3 * * *', () => {
+//   console.log('\n[Cron] ⏰ Henry Ticket Monitor - 3-hour trigger');
+//   callEndpoint('/api/henry-ticket-monitor', 'Henry Ticket Monitor');
+// });
 
 // =====================================================================
 // DAN (Marketing) - Lead Generator - Every 2 Hours
 // Creates marketing strategies and campaigns
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 */2 * * *', () => {
-  console.log('\n[Cron] ⏰ Dan Lead Generator - 2-hour trigger');
-  callEndpoint('/api/dan-lead-generator', 'Dan Lead Generator');
-});
+// cron.schedule('0 */2 * * *', () => {
+//   console.log('\n[Cron] ⏰ Dan Lead Generator - 2-hour trigger');
+//   callEndpoint('/api/dan-lead-generator', 'Dan Lead Generator');
+// });
 
 // =====================================================================
 // DAN (Marketing) - Auto Outreach - Hourly During Business Hours
 // Sends personalized emails to leads automatically (9am-5pm Mon-Fri)
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 9-17 * * 1-5', () => {
-  console.log('\n[Cron] ⏰ Dan Auto Outreach - Hourly (business hours)');
-  callEndpoint('/api/dan-auto-outreach', 'Dan Auto Outreach');
-});
+// cron.schedule('0 9-17 * * 1-5', () => {
+//   console.log('\n[Cron] ⏰ Dan Auto Outreach - Hourly (business hours)');
+//   callEndpoint('/api/dan-auto-outreach', 'Dan Auto Outreach');
+// });
 
 // =====================================================================
 // DAN (Marketing) - Auto Social Posts - Daily at 9 AM
 // Creates and schedules social media posts for Twitter/LinkedIn/Facebook
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 9 * * *', () => {
-  console.log('\n[Cron] ⏰ Dan Auto Social Posts - Daily 9 AM trigger');
-  callEndpoint('/api/dan-auto-social-posts', 'Dan Auto Social Posts');
-});
+// cron.schedule('0 9 * * *', () => {
+//   console.log('\n[Cron] ⏰ Dan Auto Social Posts - Daily 9 AM trigger');
+//   callEndpoint('/api/dan-auto-social-posts', 'Dan Auto Social Posts');
+// });
 
 // =====================================================================
 // SOCIAL POST PUBLISHER - Every 5 Minutes
@@ -173,11 +182,12 @@ cron.schedule('*/5 * * * *', () => {
 // =====================================================================
 // DAVE (Accountant) - Auto Proposal - Every 6 Hours
 // Generates and sends proposals to qualified leads
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 */6 * * *', () => {
-  console.log('\n[Cron] ⏰ Dave Auto Proposal - 6-hour trigger');
-  callEndpoint('/api/dave-auto-proposal', 'Dave Auto Proposal');
-});
+// cron.schedule('0 */6 * * *', () => {
+//   console.log('\n[Cron] ⏰ Dave Auto Proposal - 6-hour trigger');
+//   callEndpoint('/api/dave-auto-proposal', 'Dave Auto Proposal');
+// });
 
 // =====================================================================
 // SYSTEM - Deal Pipeline Processor - Every 30 Minutes
@@ -191,11 +201,12 @@ cron.schedule('*/30 * * * *', () => {
 // =====================================================================
 // DAN REPLY HANDLER - Every 15 Minutes
 // AI classifies email replies and sends automated responses
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('*/15 * * * *', () => {
-  console.log('\n[Cron] ⏰ Dan Reply Handler - 15-minute trigger');
-  callEndpoint('/api/dan-reply-handler', 'Dan Reply Handler');
-});
+// cron.schedule('*/15 * * * *', () => {
+//   console.log('\n[Cron] ⏰ Dan Reply Handler - 15-minute trigger');
+//   callEndpoint('/api/dan-reply-handler', 'Dan Reply Handler');
+// });
 
 // =====================================================================
 // FOLLOW-UP PROCESSOR - Every 6 Hours
@@ -218,54 +229,58 @@ cron.schedule('0 */8 * * *', () => {
 // =====================================================================
 // ANNIE AUTO ONBOARDING - Every 30 Minutes
 // Creates client accounts and sends welcome emails
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('*/30 * * * *', () => {
-  console.log('\n[Cron] ⏰ Annie Auto Onboarding - 30-minute trigger');
-  callEndpoint('/api/annie-auto-onboarding', 'Annie Auto Onboarding');
-});
+// cron.schedule('*/30 * * * *', () => {
+//   console.log('\n[Cron] ⏰ Annie Auto Onboarding - 30-minute trigger');
+//   callEndpoint('/api/annie-auto-onboarding', 'Annie Auto Onboarding');
+// });
 
 // =====================================================================
 // ANNIE AUTO SUPPORT - Every Hour
 // Processes support tickets and sends client health checks
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 * * * *', () => {
-  console.log('\n[Cron] ⏰ Annie Auto Support - Hourly trigger');
-  callEndpoint('/api/annie-auto-support', 'Annie Auto Support');
-});
+// cron.schedule('0 * * * *', () => {
+//   console.log('\n[Cron] ⏰ Annie Auto Support - Hourly trigger');
+//   callEndpoint('/api/annie-auto-support', 'Annie Auto Support');
+// });
 
 // =====================================================================
 // FF STYLE STUDIO BOTS
+// DISABLED: No AI until making money
 // =====================================================================
 
 // FF CLOSET ORGANIZER - Daily at 6 AM
 // Analyzes and organizes virtual closet
-cron.schedule('0 6 * * *', () => {
-  console.log('\n[Cron] ⏰ FF Closet Organizer - Daily 6 AM trigger');
-  callEndpoint('/api/ff/closet-organizer', 'FF Closet Organizer');
-});
+// cron.schedule('0 6 * * *', () => {
+//   console.log('\n[Cron] ⏰ FF Closet Organizer - Daily 6 AM trigger');
+//   callEndpoint('/api/ff/closet-organizer', 'FF Closet Organizer');
+// });
 
 // FF TREND SPOTTER - Weekly on Monday at 8 AM
 // Identifies trends to inspire designs
-cron.schedule('0 8 * * 1', () => {
-  console.log('\n[Cron] ⏰ FF Trend Spotter - Weekly Monday 8 AM trigger');
-  callEndpoint('/api/ff/trend-spotter', 'FF Trend Spotter');
-});
+// cron.schedule('0 8 * * 1', () => {
+//   console.log('\n[Cron] ⏰ FF Trend Spotter - Weekly Monday 8 AM trigger');
+//   callEndpoint('/api/ff/trend-spotter', 'FF Trend Spotter');
+// });
 
 // FF DESIGN SUGGESTER - Twice Daily at 9 AM and 3 PM
 // Generates daily design suggestions
-cron.schedule('0 9,15 * * *', () => {
-  console.log('\n[Cron] ⏰ FF Design Suggester - Twice daily trigger');
-  callEndpoint('/api/ff/design-suggester', 'FF Design Suggester');
-});
+// cron.schedule('0 9,15 * * *', () => {
+//   console.log('\n[Cron] ⏰ FF Design Suggester - Twice daily trigger');
+//   callEndpoint('/api/ff/design-suggester', 'FF Design Suggester');
+// });
 
 // =====================================================================
 // GOAL COORDINATOR - Daily at 6 AM
 // Coordinates all bot goals
+// DISABLED: No AI until making money
 // =====================================================================
-cron.schedule('0 7 * * *', () => {
-  console.log('\n[Cron] ⏰ Goal Coordinator - Daily 7 AM trigger');
-  callEndpoint('/api/goal-coordinator', 'Goal Coordinator');
-});
+// cron.schedule('0 7 * * *', () => {
+//   console.log('\n[Cron] ⏰ Goal Coordinator - Daily 7 AM trigger');
+//   callEndpoint('/api/goal-coordinator', 'Goal Coordinator');
+// });
 
 // =====================================================================
 // STARTUP: Run initial checks
