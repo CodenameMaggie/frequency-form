@@ -5,18 +5,25 @@ import { useEffect, useState } from 'react';
 export default function Dashboard() {
   const [health, setHealth] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('https://frequency-form-production.up.railway.app/health')
-      .then(res => res.json())
-      .then(data => {
+    const fetchHealth = async () => {
+      try {
+        const res = await fetch('https://frequency-form-production.up.railway.app/health');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
         setHealth(data);
+      } catch (err: any) {
+        setError(err.message || 'Failed to connect');
+      } finally {
         setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchHealth();
+    const interval = setInterval(fetchHealth, 30000); // Refresh every 30s
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
