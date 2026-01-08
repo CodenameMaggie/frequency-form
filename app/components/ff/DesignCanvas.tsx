@@ -6,7 +6,8 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { fabric } from 'fabric';
+// @ts-ignore - Fabric.js v6+ has different export structure
+import * as fabric from 'fabric';
 
 interface DesignCanvasProps {
   width?: number;
