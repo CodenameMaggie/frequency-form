@@ -1,5 +1,27 @@
 # 🎯 FORBES COMMAND - Multi-Business Control System
 
+## ⚡ Version 2.0 - All Issues Fixed!
+
+**What was wrong in v1.0:**
+- ❌ Table discovery completely broken (tried to list tables from `/rest/v1/` which doesn't work)
+- ❌ Checked for `bots` table instead of actual `bot_actions_log` table
+- ❌ Missing `users` field causing undefined errors
+- ❌ No timeout handling - requests could hang forever
+- ❌ Poor error messages - didn't show WHY things failed
+- ❌ No credential validation - would try to connect with placeholder values
+
+**What's fixed in v2.0:**
+- ✅ Proper table discovery using HEAD requests to known tables
+- ✅ Checks correct table name: `bot_actions_log`
+- ✅ All fields properly initialized in results object
+- ✅ 10-second timeouts on all requests (5s for table checks)
+- ✅ Detailed error messages showing status codes and response text
+- ✅ Validates credentials before attempting connection
+- ✅ Separate errors vs warnings for better troubleshooting
+- ✅ Tests 7 critical areas: REST API, Auth, Database, Tables, Bots, Users, Contacts
+
+---
+
 ## What Is Forbes Command?
 
 Forbes Command is a unified testing and control system that connects all three of your businesses:
@@ -38,7 +60,7 @@ For each business, you need:
 
 ```bash
 # Copy the template
-cp .env.local.template .env.local
+cp env.template .env.local
 
 # Edit with your actual credentials
 nano .env.local
