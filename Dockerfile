@@ -7,6 +7,9 @@ WORKDIR /app
 # Force cache bust - updated 2026-01-06
 ENV CACHE_BUST=2026-01-06-v2
 
+# Enable production mode for cron scheduler
+ENV NODE_ENV=production
+
 # Copy package files
 COPY package*.json ./
 
