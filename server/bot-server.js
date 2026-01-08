@@ -137,6 +137,18 @@ app.get('/api/bots/ai-bot-status', aiBotStatus);
 app.post('/api/bots/ai-kill-switch', aiKillSwitch);
 
 // =============================================================================
+// BUSINESS MATCHING SYSTEM (Rule-based, No AI)
+// =============================================================================
+
+const matchProductsToBuyers = require('../api/match-products-to-buyers');
+const qualifyLeads = require('../api/qualify-leads');
+const matchOrdersToSuppliers = require('../api/match-orders-to-suppliers');
+
+app.all('/api/match-products-to-buyers', matchProductsToBuyers);
+app.all('/api/qualify-leads', qualifyLeads);
+app.all('/api/match-orders-to-suppliers', matchOrdersToSuppliers);
+
+// =============================================================================
 // ERROR HANDLING
 // =============================================================================
 

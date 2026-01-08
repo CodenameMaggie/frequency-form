@@ -54,6 +54,31 @@ async function callEndpoint(path, description) {
 }
 
 // =====================================================================
+// BUSINESS MATCHING SYSTEM (Rule-based, No AI cost)
+// =====================================================================
+
+// QUALIFY LEADS - Every 15 Minutes
+// Rule-based lead scoring and qualification
+cron.schedule('*/15 * * * *', () => {
+  console.log('\n[Cron] ⏰ Lead Qualification - 15-minute trigger');
+  callEndpoint('/api/qualify-leads', 'Lead Qualification (Rule-based)');
+});
+
+// MATCH PRODUCTS TO BUYERS - Every 30 Minutes
+// Find best product-buyer matches based on business rules
+cron.schedule('*/30 * * * *', () => {
+  console.log('\n[Cron] ⏰ Product-Buyer Matching - 30-minute trigger');
+  callEndpoint('/api/match-products-to-buyers', 'Product-Buyer Matching (Rule-based)');
+});
+
+// MATCH ORDERS TO SUPPLIERS - Every 10 Minutes
+// Auto-route orders to best suppliers
+cron.schedule('*/10 * * * *', () => {
+  console.log('\n[Cron] ⏰ Order-Supplier Matching - 10-minute trigger');
+  callEndpoint('/api/match-orders-to-suppliers', 'Order-Supplier Matching (Rule-based)');
+});
+
+// =====================================================================
 // EMAIL QUEUE PROCESSOR - Every 5 Minutes
 // Processes queued emails with retry logic
 // =====================================================================
@@ -286,35 +311,30 @@ cron.schedule('0 */8 * * *', () => {
 // STARTUP: Run initial checks
 // =====================================================================
 setTimeout(async () => {
-  console.log('\n[Cron Scheduler] ✅ All bot automation cron jobs are active');
+  console.log('\n[Cron Scheduler] ✅ Business Matching System Active (No AI - Zero Cost)');
   console.log('[Cron Scheduler] 📊 Schedule Summary:');
+  console.log('\n🎯 BUSINESS MATCHING (Rule-based, No AI):');
+  console.log('  - Lead Qualification: Every 15 minutes 📋');
+  console.log('  - Product-Buyer Matching: Every 30 minutes 🤝');
+  console.log('  - Order-Supplier Matching: Every 10 minutes 📦');
+  console.log('\n📧 AUTOMATION (No AI):');
   console.log('  - Email Queue Processor: Every 5 minutes');
-  console.log('  - Dan Free Scraper: Every 10 minutes');
   console.log('  - Dan Populate Queue: Every 15 minutes');
-  console.log('  - Dan Reply Handler: Every 15 minutes 🔥');
-  console.log('  - Dan Social Lead Discovery: Every 30 minutes');
-  console.log('  - Dan Lead Generator: Every 2 hours');
-  console.log('  - Dan Auto Outreach: Hourly 9am-5pm Mon-Fri 📧');
-  console.log('  - Dan Auto Social Posts: Daily at 9 AM');
+  console.log('  - Convert Leads to Contacts: Every hour');
   console.log('  - Social Post Publisher: Every 5 minutes');
-  console.log('  - Annie Auto Onboarding: Every 30 minutes 🎉');
-  console.log('  - Annie Auto Support: Every hour 🎧');
-  console.log('  - Henry Goal Setter: Every hour');
-  console.log('  - Henry Ticket Monitor: Every 3 hours');
-  console.log('  - Dave Goal Tracker: Every 3 hours');
-  console.log('  - Dave Auto Proposal: Every 6 hours 💼');
-  console.log('  - Alex Proactive Monitor: Every hour');
   console.log('  - Deal Pipeline Processor: Every 30 minutes');
   console.log('  - Follow-up Processor: Every 6 hours');
   console.log('  - Auto Follow-up: Every 8 hours');
-  console.log('  - FF Closet Organizer: Daily at 6 AM 👗 NEW');
-  console.log('  - FF Trend Spotter: Weekly Monday at 8 AM 📈 NEW');
-  console.log('  - FF Design Suggester: Twice daily (9 AM, 3 PM) ✨ NEW');
-  console.log('  - Goal Coordinator: Daily at 7 AM');
-  console.log('\n[Cron Scheduler] 🤖 FULLY AUTONOMOUS PIPELINE ACTIVE');
-  console.log('[Cron Scheduler] 📧 Lead → Outreach → Reply → Book → Proposal → Payment → Onboard');
-  console.log('[Cron Scheduler] 👗 FF Style Studio → Closet Org → Trend Spot → Design Suggest');
-  console.log('[Cron Scheduler] 🎯 Working toward $100M/5-year revenue goal\n');
+  console.log('\n❌ AI BOTS DISABLED (Until making money):');
+  console.log('  - All Dan AI features (scraper, outreach, social)');
+  console.log('  - All Henry AI features (goals, tickets)');
+  console.log('  - All Dave AI features (proposals, tracking)');
+  console.log('  - All Annie AI features (onboarding, support)');
+  console.log('  - All Alex AI features (monitoring)');
+  console.log('  - All FF Style Studio AI features');
+  console.log('\n[Cron Scheduler] 💰 BUSINESS LOGIC MATCHING PIPELINE:');
+  console.log('[Cron Scheduler] 📊 Leads → Qualify → Match Products → Route Orders');
+  console.log('[Cron Scheduler] 💵 Zero AI cost until profitable\n');
 
   // Run initial health check (GET request for health endpoints)
   try {
