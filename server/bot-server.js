@@ -4,7 +4,7 @@
  * Deploys to Railway for 24/7 automation
  */
 
-require('dotenv').config();
+// Railway provides environment variables natively - no dotenv needed
 
 const express = require('express');
 const cors = require('cors');
