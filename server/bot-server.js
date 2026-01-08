@@ -116,10 +116,13 @@ app.all('/api/bots/henry-goal-setter', henryGoalSetter);
 app.all('/api/bots/dave-goal-tracker', daveGoalTracker);
 app.all('/api/bots/dave-auto-proposal', daveAutoProposal);
 
-app.all('/api/bots/dan-free-scraper', danFreeScaper);
-app.all('/api/bots/dan-populate-queue', danPopulateQueue);
+// Cron calls these at /api/dan-* so register at root api path
+app.all('/api/dan-free-scraper', danFreeScaper);
+app.all('/api/dan-populate-queue', danPopulateQueue);
+app.all('/api/dan-reply-handler', danReplyHandler);
+
+// This one stays in bots/ path
 app.all('/api/bots/dan-auto-outreach', danAutoOutreach);
-app.all('/api/bots/dan-reply-handler', danReplyHandler);
 
 app.all('/api/bots/jordan-compliance', jordanCompliance);
 
