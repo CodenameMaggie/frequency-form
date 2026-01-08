@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frequency & Form - Bot Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #f5f5f5; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    h1 { color: #1e2a3a; margin-bottom: 2rem; }
+    .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .status { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; animation: pulse 2s infinite; }
+    .dot.online { background: #22c55e; }
+    .dot.offline { background: #ef4444; animation: none; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .bots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+    .bot { background: #f8f9fa; padding: 1rem; border-radius: 6px; text-align: center; }
+    .bot-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .loading { text-align: center; padding: 3rem; color: #666; }
+    .error { color: #ef4444; padding: 1rem; background: #fee2e2; border-radius: 6px; }
+    .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    .link { display: block; padding: 1rem; background: #f8f9fa; border-radius: 6px; text-decoration: none; color: #1e2a3a; transition: background 0.2s; }
+    .link:hover { background: #e9ecef; }
+    .refresh { font-size: 0.875rem; color: #666; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Frequency & Form - Bot Dashboard</h1>
+    
+    <div class="card">
+      <h2>System Status</h2>
+      <div id="status" class="loading">Loading bot server status...</div>
+    </div>
+    
+    <div class="card">
+      <h2>Active Bots</h2>
+      <div id="bots" class="loading">Loading...</div>
+    </div>
+    
+    <div class="card">
+      <h2>Quick Links</h2>
+      <div class="links">
+        <a href="https://railway.app/dashboard" target="_blank" class="link">
+          🚂 Railway Dashboard - Logs & Metrics
+        </a>
+        <a href="https://supabase.com/dashboard" target="_blank" class="link">
+          💾 Supabase Database
+        </a>
+        <a href="https://vercel.com/dashboard" target="_blank" class="link">
+          ▲ Vercel Dashboard
+        </a>
+        <a href="https://frequency-form-production.up.railway.app/health" target="_blank" class="link">
+          🏥 Bot Health API (JSON)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadBotStatus() {
+      try {
+        const res = await fetch('https://frequency-form-production.up.railway.app/health');
+        const data = await res.json();
+        
+        // Update status
+        const statusEl = document.getElementById('status');
+        const isHealthy = data.status === 'healthy';
+        statusEl.innerHTML = `
+          <div class="status">
+            <div class="dot ${isHealthy ? 'online' : 'offline'}"></div>
+            <div>
+              <strong>${isHealthy ? 'Operational' : 'Offline'}</strong><br>
+              <small>Database: ${data.database || 'Unknown'} | Business: ${data.business || 'N/A'}</small>
+            </div>
+          </div>
+          <div class="refresh">Last updated: ${new Date().toLocaleTimeString()} | Auto-refreshes every 30s</div>
+        `;
+        
+        // Update bots
+        const botsEl = document.getElementById('bots');
+        if (data.bots && data.bots.length > 0) {
+          botsEl.innerHTML = `
+            <p style="margin-bottom: 1rem;">Found ${data.bots.length} active bots</p>
+            <div class="bots-grid">
+              ${data.bots.map(bot => `
+                <div class="bot">
+                  <div class="bot-icon">🤖</div>
+                  <strong>${bot}</strong>
+                  <div style="font-size: 0.75rem; color: #666; margin-top: 0.5rem;">Online</div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        } else {
+          botsEl.innerHTML = '<p>No active bots found</p>';
+        }
+      } catch (err) {
+        document.getElementById('status').innerHTML = `
+          <div class="error">
+            Failed to connect to bot server: ${err.message}<br>
+            <small>The bot server may be offline or redeploying</small>
+          </div>
+        `;
+        document.getElementById('bots').innerHTML = '<div class="error">Unable to load bot data</div>';
+      }
+    }
+    
+    // Load immediately
+    loadBotStatus();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadBotStatus, 30000);
+  </script>
+</body>
+</html>
