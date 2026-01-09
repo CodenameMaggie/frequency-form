@@ -50,6 +50,18 @@ export default function Header() {
               >
                 About
               </Link>
+              <Link
+                href="/admin/login"
+                className="font-sans text-[11px] tracking-[0.2em] uppercase text-[#5a6a7a] hover:text-[#1e2a3a] transition-colors"
+              >
+                Admin
+              </Link>
+              <Link
+                href="/seller/login"
+                className="font-sans text-[11px] tracking-[0.2em] uppercase text-[#5a6a7a] hover:text-[#1e2a3a] transition-colors"
+              >
+                Seller
+              </Link>
             </div>
 
             {/* Cart icon */}

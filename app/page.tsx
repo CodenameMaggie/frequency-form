@@ -1,26 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-
 export default function HomePage() {
   return (
     <main className="min-h-screen">
-      {/* Header Navigation */}
-      <header className="absolute top-0 left-0 right-0 z-50 px-6 py-5">
-        <div className="max-w-[1200px] mx-auto flex justify-between items-center">
-          <Link href="/" className="font-serif text-sm tracking-[0.15em] uppercase text-[#1e2a3a] hover:text-[#b8a888] transition-colors">
-            F&F
-          </Link>
-          <nav className="flex gap-6 items-center">
-            <Link href="/admin/login" className="font-sans text-[11px] tracking-[0.1em] uppercase text-[#5a6a7a] hover:text-[#1e2a3a] transition-colors">
-              Admin
-            </Link>
-            <Link href="/seller/login" className="font-sans text-[11px] tracking-[0.1em] uppercase text-[#5a6a7a] hover:text-[#1e2a3a] transition-colors">
-              Seller
-            </Link>
-          </nav>
-        </div>
-      </header>
       {/* Hero Section */}
       <section className="max-w-[900px] mx-auto px-6 pt-[60px] pb-20 text-center">
         {/* Hero Line */}
