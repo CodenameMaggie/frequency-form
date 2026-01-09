@@ -28,7 +28,7 @@ export default function HomePage() {
         </div>
 
         {/* Hero Text */}
-        <p className="font-sans text-base leading-[2.2] text-[#5a6a7a] max-w-[520px] mx-auto font-light text-center">
+        <p className="font-sans text-base leading-[1.7] text-[#5a6a7a] max-w-[520px] mx-auto font-light text-center">
           Curated natural fiber garments for women and men. Each piece selected not just for its beauty, but for its frequency—the invisible energy that touches your skin and shapes how you feel.
         </p>
       </section>
