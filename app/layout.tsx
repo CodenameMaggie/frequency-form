@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   title: "Frequency & Form | Dress in Alignment",
   description: "Curated natural fiber clothing based on fabric frequency science. Healing-tier fabrics at 5,000 Hz. Foundation essentials in organic cotton. Never synthetics.",
   keywords: ["natural fiber clothing", "linen", "organic cotton", "cashmere", "wool", "silk", "sustainable fashion"],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: '/apple-icon.png',
+  },
 };
 
 export default function RootLayout({
