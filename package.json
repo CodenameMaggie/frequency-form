@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start -p ${PORT:-3000}",
     "start:bots": "node server/bot-server.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pinterest:automate": "npx tsx scripts/pinterest-automation.ts",
+    "pinterest:boards": "npx tsx scripts/pinterest-automation.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
@@ -49,6 +51,7 @@
   },
   "devDependencies": {
     "eslint": "^9",
-    "eslint-config-next": "16.1.1"
+    "eslint-config-next": "16.1.1",
+    "tsx": "^4.21.0"
   }
 }
