@@ -8,8 +8,8 @@
     "start": "next start -p ${PORT:-3000}",
     "start:bots": "node server/bot-server.js",
     "lint": "eslint",
-    "pinterest:automate": "npx tsx scripts/pinterest-automation.ts",
-    "pinterest:boards": "npx tsx scripts/pinterest-automation.ts"
+    "pinterest:automate": "npx tsx -r dotenv/config scripts/pinterest-automation.ts dotenv_config_path=.env.local",
+    "pinterest:boards": "npx tsx -r dotenv/config scripts/pinterest-automation.ts dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",

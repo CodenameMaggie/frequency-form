@@ -4,6 +4,7 @@
  * Uses Pinterest API v5
  */
 
+import 'dotenv/config';
 import axios from 'axios';
 import { PRODUCTS } from '../lib/products';
 
