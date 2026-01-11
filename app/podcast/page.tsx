@@ -13,10 +13,10 @@ export default function PodcastPage() {
             <Mic2 className="w-16 h-16 text-[#c9a962]" />
           </div>
           <h1 className="text-5xl md:text-6xl font-serif mb-6">
-            The Sovereign Designer Podcast
+            Modern Mondays
           </h1>
           <p className="text-xl md:text-2xl text-[#e8dcc4] mb-8 max-w-3xl mx-auto">
-            Conversations about natural materials, self-sufficiency, lasting systems, and the art of sovereign living.
+            Elegant conversations about natural fiber fashion, timeless style, and the art of dressing in alignment.
           </p>
           <a
             href="https://calendly.com/maggie-maggieforbesstrategies/podcast-call-1"
@@ -37,12 +37,12 @@ export default function PodcastPage() {
       <section className="py-20 bg-[#f8f6f3]">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-4xl font-serif text-[#1a3a2f] text-center mb-6">
-            About the Show
+            About Modern Mondays
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
-            The Sovereign Designer explores the science, craft, and philosophy behind living in alignment with natural systems.
-            From the frequency of fabrics to the timber in our homes, we interview experts who understand that what surrounds
-            us shapes our energy, health, and sovereignty.
+            Every Monday, we explore the intersection of European elegance and fabric science. From Italian linen ateliers
+            to Parisian style architects, we interview the designers, tastemakers, and artisans who understand that
+            true luxury lives in natural fibers—and that what touches your skin shapes how you feel.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -52,27 +52,27 @@ export default function PodcastPage() {
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start gap-2">
                   <span className="text-[#c9a962] mt-1">•</span>
-                  <span>Fabric frequency science & natural fibers</span>
+                  <span>European style & timeless wardrobe essentials</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#c9a962] mt-1">•</span>
-                  <span>Timber frame homes & natural building</span>
+                  <span>The art of Italian linen & French tailoring</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#c9a962] mt-1">•</span>
-                  <span>Self-sufficiency systems & homesteading</span>
+                  <span>Fabric frequency science & healing textiles</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#c9a962] mt-1">•</span>
-                  <span>Lasting, regenerative design principles</span>
+                  <span>Cashmere, wool, and luxury natural fibers</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#c9a962] mt-1">•</span>
-                  <span>Sovereign living & conscious entrepreneurship</span>
+                  <span>Building a capsule wardrobe with intention</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#c9a962] mt-1">•</span>
-                  <span>Ancestral wisdom meets modern science</span>
+                  <span>Fashion designers prioritizing natural materials</span>
                 </li>
               </ul>
             </div>
@@ -81,13 +81,13 @@ export default function PodcastPage() {
               <Mic2 className="w-10 h-10 text-[#c9a962] mb-4" />
               <h3 className="text-xl font-serif text-[#1a3a2f] mb-3">Our Audience</h3>
               <p className="text-gray-700 mb-4">
-                Conscious creators, homesteaders, natural fiber enthusiasts, sustainable builders,
-                and anyone designing a life aligned with natural principles.
+                Style-conscious women and men who value timeless elegance over trends. European fashion enthusiasts,
+                natural fiber devotees, and discerning shoppers building wardrobes that elevate their energy.
               </p>
               <div className="bg-[#f8f6f3] p-4 rounded-sm">
                 <p className="text-sm text-gray-600 italic">
-                  "People who understand that what touches their skin, surrounds their home,
-                  and fills their days matters to their energy and sovereignty."
+                  "People who understand that true style is timeless, that luxury lives in natural fibers,
+                  and that what touches your skin shapes how you move through the world."
                 </p>
               </div>
             </div>
@@ -104,28 +104,28 @@ export default function PodcastPage() {
           <div className="grid md:grid-cols-2 gap-6">
             {[
               {
-                title: 'Natural Materials Expert',
-                desc: 'You understand fabric frequencies, natural building materials, or the science of what surrounds us'
+                title: 'Fashion Designer',
+                desc: 'You create elegant collections using linen, wool, cashmere, or other natural fibers'
               },
               {
-                title: 'Sustainable Craftsperson',
-                desc: 'You create lasting goods using traditional methods—textiles, timber, tools, or systems'
+                title: 'Style Architect',
+                desc: 'You teach wardrobe building, capsule collections, or European dressing principles'
               },
               {
-                title: 'Self-Sufficiency Practitioner',
-                desc: 'You live or teach homesteading, regenerative agriculture, or off-grid systems'
+                title: 'Natural Fiber Producer',
+                desc: 'You source, mill, or craft Italian linen, French wool, or luxury natural textiles'
               },
               {
-                title: 'Conscious Entrepreneur',
-                desc: 'You built a business aligned with natural principles and sovereign living'
+                title: 'Fashion Historian',
+                desc: 'You study timeless style, European fashion heritage, or the evolution of natural fiber clothing'
               },
               {
-                title: 'Health & Energy Researcher',
-                desc: 'You study how materials, frequencies, or environments affect human health'
+                title: 'Sustainable Luxury Expert',
+                desc: 'You balance elegance with ethics, proving natural fibers are the ultimate luxury'
               },
               {
-                title: 'Traditional Skills Teacher',
-                desc: 'You preserve and teach ancestral crafts, building methods, or land practices'
+                title: 'Fabric Science Researcher',
+                desc: 'You study textile frequencies, biocompatibility, or how materials affect well-being'
               },
             ].map((guest, idx) => (
               <div key={idx} className="flex items-start gap-4 bg-[#f8f6f3] p-6 rounded-sm">
@@ -193,10 +193,10 @@ export default function PodcastPage() {
       <section className="py-20 bg-gradient-to-b from-[#1a3a2f] to-[#1a3a2f]/90 text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-serif mb-6">
-            Ready to Share Your Story?
+            Ready to Join Us on Monday?
           </h2>
           <p className="text-lg text-[#e8dcc4] mb-8">
-            If you're passionate about natural materials, self-sufficiency, or sovereign living,
+            If you're shaping the future of natural fiber fashion, European style, or conscious luxury,
             our audience wants to hear from you.
           </p>
           <a
@@ -223,13 +223,13 @@ export default function PodcastPage() {
           <div className="bg-[#f8f6f3] p-8 rounded-sm">
             <h3 className="text-2xl font-serif text-[#1a3a2f] mb-3">Maggie Forbes</h3>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Founder of Frequency & Form and advocate for sovereign living through natural systems.
-              Maggie explores the intersection of science and ancestral wisdom—from the frequency of
-              fabrics to the timber in our homes.
+              Founder of Frequency & Form and curator of timeless European elegance. Maggie believes true luxury
+              lives in natural fibers—that the 5,000 Hz frequency of Italian linen and French cashmere elevates
+              not just your wardrobe, but your energy.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Her mission: help conscious individuals design lives aligned with natural principles,
-              one conversation at a time.
+              Her mission: bring back classy, intentional dressing through conversations with the designers,
+              artisans, and tastemakers who understand that style and science are inseparable.
             </p>
           </div>
         </div>
