@@ -302,6 +302,15 @@ cron.schedule('0 10,16 * * *', () => {
   callEndpoint('/api/bots/henry-partner-discovery', 'European Partner Discovery');
 });
 
+// HENRY SEAMSTRESS DISCOVERY - Twice Daily at 11 AM and 5 PM
+// Discovers custom clothing manufacturers, seamstresses, pattern makers
+// for F&F Style Studio custom garment fulfillment
+// Sources: Etsy, Instagram, Google Maps, Sewport, maker networks
+cron.schedule('0 11,17 * * *', () => {
+  console.log('\n[Cron] ⏰ Henry Seamstress Discovery - Twice daily trigger');
+  callEndpoint('/api/bots/henry-seamstress-discovery', 'Custom Clothing Manufacturer Discovery');
+});
+
 // =====================================================================
 // FF STYLE STUDIO BOTS
 // DISABLED: No AI until making money
@@ -360,7 +369,8 @@ setTimeout(async () => {
   console.log('\n🌿 FREQUENCY & FORM MARKETPLACE (AI-Powered):');
   console.log('  - Annie Pinterest Poster: Twice daily (9 AM, 3 PM) 📌');
   console.log('  - Henry Partner Discovery: Twice daily (10 AM, 4 PM) 🇪🇺');
-  console.log('  - Sourcing: European natural fiber brands');
+  console.log('  - Henry Seamstress Discovery: Twice daily (11 AM, 5 PM) 🧵');
+  console.log('  - Sourcing: European brands + Custom clothing manufacturers');
   console.log('  - Posting: Pinterest content for F&F marketing');
   console.log('\n❌ OTHER AI BOTS DISABLED (Until making money):');
   console.log('  - Dan AI features (scraper, outreach, social)');
