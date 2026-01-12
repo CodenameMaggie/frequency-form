@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Mail, CheckCircle2, XCircle, Settings } from 'lucide-react';
 
@@ -20,7 +20,7 @@ interface PreferencesData {
   critical_categories: string[];
 }
 
-export default function UnsubscribePage() {
+function UnsubscribePageContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const category = searchParams.get('category');
@@ -369,5 +369,20 @@ export default function UnsubscribePage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function UnsubscribePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#f8f6f3] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-[#c9a962] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Loading your preferences...</p>
+        </div>
+      </div>
+    }>
+      <UnsubscribePageContent />
+    </Suspense>
   );
 }
