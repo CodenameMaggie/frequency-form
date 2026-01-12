@@ -87,10 +87,36 @@ CREATE INDEX IF NOT EXISTS idx_tasks_tenant ON tasks(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status);
 CREATE INDEX IF NOT EXISTS idx_tasks_assigned_to ON tasks(assigned_to);
 
--- Add title column to social_posts if missing (for Pinterest pins)
+-- Create social_posts table if missing (for Pinterest and other social platforms)
+CREATE TABLE IF NOT EXISTS social_posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  platform TEXT NOT NULL CHECK (platform IN ('linkedin', 'twitter', 'facebook', 'instagram', 'pinterest')),
+  post_type TEXT DEFAULT 'ai_generated',
+  title VARCHAR(255), -- For Pinterest pins
+  content TEXT NOT NULL,
+  media_urls TEXT[],
+  hashtags TEXT[],
+  status TEXT DEFAULT 'draft' CHECK (status IN ('draft', 'needs_revision', 'scheduled', 'published', 'failed')),
+  scheduled_for TIMESTAMPTZ,
+  published_at TIMESTAMPTZ,
+  approved_by VARCHAR,
+  approved_at TIMESTAMPTZ,
+  rejection_reason TEXT,
+  brand_compliance_notes TEXT,
+  utm_params JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Add title column to existing social_posts table if missing (for Pinterest pins)
 DO $$
 BEGIN
-  IF NOT EXISTS (
+  IF EXISTS (
+    SELECT 1 FROM information_schema.tables
+    WHERE table_name = 'social_posts'
+  ) AND NOT EXISTS (
     SELECT 1 FROM information_schema.columns
     WHERE table_name = 'social_posts' AND column_name = 'title'
   ) THEN
@@ -98,6 +124,27 @@ BEGIN
   END IF;
 END $$;
 
+-- Add Pinterest to platform check if table exists but doesn't support it
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.tables
+    WHERE table_name = 'social_posts'
+  ) THEN
+    -- Drop old constraint
+    ALTER TABLE social_posts DROP CONSTRAINT IF EXISTS social_posts_platform_check;
+    -- Add new constraint with Pinterest
+    ALTER TABLE social_posts ADD CONSTRAINT social_posts_platform_check
+      CHECK (platform IN ('linkedin', 'twitter', 'facebook', 'instagram', 'pinterest'));
+  END IF;
+END $$;
+
+-- Create index for social_posts
+CREATE INDEX IF NOT EXISTS idx_social_posts_tenant ON social_posts(tenant_id);
+CREATE INDEX IF NOT EXISTS idx_social_posts_platform ON social_posts(platform);
+CREATE INDEX IF NOT EXISTS idx_social_posts_status ON social_posts(status);
+
 -- Grant permissions
 GRANT ALL ON ff_partners TO postgres;
 GRANT ALL ON tasks TO postgres;
+GRANT ALL ON social_posts TO postgres;
