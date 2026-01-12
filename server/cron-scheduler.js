@@ -281,6 +281,28 @@ cron.schedule('0 */8 * * *', () => {
 // });
 
 // =====================================================================
+// FREQUENCY & FORM MARKETPLACE BOTS
+// Sourcing (Partners) + Posting (Pinterest Marketing)
+// =====================================================================
+
+// ANNIE PINTEREST POSTER - Twice Daily at 9 AM and 3 PM
+// Creates and posts Pinterest content for F&F natural fiber fashion
+// Content pillars: European fashion, natural fiber education, seasonal styling,
+// sustainable fashion, fabric frequency science, designer spotlights
+cron.schedule('0 9,15 * * *', () => {
+  console.log('\n[Cron] ⏰ Annie Pinterest Poster - Twice daily trigger');
+  callEndpoint('/api/bots/annie-pinterest-poster', 'Annie Pinterest Content Generation');
+});
+
+// HENRY PARTNER DISCOVERY - Twice Daily at 10 AM and 4 PM
+// Discovers European natural fiber designers and brands for F&F marketplace
+// Sources: Pinterest, Instagram, sustainable fashion directories, trade shows
+cron.schedule('0 10,16 * * *', () => {
+  console.log('\n[Cron] ⏰ Henry Partner Discovery - Twice daily trigger');
+  callEndpoint('/api/bots/henry-partner-discovery', 'European Partner Discovery');
+});
+
+// =====================================================================
 // FF STYLE STUDIO BOTS
 // DISABLED: No AI until making money
 // =====================================================================
@@ -320,7 +342,7 @@ cron.schedule('0 */8 * * *', () => {
 // STARTUP: Run initial checks
 // =====================================================================
 setTimeout(async () => {
-  console.log('\n[Cron Scheduler] ✅ Business Matching System Active (No AI - Zero Cost)');
+  console.log('\n[Cron Scheduler] ✅ Frequency & Form Marketplace Automation Active');
   console.log('[Cron Scheduler] 📊 Schedule Summary:');
   console.log('\n🎯 BUSINESS MATCHING (Rule-based, No AI):');
   console.log('  - Lead Qualification: Every 15 minutes 📋');
@@ -335,13 +357,18 @@ setTimeout(async () => {
   console.log('  - Deal Pipeline Processor: Every 30 minutes');
   console.log('  - Follow-up Processor: Every 6 hours');
   console.log('  - Auto Follow-up: Every 8 hours');
-  console.log('\n❌ AI BOTS DISABLED (Until making money):');
-  console.log('  - All Dan AI features (scraper, outreach, social)');
-  console.log('  - All Henry AI features (goals, tickets)');
-  console.log('  - All Dave AI features (proposals, tracking)');
-  console.log('  - All Annie AI features (onboarding, support)');
-  console.log('  - All Alex AI features (monitoring)');
-  console.log('  - All FF Style Studio AI features');
+  console.log('\n🌿 FREQUENCY & FORM MARKETPLACE (AI-Powered):');
+  console.log('  - Annie Pinterest Poster: Twice daily (9 AM, 3 PM) 📌');
+  console.log('  - Henry Partner Discovery: Twice daily (10 AM, 4 PM) 🇪🇺');
+  console.log('  - Sourcing: European natural fiber brands');
+  console.log('  - Posting: Pinterest content for F&F marketing');
+  console.log('\n❌ OTHER AI BOTS DISABLED (Until making money):');
+  console.log('  - Dan AI features (scraper, outreach, social)');
+  console.log('  - Henry AI features (goals, tickets)');
+  console.log('  - Dave AI features (proposals, tracking)');
+  console.log('  - Annie AI features (onboarding, support)');
+  console.log('  - Alex AI features (monitoring)');
+  console.log('  - FF Style Studio AI features');
   console.log('\n[Cron Scheduler] 💰 BUSINESS LOGIC MATCHING PIPELINE:');
   console.log('[Cron Scheduler] 📊 Leads → Qualify → Match Products → Route Orders');
   console.log('[Cron Scheduler] 💵 Zero AI cost until profitable\n');
