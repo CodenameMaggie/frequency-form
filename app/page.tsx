@@ -28,9 +28,23 @@ export default function HomePage() {
         </div>
 
         {/* Hero Text */}
-        <p className="font-sans text-base leading-[1.7] text-[#5a6a7a] max-w-[520px] mx-auto font-light text-center">
+        <p className="font-sans text-base leading-[1.7] text-[#5a6a7a] max-w-[520px] mx-auto font-light text-center mb-8">
           Curated natural fiber garments for women and men. Each piece selected not just for its beauty, but for its frequency—the invisible energy that touches your skin and shapes how you feel.
         </p>
+
+        {/* Style Studio CTA */}
+        <div className="mt-10">
+          <a
+            href="/ff/style-studio"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#d4c8a8] text-[#1e2a3a] text-[11px] font-sans font-medium tracking-[0.25em] uppercase transition-all hover:bg-[#c9b896] hover:scale-105"
+          >
+            <span className="text-lg">✨</span>
+            <span>AI Style Studio</span>
+          </a>
+          <p className="mt-3 font-sans text-xs text-[#b8a888] italic">
+            Body scan · Color analysis · Custom designs · Virtual closet
+          </p>
+        </div>
       </section>
 
       {/* The Science Section */}
