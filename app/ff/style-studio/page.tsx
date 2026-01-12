@@ -8,8 +8,9 @@
  */
 
 import { useState, useEffect } from 'react';
-import DesignCanvas from '@/app/components/ff/DesignCanvas';
-import ThreeDPreviewViewer from '@/app/components/ff/ThreeDPreviewViewer';
+// TODO: Enable these when 3D features are ready
+// import DesignCanvas from '@/app/components/ff/DesignCanvas';
+// import ThreeDPreviewViewer from '@/app/components/ff/ThreeDPreviewViewer';
 
 export default function FFStyleStudioPage() {
   const [activeTab, setActiveTab] = useState<'scan' | 'color' | 'design' | 'closet'>('scan');
@@ -194,12 +195,16 @@ export default function FFStyleStudioPage() {
                 </div>
 
                 {/* 3D Preview */}
-                <div>
-                  <ThreeDPreviewViewer
-                    bodyType={bodyMeasurements.body_type}
-                    measurements={bodyMeasurements}
-                    garmentType="dress"
-                  />
+                <div style={{
+                  backgroundColor: '#f8f8f8',
+                  padding: '3rem',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                  border: '2px dashed #ddd'
+                }}>
+                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎨</div>
+                  <h3 style={{ color: '#666', marginBottom: '0.5rem' }}>3D Preview Coming Soon</h3>
+                  <p style={{ color: '#999' }}>Interactive 3D garment visualization will be available here</p>
                 </div>
               </div>
             ) : (
@@ -386,11 +391,24 @@ export default function FFStyleStudioPage() {
                 borderRadius: '12px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
               }}>
-                <DesignCanvas
-                  onCanvasChange={(json) => {
-                    console.log('Canvas updated:', json);
-                  }}
-                />
+                {/* Design Canvas Placeholder */}
+                <div style={{
+                  backgroundColor: '#f8f8f8',
+                  padding: '4rem 2rem',
+                  borderRadius: '8px',
+                  textAlign: 'center',
+                  border: '2px dashed #ddd',
+                  minHeight: '400px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✂️</div>
+                  <h3 style={{ color: '#666', marginBottom: '0.5rem' }}>Design Canvas Coming Soon</h3>
+                  <p style={{ color: '#999', marginBottom: '0' }}>Interactive garment design tools will be available here</p>
+                  <p style={{ color: '#999', fontSize: '0.875rem' }}>Draw custom patterns, add embellishments, choose fabrics</p>
+                </div>
               </div>
 
               {/* Options Panel */}
