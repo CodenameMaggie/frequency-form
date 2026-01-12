@@ -79,6 +79,15 @@ cron.schedule('*/10 * * * *', () => {
 });
 
 // =====================================================================
+// MAINFRAME SYNC PROCESSOR - Every 10 Minutes
+// Syncs bot actions, contacts, and tickets to MFS Suite Command Center
+// =====================================================================
+cron.schedule('*/10 * * * *', () => {
+  console.log('\n[Cron] ⏰ Mainframe Sync Processor - 10-minute trigger');
+  callEndpoint('/api/bots/mainframe-sync-processor', 'Mainframe Sync Processor');
+});
+
+// =====================================================================
 // EMAIL QUEUE PROCESSOR - Every 5 Minutes
 // Processes queued emails with retry logic
 // =====================================================================
@@ -318,6 +327,7 @@ setTimeout(async () => {
   console.log('  - Product-Buyer Matching: Every 30 minutes 🤝');
   console.log('  - Order-Supplier Matching: Every 10 minutes 📦');
   console.log('\n📧 AUTOMATION (No AI):');
+  console.log('  - Mainframe Sync Processor: Every 10 minutes 🔄');
   console.log('  - Email Queue Processor: Every 5 minutes');
   console.log('  - Dan Populate Queue: Every 15 minutes');
   console.log('  - Convert Leads to Contacts: Every hour');
