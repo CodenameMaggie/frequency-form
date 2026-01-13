@@ -4,9 +4,7 @@
  */
 
 import '@shopify/shopify-api/adapters/node';
-import { shopifyApi } from '@shopify/shopify-api';
-
-const LATEST_API_VERSION = '2024-10';
+import { shopifyApi, ApiVersion } from '@shopify/shopify-api';
 
 const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
 const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN;
@@ -37,7 +35,7 @@ const shopify = SHOPIFY_API_KEY && SHOPIFY_API_SECRET ? shopifyApi({
     'write_price_rules'
   ],
   hostName: SHOPIFY_STORE_DOMAIN || '',
-  apiVersion: LATEST_API_VERSION,
+  apiVersion: ApiVersion.October24,
   isEmbeddedApp: false,
 }) : null;
 
@@ -69,7 +67,7 @@ export async function shopifyRequest(endpoint: string, method: string = 'GET', d
     throw new Error('Shopify not configured');
   }
 
-  const url = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/${LATEST_API_VERSION}/${endpoint}`;
+  const url = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/2024-10/${endpoint}`;
 
   const response = await fetch(url, {
     method,
