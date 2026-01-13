@@ -11,21 +11,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { getPinTemplates } from '@/lib/ff-content-templates';
 
-// F&F Database
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-// MFS Central Database
-const mfsSupabase = createClient(
-  process.env.MFS_SUPABASE_URL!,
-  process.env.MFS_SUPABASE_SERVICE_ROLE_KEY!
-);
-
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
-const PINTEREST_ACCESS_TOKEN = process.env.PINTEREST_ACCESS_TOKEN;
-const PINTEREST_BOARD_ID = process.env.PINTEREST_BOARD_ID;
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,6 +27,20 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('[Dan Pinterest] Starting Pinterest content generation...');
+
+    // Create Supabase clients
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    const mfsSupabase = createClient(
+      process.env.MFS_SUPABASE_URL!,
+      process.env.MFS_SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    const PINTEREST_ACCESS_TOKEN = process.env.PINTEREST_ACCESS_TOKEN;
+    const PINTEREST_BOARD_ID = process.env.PINTEREST_BOARD_ID;
 
     // Get current day for template rotation
     const now = new Date();
