@@ -3,54 +3,11 @@
  * Handles all Shopify API interactions
  */
 
-import '@shopify/shopify-api/adapters/node';
-import { shopifyApi, ApiVersion } from '@shopify/shopify-api';
-
 const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
 const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN;
-const SHOPIFY_API_KEY = process.env.SHOPIFY_API_KEY;
-const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
 
 if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_ACCESS_TOKEN) {
   console.warn('[Shopify Client] Shopify credentials not configured - integration disabled');
-}
-
-// Initialize Shopify API client
-const shopify = SHOPIFY_API_KEY && SHOPIFY_API_SECRET ? shopifyApi({
-  apiKey: SHOPIFY_API_KEY,
-  apiSecretKey: SHOPIFY_API_SECRET,
-  scopes: [
-    'read_products',
-    'write_products',
-    'read_orders',
-    'write_orders',
-    'read_customers',
-    'write_customers',
-    'read_inventory',
-    'write_inventory',
-    'read_fulfillments',
-    'write_fulfillments',
-    'read_locations',
-    'read_price_rules',
-    'write_price_rules'
-  ],
-  hostName: SHOPIFY_STORE_DOMAIN || '',
-  apiVersion: ApiVersion.October24,
-  isEmbeddedApp: false,
-}) : null;
-
-/**
- * Create Shopify REST client for API requests
- */
-export function createShopifyClient() {
-  if (!shopify || !SHOPIFY_STORE_DOMAIN || !SHOPIFY_ACCESS_TOKEN) {
-    throw new Error('Shopify not configured');
-  }
-
-  const session = shopify.session.customAppSession(SHOPIFY_STORE_DOMAIN);
-  session.accessToken = SHOPIFY_ACCESS_TOKEN;
-
-  return new shopify.clients.Rest({ session });
 }
 
 /**
