@@ -47,14 +47,8 @@ export function createShopifyClient() {
     throw new Error('Shopify not configured');
   }
 
-  const session = {
-    shop: SHOPIFY_STORE_DOMAIN,
-    accessToken: SHOPIFY_ACCESS_TOKEN,
-    state: 'active',
-    isOnline: false,
-    scope: 'read_products,write_products,read_orders,write_orders,read_customers,write_customers',
-    expires: undefined,
-  };
+  const session = shopify.session.customAppSession(SHOPIFY_STORE_DOMAIN);
+  session.accessToken = SHOPIFY_ACCESS_TOKEN;
 
   return new shopify.clients.Rest({ session });
 }
