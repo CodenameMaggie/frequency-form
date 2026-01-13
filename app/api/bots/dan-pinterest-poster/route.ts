@@ -14,6 +14,20 @@ import { getPinTemplates } from '@/lib/ff-content-templates';
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
 
 export async function POST(request: NextRequest) {
+  // Create Supabase clients at function scope
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const mfsSupabase = createClient(
+    process.env.MFS_SUPABASE_URL!,
+    process.env.MFS_SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const PINTEREST_ACCESS_TOKEN = process.env.PINTEREST_ACCESS_TOKEN;
+  const PINTEREST_BOARD_ID = process.env.PINTEREST_BOARD_ID;
+
   try {
     // Verify cron secret
     const { searchParams } = new URL(request.url);
@@ -27,20 +41,6 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('[Dan Pinterest] Starting Pinterest content generation...');
-
-    // Create Supabase clients
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-
-    const mfsSupabase = createClient(
-      process.env.MFS_SUPABASE_URL!,
-      process.env.MFS_SUPABASE_SERVICE_ROLE_KEY!
-    );
-
-    const PINTEREST_ACCESS_TOKEN = process.env.PINTEREST_ACCESS_TOKEN;
-    const PINTEREST_BOARD_ID = process.env.PINTEREST_BOARD_ID;
 
     // Get current day for template rotation
     const now = new Date();
