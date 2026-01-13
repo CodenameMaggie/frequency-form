@@ -177,22 +177,22 @@ cron.schedule('0 * * * *', () => {
 // =====================================================================
 // DAN (Marketing) - Lead Generator - Every 2 Hours
 // Creates marketing strategies and campaigns
-// DISABLED: No AI until making money
+// ENABLED: For $10K wholesale arbitrage campaign
 // =====================================================================
-// cron.schedule('0 */2 * * *', () => {
-//   console.log('\n[Cron] ⏰ Dan Lead Generator - 2-hour trigger');
-//   callEndpoint('/api/dan-lead-generator', 'Dan Lead Generator');
-// });
+cron.schedule('0 */2 * * *', () => {
+  console.log('\n[Cron] ⏰ Dan Lead Generator - 2-hour trigger');
+  callEndpoint('/api/bots/dan-lead-generator', 'Dan Lead Generator');
+});
 
 // =====================================================================
 // DAN (Marketing) - Auto Outreach - Hourly During Business Hours
 // Sends personalized emails to leads automatically (9am-5pm Mon-Fri)
-// DISABLED: No AI until making money
+// ENABLED: For $10K wholesale arbitrage campaign
 // =====================================================================
-// cron.schedule('0 9-17 * * 1-5', () => {
-//   console.log('\n[Cron] ⏰ Dan Auto Outreach - Hourly (business hours)');
-//   callEndpoint('/api/dan-auto-outreach', 'Dan Auto Outreach');
-// });
+cron.schedule('0 9-17 * * 1-5', () => {
+  console.log('\n[Cron] ⏰ Dan Auto Outreach - Hourly (business hours)');
+  callEndpoint('/api/dan-auto-outreach', 'Dan Auto Outreach');
+});
 
 // =====================================================================
 // DAN (Marketing) - Auto Social Posts - Daily at 9 AM
