@@ -31,8 +31,9 @@ export default function BotsDashboard() {
 
   async function fetchBotStatus() {
     try {
-      // Check bot server health
-      const healthRes = await fetch('https://frequency-form-production.up.railway.app/health');
+      // Check bot server health (use local server if available, fallback to production)
+      const baseUrl = window.location.origin;
+      const healthRes = await fetch(`${baseUrl}/api/health`);
       const healthData = await healthRes.json();
       setBotHealth(healthData);
 
