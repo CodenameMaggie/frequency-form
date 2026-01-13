@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { products } = await ShopifyClient.getProducts(250);
-    console.log(\`[Shopify Sync] Fetched \${products.length} products from Shopify\`);
+    console.log(`[Shopify Sync] Fetched ${products.length} products from Shopify`);
 
     let syncedCount = 0;
     let errorCount = 0;
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
             })
             .eq('id', existing.id);
 
-          console.log(\`[Shopify Sync] Updated product: \${product.title}\`);
+          console.log(`[Shopify Sync] Updated product: ${product.title}`);
         } else {
           await supabase
             .from('shopify_products')
@@ -67,13 +67,13 @@ export async function POST(request: NextRequest) {
               last_synced_at: new Date().toISOString(),
             });
 
-          console.log(\`[Shopify Sync] Created product: \${product.title}\`);
+          console.log(`[Shopify Sync] Created product: ${product.title}`);
         }
 
         syncedCount++;
 
       } catch (error: any) {
-        console.error(\`[Shopify Sync] Error syncing product \${product.title}:\`, error.message);
+        console.error(`[Shopify Sync] Error syncing product ${product.title}:`, error.message);
         errorCount++;
       }
     }
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         tenant_id: TENANT_ID,
         sync_type: 'product_sync',
         status: 'success',
-        message: \`Synced \${syncedCount} products from Shopify\`,
+        message: `Synced ${syncedCount} products from Shopify`,
         details: {
           synced_count: syncedCount,
           error_count: errorCount,
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
         },
       });
 
-    console.log(\`[Shopify Sync] Complete: \${syncedCount} synced, \${errorCount} errors\`);
+    console.log(`[Shopify Sync] Complete: ${syncedCount} synced, ${errorCount} errors`);
 
     return NextResponse.json({
       success: true,
