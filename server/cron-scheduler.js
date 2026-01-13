@@ -197,12 +197,12 @@ cron.schedule('0 9-17 * * 1-5', () => {
 // =====================================================================
 // DAN (Marketing) - Auto Social Posts - Daily at 9 AM
 // Creates and schedules social media posts for Twitter/LinkedIn/Facebook
-// DISABLED: No AI until making money
+// ENABLED: For $100K marketplace platform campaign
 // =====================================================================
-// cron.schedule('0 9 * * *', () => {
-//   console.log('\n[Cron] ⏰ Dan Auto Social Posts - Daily 9 AM trigger');
-//   callEndpoint('/api/dan-auto-social-posts', 'Dan Auto Social Posts');
-// });
+cron.schedule('0 9 * * *', () => {
+  console.log('\n[Cron] ⏰ Dan Auto Social Posts - Daily 9 AM trigger');
+  callEndpoint('/api/bots/dan-auto-social-posts', 'Dan Auto Social Posts');
+});
 
 // =====================================================================
 // SOCIAL POST PUBLISHER - Every 5 Minutes
@@ -263,12 +263,12 @@ cron.schedule('0 */8 * * *', () => {
 // =====================================================================
 // ANNIE AUTO ONBOARDING - Every 30 Minutes
 // Creates client accounts and sends welcome emails
-// DISABLED: No AI until making money
+// ENABLED: For $100K marketplace platform campaign
 // =====================================================================
-// cron.schedule('*/30 * * * *', () => {
-//   console.log('\n[Cron] ⏰ Annie Auto Onboarding - 30-minute trigger');
-//   callEndpoint('/api/annie-auto-onboarding', 'Annie Auto Onboarding');
-// });
+cron.schedule('*/30 * * * *', () => {
+  console.log('\n[Cron] ⏰ Annie Auto Onboarding - 30-minute trigger');
+  callEndpoint('/api/bots/annie-auto-onboarding', 'Annie Auto Onboarding');
+});
 
 // =====================================================================
 // ANNIE AUTO SUPPORT - Every Hour
