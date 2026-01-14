@@ -49,6 +49,19 @@ app.use((req, res, next) => {
 // HEALTH CHECK
 // =============================================================================
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Frequency & Form Bot Server',
+    status: 'running',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      bots: '/api/bots/*'
+    }
+  });
+});
+
 app.get('/health', async (req, res) => {
   try {
     // Test database connection
