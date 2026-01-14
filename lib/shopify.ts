@@ -1,11 +1,13 @@
 /**
  * Shopify Integration for Frequency & Form
  * Handles product sync, orders, and inventory management
+ * Supports OAuth token storage/retrieval
  */
 
-const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN; // e.g., 'frequency-and-form.myshopify.com'
-const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN; // Admin API access token
+import { createAdminSupabase } from './supabase-server';
+
 const SHOPIFY_API_VERSION = '2024-01';
+const DEFAULT_SHOP = 'maggie-forbes-steading.myshopify.com';
 
 interface ShopifyProduct {
   id: number;
@@ -27,9 +29,9 @@ interface ShopifyVariant {
   price: string;
   sku: string;
   inventory_quantity: number;
-  option1?: string; // Size
-  option2?: string; // Color
-  option3?: string; // Fabric
+  option1?: string;
+  option2?: string;
+  option3?: string;
 }
 
 interface ShopifyImage {
@@ -75,20 +77,52 @@ interface ShopifyAddress {
 }
 
 /**
- * Make authenticated request to Shopify Admin API
+ * Get access token from database or environment
  */
-async function shopifyRequest(endpoint: string, options: RequestInit = {}) {
-  if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_ACCESS_TOKEN) {
-    throw new Error('Shopify credentials not configured. Set SHOPIFY_STORE_DOMAIN and SHOPIFY_ACCESS_TOKEN in environment variables.');
+async function getAccessToken(shop: string = DEFAULT_SHOP): Promise<string | null> {
+  // First check environment variable
+  if (process.env.SHOPIFY_ACCESS_TOKEN) {
+    return process.env.SHOPIFY_ACCESS_TOKEN;
   }
 
-  const url = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/${endpoint}`;
+  // Then check database for OAuth token
+  try {
+    const supabase = createAdminSupabase();
+    const { data, error } = await supabase
+      .from('shopify_tokens')
+      .select('access_token')
+      .eq('shop_domain', shop)
+      .single();
+
+    if (error || !data) {
+      console.warn('[Shopify] No token found for shop:', shop);
+      return null;
+    }
+
+    return data.access_token;
+  } catch (error) {
+    console.error('[Shopify] Error retrieving token:', error);
+    return null;
+  }
+}
+
+/**
+ * Make authenticated request to Shopify Admin API
+ */
+async function shopifyRequest(endpoint: string, options: RequestInit = {}, shop: string = DEFAULT_SHOP) {
+  const accessToken = await getAccessToken(shop);
+
+  if (!accessToken) {
+    throw new Error(`Shopify not connected. Please authorize at /api/shopify/oauth?shop=${shop}`);
+  }
+
+  const url = `https://${shop}/admin/api/${SHOPIFY_API_VERSION}/${endpoint}`;
 
   const response = await fetch(url, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      'X-Shopify-Access-Token': SHOPIFY_ACCESS_TOKEN,
+      'X-Shopify-Access-Token': accessToken,
       ...options.headers,
     },
   });
@@ -99,6 +133,14 @@ async function shopifyRequest(endpoint: string, options: RequestInit = {}) {
   }
 
   return response.json();
+}
+
+/**
+ * Check if Shopify is connected
+ */
+export async function isShopifyConnected(shop: string = DEFAULT_SHOP): Promise<boolean> {
+  const token = await getAccessToken(shop);
+  return !!token;
 }
 
 /**
@@ -124,8 +166,8 @@ export async function createShopifyProduct(productData: {
   product_type: string;
   tags: string[];
   variants: Array<{
-    option1?: string; // Size
-    option2?: string; // Color
+    option1?: string;
+    option2?: string;
     price: string;
     sku: string;
     inventory_quantity: number;
@@ -210,7 +252,6 @@ export async function getShopifyLocations() {
 
 /**
  * Sync F&F product to Shopify
- * Maps internal F&F product structure to Shopify format
  */
 export async function syncProductToShopify(ffProduct: {
   name: string;
@@ -224,12 +265,10 @@ export async function syncProductToShopify(ffProduct: {
   colors: string[];
   sku_prefix: string;
 }): Promise<ShopifyProduct> {
-  // Determine product type based on fabric tier
   const productType = ffProduct.fabric_type === 'linen' || ffProduct.fabric_type === 'silk'
     ? 'Healing Tier'
     : 'Foundation';
 
-  // Create variants for each size/color combination
   const variants = [];
   for (const size of ffProduct.sizes) {
     for (const color of ffProduct.colors) {
@@ -239,19 +278,17 @@ export async function syncProductToShopify(ffProduct: {
         option3: ffProduct.fabric_type,
         price: ffProduct.base_price.toFixed(2),
         sku: `${ffProduct.sku_prefix}-${size.toUpperCase()}-${color.toUpperCase()}`,
-        inventory_quantity: 10, // Default starting inventory
+        inventory_quantity: 10,
       });
     }
   }
 
-  // Map images
   const images = ffProduct.images.map((src, index) => ({
     src,
     alt: `${ffProduct.name} - ${index + 1}`,
     position: index + 1,
   }));
 
-  // Create tags
   const tags = [
     'natural-fiber',
     ffProduct.fabric_type,
