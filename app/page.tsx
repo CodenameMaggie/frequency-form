@@ -41,7 +41,7 @@ export default function HomePage() {
             <span className="text-lg">✨</span>
             <span>AI Style Studio</span>
           </a>
-          <p className="mt-3 font-sans text-xs text-[#b8a888] italic">
+          <p className="mt-3 font-sans text-xs text-[#b8a888] italic text-center">
             Body scan · Color analysis · Custom designs · Virtual closet
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
               <span className="font-sans text-[8px] tracking-[0.25em] uppercase font-medium text-white opacity-70">Depleting</span>
             </div>
             <div className="flex-1 bg-[#1e2a3a] p-6 md:py-6 md:px-7 flex flex-col justify-center text-center">
-              <h3 className="font-serif text-lg font-normal mb-2 tracking-[0.05em] text-white">What We Never Carry</h3>
+              <h3 className="font-serif text-lg font-medium mb-2 tracking-[0.05em] text-white brightness-125">What We Never Carry</h3>
               <p className="font-sans text-[13px] font-light mb-3 text-white opacity-90">Polyester · Nylon · Acrylic · Rayon</p>
               <p className="font-sans text-xs font-light leading-relaxed text-white opacity-70">Synthetic fabrics measure at the same frequency as diseased tissue—just 15 Hz. They drain your natural energy rather than support it. We reject them entirely.</p>
             </div>
@@ -111,7 +111,7 @@ export default function HomePage() {
         </div>
 
         {/* Body Reference */}
-        <div className="text-center p-5 bg-[#f5f0e8] border-l-[3px] border-[#d4c8a8] mt-6">
+        <div className="text-left p-5 bg-[#f5f0e8] border-l-[3px] border-[#d4c8a8] mt-6">
           <p className="font-sans text-[13px] text-[#5a6a7a] font-light">
             The healthy human body resonates at <strong className="text-[#1e2a3a] font-medium">100 Hz</strong>. Everything you wear either elevates that frequency, matches it, or drains it.
           </p>
@@ -129,10 +129,10 @@ export default function HomePage() {
           <h2 className="font-serif text-[28px] font-light text-[#1e2a3a] mb-6 tracking-[0.05em]">
             The Linen & Wool Rule
           </h2>
-          <p className="font-sans text-[15px] leading-[1.7] text-[#5a6a7a] max-w-[520px] mx-auto mb-6 font-light text-center">
+          <p className="font-sans text-[15px] leading-[1.7] text-[#5a6a7a] max-w-[520px] mx-auto mb-6 font-light text-left">
             Ancient wisdom knew what science now confirms: linen and wool should never be worn together. Their energy flows in opposite directions—when combined, they cancel to zero.
           </p>
-          <p className="font-serif text-[13px] italic text-[#1e2a3a] max-w-[520px] mx-auto leading-relaxed text-center">
+          <p className="font-serif text-[13px] italic text-[#1e2a3a] max-w-[520px] mx-auto leading-relaxed text-left">
             Our curation ensures these fabrics are never paired. What touches your skin matters too much to leave to chance.
           </p>
         </div>
