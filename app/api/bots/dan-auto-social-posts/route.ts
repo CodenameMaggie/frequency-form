@@ -5,16 +5,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminSupabase } from '@/lib/supabase-server';
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001';
 
 export async function POST(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get('secret');

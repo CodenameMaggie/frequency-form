@@ -6,19 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-// F&F Database
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-// MFS Central Database
-const mfsSupabase = createClient(
-  process.env.MFS_SUPABASE_URL!,
-  process.env.MFS_SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminSupabase } from '@/lib/supabase-server';
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
 
@@ -95,6 +83,15 @@ const SAMPLE_BOUTIQUE_BUYERS = [
 ];
 
 export async function POST(request: NextRequest) {
+  const supabase = createAdminSupabase();
+
+  // MFS Central Database
+  const { createClient } = await import('@supabase/supabase-js');
+  const mfsSupabase = createClient(
+    process.env.MFS_SUPABASE_URL!,
+    process.env.MFS_SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   try {
     console.log('[Dan Lead Generator] Starting boutique buyer discovery...');
 

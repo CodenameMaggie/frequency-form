@@ -4,15 +4,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { createAdminSupabase } from '@/lib/supabase-server';
 
 // GET: Retrieve user's orders
 export async function GET(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
@@ -56,6 +52,7 @@ export async function GET(request: NextRequest) {
 
 // POST: Create new order
 export async function POST(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const body = await request.json();
     const {
@@ -159,6 +156,7 @@ export async function POST(request: NextRequest) {
 
 // PUT: Update order status (admin only in production)
 export async function PUT(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const body = await request.json();
     const { orderId, status, trackingNumber } = body;

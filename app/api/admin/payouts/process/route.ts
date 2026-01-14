@@ -1,14 +1,10 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
 
 // POST - Process a payout for a brand partner
 export async function POST(request: Request) {
   try {
+    const supabase = createAdminSupabase()
     const body = await request.json()
     const { brand_partner_id, sales_ids, amount, payment_method, payment_reference } = body
 

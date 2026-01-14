@@ -1,14 +1,10 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
 
 // GET - Get all brand applications
 export async function GET() {
   try {
+    const supabase = createAdminSupabase()
     const { data: applications, error } = await supabase
       .from('brand_applications')
       .select('*')
@@ -26,6 +22,7 @@ export async function GET() {
 // PUT - Update application status
 export async function PUT(request: Request) {
   try {
+    const supabase = createAdminSupabase()
     const body = await request.json()
     const { id, status, rejection_reason } = body
 

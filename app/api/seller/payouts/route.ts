@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
 
 // GET - Get seller payout stats and history
 export async function GET(request: Request) {
+  const supabase = createAdminSupabase();
   try {
     // Get current session
     const authHeader = request.headers.get('cookie')
@@ -15,6 +11,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { createClient } = await import('@supabase/supabase-js')
     const supabaseWithAuth = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminSupabase } from '@/lib/supabase-server';
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
 
@@ -14,6 +9,7 @@ const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
  */
 export async function GET(request: NextRequest) {
   try {
+    const supabase = createAdminSupabase();
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'all';
 
@@ -35,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     // Get last message for each conversation
     const conversationsWithPreview = await Promise.all(
-      conversations.map(async (conv) => {
+      (conversations as any[]).map(async (conv: any) => {
         // Get message count
         const { count } = await supabase
           .from('annie_messages')
@@ -62,9 +58,9 @@ export async function GET(request: NextRequest) {
         return {
           ...conv,
           message_count: count || 0,
-          last_message_preview: lastMsg?.message || 'No messages',
-          customer_name: profile?.name || null,
-          customer_email: profile?.email || null,
+          last_message_preview: (lastMsg as any)?.message || 'No messages',
+          customer_name: (profile as any)?.name || null,
+          customer_email: (profile as any)?.email || null,
         };
       })
     );

@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
 
 // GET - List seller's orders
 export async function GET(request: Request) {
+  const supabase = createAdminSupabase();
   try {
     // Get current session
     const authHeader = request.headers.get('cookie')
@@ -15,6 +11,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { createClient } = await import('@supabase/supabase-js')
     const supabaseWithAuth = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -47,7 +44,7 @@ export async function GET(request: Request) {
     }
 
     // Get orders/sales for this seller's products
-    // Join sales with products to get product details
+    // Join sales with products and orders to get full details
     const { data: sales, error } = await supabase
       .from('sales')
       .select(
@@ -60,9 +57,14 @@ export async function GET(request: Request) {
         brand_payout_amount,
         status,
         created_at,
+        quantity,
         products (
           name,
           image_url
+        ),
+        orders (
+          customer_email,
+          order_number
         )
       `
       )
@@ -77,11 +79,11 @@ export async function GET(request: Request) {
     // Transform data to match order interface
     const orders = (sales || []).map((sale: any, index: number) => ({
       id: sale.id,
-      order_number: sale.order_id?.substring(0, 8) || `ORD${1000 + index}`,
+      order_number: sale.orders?.order_number || sale.order_id?.substring(0, 8) || `ORD${1000 + index}`,
       product_name: sale.products?.name || 'Unknown Product',
       product_id: sale.product_id,
-      customer_email: 'customer@example.com', // TODO: Join with actual order data when available
-      quantity: 1, // TODO: Get from order items when available
+      customer_email: sale.orders?.customer_email || 'Not available',
+      quantity: sale.quantity || 1,
       sale_amount: sale.sale_amount,
       commission_amount: sale.commission_amount,
       brand_payout_amount: sale.brand_payout_amount,

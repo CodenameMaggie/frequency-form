@@ -6,12 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminSupabase } from '@/lib/supabase-server';
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
 
@@ -112,6 +107,7 @@ const SAMPLE_MANUFACTURERS = [
 ];
 
 export async function POST(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     console.log('[Henry Seamstress Discovery] Starting manufacturer discovery...');
 

@@ -4,11 +4,6 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { Users, Check, X, Clock } from 'lucide-react'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
-
 interface Partner {
   id: string
   brand_name: string
@@ -17,9 +12,17 @@ interface Partner {
   created_at: string
 }
 
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
+
 export default function AdminPartnersPage() {
   const [partners, setPartners] = useState<Partner[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const supabase = getSupabaseClient()
 
   useEffect(() => {
     fetchPartners()

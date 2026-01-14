@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
 
 // GET - Get all approved, active products for public marketplace
 export async function GET(request: Request) {
+  const supabase = createAdminSupabase();
   try {
     const { data: products, error } = await supabase
       .from('products')

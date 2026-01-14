@@ -1,13 +1,10 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
+import { sendNewProductAdminNotification } from '@/lib/email'
 
 // GET - List seller's products
 export async function GET(request: Request) {
+  const supabase = createAdminSupabase();
   try {
     // Get current session
     const authHeader = request.headers.get('cookie')
@@ -16,6 +13,7 @@ export async function GET(request: Request) {
     }
 
     // Create client with cookies to get session
+    const { createClient } = await import('@supabase/supabase-js')
     const supabaseWithAuth = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -68,6 +66,7 @@ export async function GET(request: Request) {
 
 // POST - Create new product
 export async function POST(request: Request) {
+  const supabase = createAdminSupabase();
   try {
     // Get current session
     const authHeader = request.headers.get('cookie')
@@ -75,6 +74,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { createClient } = await import('@supabase/supabase-js')
     const supabaseWithAuth = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -165,8 +165,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to create product' }, { status: 500 })
     }
 
-    // TODO: Send notification email to admin about new product pending approval
-    // (Will be added when RESEND_API_KEY is available)
+    // Send notification email to admin about new product pending approval
+    await sendNewProductAdminNotification({
+      productName: body.name,
+      sellerName: session.user.email || 'Unknown Seller',
+      sellerEmail: session.user.email || '',
+      price: body.price,
+      fabricType: body.fabricType,
+    })
 
     return NextResponse.json({
       success: true,

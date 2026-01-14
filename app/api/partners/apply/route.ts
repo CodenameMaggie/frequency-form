@@ -1,12 +1,9 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
+import { sendPartnerApplicationConfirmation, sendPartnerApplicationAdminNotification } from '@/lib/email'
 
 export async function POST(request: Request) {
+  const supabase = createAdminSupabase();
   try {
     const body = await request.json()
 
@@ -50,9 +47,23 @@ export async function POST(request: Request) {
       )
     }
 
-    // TODO: Send confirmation email to applicant
-    // TODO: Send notification email to admin
-    // (Will be added when RESEND_API_KEY is available)
+    // Send confirmation email to applicant
+    await sendPartnerApplicationConfirmation(
+      body.contactEmail,
+      body.brandName,
+      body.contactName
+    )
+
+    // Send notification email to admin
+    await sendPartnerApplicationAdminNotification({
+      businessName: body.brandName,
+      contactName: body.contactName,
+      email: body.contactEmail,
+      phone: body.contactPhone,
+      website: body.website,
+      productTypes: body.productTypes || [],
+      message: body.whyJoin,
+    })
 
     return NextResponse.json({
       success: true,

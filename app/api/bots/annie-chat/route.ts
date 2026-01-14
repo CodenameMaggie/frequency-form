@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminSupabase } from '@/lib/supabase-server';
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
 
@@ -26,6 +21,7 @@ interface CustomerContext {
  * NO AI - uses template matching and customer context
  */
 export async function POST(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const body = await request.json();
     const { message, conversationId, visitorId, context } = body;
@@ -40,10 +36,10 @@ export async function POST(request: NextRequest) {
     console.log('[Annie Chat] New message:', { conversationId, visitorId, message });
 
     // Get or create conversation
-    const conversation = await getOrCreateConversation(conversationId, visitorId, context);
+    const conversation = await getOrCreateConversation(conversationId, visitorId, context, supabase);
 
     // Get customer context (measurements, color profile, order history, etc.)
-    const customerContext = await getCustomerContext(visitorId, conversation.user_id);
+    const customerContext = await getCustomerContext(visitorId, conversation.user_id, supabase);
 
     // Store customer message
     await supabase.from('annie_messages').insert({
@@ -55,7 +51,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Generate Annie's response (NO AI - template matching)
-    const response = await generateAnnieResponse(message, customerContext, context);
+    const response = await generateAnnieResponse(message, customerContext, context, supabase);
 
     // Store Annie's response
     await supabase.from('annie_messages').insert({
@@ -74,7 +70,7 @@ export async function POST(request: NextRequest) {
       .eq('id', conversation.id);
 
     // Update customer profile conversation count
-    await updateCustomerProfile(visitorId, conversation.user_id, customerContext);
+    await updateCustomerProfile(visitorId, conversation.user_id, customerContext, supabase);
 
     return NextResponse.json({
       success: true,
@@ -95,7 +91,7 @@ export async function POST(request: NextRequest) {
 /**
  * Get or create conversation
  */
-async function getOrCreateConversation(conversationId: string | null, visitorId: string, context: any) {
+async function getOrCreateConversation(conversationId: string | null, visitorId: string, context: any, supabase: ReturnType<typeof createAdminSupabase>) {
   // Try to find existing conversation
   if (conversationId) {
     const { data: existing } = await supabase
@@ -133,7 +129,7 @@ async function getOrCreateConversation(conversationId: string | null, visitorId:
 /**
  * Get customer context from database
  */
-async function getCustomerContext(visitorId: string, userId: string | null): Promise<CustomerContext> {
+async function getCustomerContext(visitorId: string, userId: string | null, supabase: ReturnType<typeof createAdminSupabase>): Promise<CustomerContext> {
   const context: CustomerContext = {};
 
   // Get customer profile if exists
@@ -189,7 +185,8 @@ async function getCustomerContext(visitorId: string, userId: string | null): Pro
 async function generateAnnieResponse(
   message: string,
   customerContext: CustomerContext,
-  pageContext: any
+  pageContext: any,
+  supabase: ReturnType<typeof createAdminSupabase>
 ): Promise<{ text: string; intent: string; templateKey: string }> {
   const messageLower = message.toLowerCase();
 
@@ -363,7 +360,7 @@ async function generateAnnieResponse(
 /**
  * Update customer profile with conversation data
  */
-async function updateCustomerProfile(visitorId: string, userId: string | null, context: CustomerContext) {
+async function updateCustomerProfile(visitorId: string, userId: string | null, context: CustomerContext, supabase: ReturnType<typeof createAdminSupabase>) {
   // Check if profile exists
   const { data: existing } = await supabase
     .from('annie_customer_profiles')

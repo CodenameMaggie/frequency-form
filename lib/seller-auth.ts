@@ -1,11 +1,14 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
 
 export async function signIn(email: string, password: string) {
+  const supabase = getSupabase()
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -16,17 +19,20 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signOut() {
+  const supabase = getSupabase()
   const { error } = await supabase.auth.signOut()
   if (error) throw error
 }
 
 export async function getSession() {
+  const supabase = getSupabase()
   const { data: { session }, error } = await supabase.auth.getSession()
   if (error) throw error
   return session
 }
 
 export async function getSellerProfile() {
+  const supabase = getSupabase()
   const session = await getSession()
   if (!session) return null
 
@@ -41,6 +47,7 @@ export async function getSellerProfile() {
 }
 
 export async function resetPassword(email: string) {
+  const supabase = getSupabase()
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/seller/reset-password`,
   })
@@ -48,6 +55,7 @@ export async function resetPassword(email: string) {
 }
 
 export async function updatePassword(newPassword: string) {
+  const supabase = getSupabase()
   const { error } = await supabase.auth.updateUser({
     password: newPassword,
   })

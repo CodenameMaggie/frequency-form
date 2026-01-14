@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminSupabase } from '@/lib/supabase-server';
 import crypto from 'crypto';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'; // F&F tenant
 
@@ -29,6 +24,7 @@ function verifyShopifyWebhook(body: string, hmacHeader: string): boolean {
  * Handles Shopify order webhooks (order/create, order/paid)
  */
 export async function POST(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const hmacHeader = request.headers.get('x-shopify-hmac-sha256');
     const topic = request.headers.get('x-shopify-topic');
@@ -48,11 +44,11 @@ export async function POST(request: NextRequest) {
 
     // Process based on topic
     if (topic === 'orders/create' || topic === 'orders/paid') {
-      await processNewOrder(orderData);
+      await processNewOrder(orderData, supabase);
     } else if (topic === 'orders/fulfilled') {
-      await processOrderFulfillment(orderData);
+      await processOrderFulfillment(orderData, supabase);
     } else if (topic === 'orders/cancelled') {
-      await processOrderCancellation(orderData);
+      await processOrderCancellation(orderData, supabase);
     }
 
     return NextResponse.json({ success: true });
@@ -69,7 +65,7 @@ export async function POST(request: NextRequest) {
 /**
  * Process new Shopify order
  */
-async function processNewOrder(order: any) {
+async function processNewOrder(order: any, supabase: ReturnType<typeof createAdminSupabase>) {
   try {
     // Check if order already exists
     const { data: existing } = await supabase
@@ -119,7 +115,7 @@ async function processNewOrder(order: any) {
     console.log(`[Shopify Webhook] Stored order ${order.order_number}`);
 
     // Send notification email to admin
-    await notifyAdminNewOrder(order);
+    await notifyAdminNewOrder(order, supabase);
 
     // If order contains custom-made items (linen, silk), trigger manufacturer notification
     const hasCustomItems = lineItems.some((item: any) =>
@@ -127,7 +123,7 @@ async function processNewOrder(order: any) {
     );
 
     if (hasCustomItems) {
-      await notifyManufacturerNewOrder(order, lineItems);
+      await notifyManufacturerNewOrder(order, lineItems, supabase);
     }
 
   } catch (error) {
@@ -139,7 +135,7 @@ async function processNewOrder(order: any) {
 /**
  * Process order fulfillment
  */
-async function processOrderFulfillment(order: any) {
+async function processOrderFulfillment(order: any, supabase: ReturnType<typeof createAdminSupabase>) {
   try {
     await supabase
       .from('shopify_orders')
@@ -159,7 +155,7 @@ async function processOrderFulfillment(order: any) {
 /**
  * Process order cancellation
  */
-async function processOrderCancellation(order: any) {
+async function processOrderCancellation(order: any, supabase: ReturnType<typeof createAdminSupabase>) {
   try {
     await supabase
       .from('shopify_orders')
@@ -180,7 +176,7 @@ async function processOrderCancellation(order: any) {
 /**
  * Notify admin of new order
  */
-async function notifyAdminNewOrder(order: any) {
+async function notifyAdminNewOrder(order: any, supabase: ReturnType<typeof createAdminSupabase>) {
   // Add to email queue for admin notification
   try {
     await supabase.from('email_outreach_queue').insert({
@@ -217,7 +213,7 @@ View in Shopify: https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/orders/${orde
 /**
  * Notify manufacturer of custom order
  */
-async function notifyManufacturerNewOrder(order: any, customItems: any[]) {
+async function notifyManufacturerNewOrder(order: any, customItems: any[], supabase: ReturnType<typeof createAdminSupabase>) {
   try {
     // Get manufacturer contact from partners table
     const { data: partner } = await supabase

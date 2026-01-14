@@ -1,9 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
 
 // List of admin user IDs (you can add your user ID here after creating your account)
 // For now, we'll check if the user email matches the admin email
@@ -17,6 +19,7 @@ const ADMIN_EMAILS = [
 
 export async function isAdmin(userId: string): Promise<boolean> {
   try {
+    const supabase = getSupabase()
     const { data: user, error } = await supabase.auth.admin.getUserById(userId)
     if (error || !user) return false
     return ADMIN_EMAILS.includes(user.user?.email || '')
@@ -28,6 +31,7 @@ export async function isAdmin(userId: string): Promise<boolean> {
 
 export async function checkAdminAccess(): Promise<boolean> {
   try {
+    const supabase = getSupabase()
     const {
       data: { session },
     } = await supabase.auth.getSession()
@@ -42,6 +46,7 @@ export async function checkAdminAccess(): Promise<boolean> {
 }
 
 export async function signIn(email: string, password: string) {
+  const supabase = getSupabase()
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -59,11 +64,13 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signOut() {
+  const supabase = getSupabase()
   const { error } = await supabase.auth.signOut()
   if (error) throw error
 }
 
 export async function getSession() {
+  const supabase = getSupabase()
   const {
     data: { session },
     error,

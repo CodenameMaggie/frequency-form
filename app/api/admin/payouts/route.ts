@@ -1,14 +1,10 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createAdminSupabase } from '@/lib/supabase-server'
 
 // GET - Get all pending payouts grouped by brand partner
 export async function GET() {
   try {
+    const supabase = createAdminSupabase()
     // Get all completed sales that haven't been paid out yet
     const { data: pendingSales, error: salesError } = await supabase
       .from('sales')

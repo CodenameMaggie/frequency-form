@@ -1,17 +1,101 @@
 /**
  * FF Style Studio - Color Analysis API
- * Analyzes skin tone and creates personal color palette
+ * Analyzes skin tone and creates personal color palette using AI vision
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminSupabase } from '@/lib/supabase-server';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+
+interface ColorAnalysisResult {
+  skinUndertone: 'warm' | 'cool' | 'neutral';
+  skinDepth: 'fair' | 'light' | 'medium' | 'tan' | 'deep';
+  colorSeason: 'spring' | 'summer' | 'autumn' | 'winter';
+  colorSeasonSubtype: string;
+  bestColors: Array<{ name: string; hex: string; category: string }>;
+  avoidColors: Array<{ name: string; hex: string; reason: string }>;
+  bestMetals: string[];
+  avoidMetals: string[];
+  aiRecommendations: string;
+}
+
+async function analyzeColorsWithAI(imageBase64: string): Promise<ColorAnalysisResult | null> {
+  if (!ANTHROPIC_API_KEY) {
+    return null;
+  }
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1500,
+      messages: [{
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            source: {
+              type: 'base64',
+              media_type: 'image/jpeg',
+              data: imageBase64,
+            },
+          },
+          {
+            type: 'text',
+            text: `Analyze this face photo to determine the person's color season and create a personalized color palette.
+
+Return ONLY a JSON object (no markdown, no explanation) with this exact structure:
+{
+  "skinUndertone": "<warm|cool|neutral>",
+  "skinDepth": "<fair|light|medium|tan|deep>",
+  "colorSeason": "<spring|summer|autumn|winter>",
+  "colorSeasonSubtype": "<e.g., light_spring, soft_autumn, deep_winter>",
+  "bestColors": [
+    {"name": "<color name>", "hex": "<#XXXXXX>", "category": "<neutrals|accent|statement>"},
+    ... (include 10-12 colors)
+  ],
+  "avoidColors": [
+    {"name": "<color name>", "hex": "<#XXXXXX>", "reason": "<why to avoid>"},
+    ... (include 4-6 colors)
+  ],
+  "bestMetals": ["<gold|silver|rose_gold|copper>", ...],
+  "avoidMetals": ["<metal>", ...],
+  "aiRecommendations": "<personalized color and styling advice based on their coloring>"
+}
+
+Consider: skin undertone, hair color, eye color, and natural coloring to determine the seasonal palette. Include a variety of colors for different occasions.`,
+          },
+        ],
+      }],
+    }),
+  });
+
+  if (!response.ok) {
+    console.error('[Color Analysis] Anthropic API error:', response.status);
+    return null;
+  }
+
+  const data = await response.json();
+  const content = data.content?.[0]?.text;
+
+  if (!content) return null;
+
+  try {
+    return JSON.parse(content);
+  } catch {
+    console.error('[Color Analysis] Failed to parse AI response');
+    return null;
+  }
+}
 
 export async function POST(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const formData = await request.formData();
     const image = formData.get('image') as File;
@@ -24,35 +108,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert image to buffer
+    // Convert image to base64
     const arrayBuffer = await image.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const base64 = Buffer.from(arrayBuffer).toString('base64');
 
-    // TODO: When bot server is running, call color analyzer agent
-    // const colorAnalyzer = require('@/unbound/backend/agents/ff/color-analyzer');
-    // const result = await colorAnalyzer.analyzeColors(buffer, userId);
+    // Analyze with AI
+    const analysisResult = await analyzeColorsWithAI(base64);
 
-    // Simplified response structure for initial testing
-    const mockResponse = {
+    if (!analysisResult) {
+      return NextResponse.json({
+        success: false,
+        error: 'Color analysis not available. Ensure ANTHROPIC_API_KEY is configured.',
+      }, { status: 503 });
+    }
+
+    // Save to database
+    const { error: dbError } = await supabase
+      .from('ff_color_profiles')
+      .upsert({
+        user_id: userId,
+        season: analysisResult.colorSeason,
+        undertone: analysisResult.skinUndertone,
+        skin_depth: analysisResult.skinDepth,
+        season_subtype: analysisResult.colorSeasonSubtype,
+        best_colors: analysisResult.bestColors,
+        avoid_colors: analysisResult.avoidColors,
+        best_metals: analysisResult.bestMetals,
+        avoid_metals: analysisResult.avoidMetals,
+        ai_recommendations: analysisResult.aiRecommendations,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id' });
+
+    if (dbError) {
+      console.error('[Color Analysis] Database error:', dbError);
+    }
+
+    return NextResponse.json({
       success: true,
-      message: 'Color analysis endpoint ready. Connect to bot server for full analysis.',
-      requirements: {
-        image: 'Face photo with natural lighting, no makeup preferred'
-      },
-      expectedOutput: {
-        skinUndertone: 'warm | cool | neutral',
-        skinDepth: 'fair | light | medium | tan | deep',
-        colorSeason: 'spring | summer | autumn | winter',
-        colorSeasonSubtype: 'e.g., light_spring, soft_autumn',
-        bestColors: 'array of color objects with name, hex, category',
-        avoidColors: 'array of color objects with name, hex, reason',
-        bestMetals: 'array of strings',
-        avoidMetals: 'array of strings',
-        aiRecommendations: 'personalized color advice'
-      }
-    };
-
-    return NextResponse.json(mockResponse);
+      data: analysisResult,
+    });
 
   } catch (error: any) {
     console.error('[Color Analysis API] Error:', error);
@@ -64,6 +158,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
@@ -113,6 +208,7 @@ export async function GET(request: NextRequest) {
 
 // Check if a specific color works for user
 export async function PUT(request: NextRequest) {
+  const supabase = createAdminSupabase();
   try {
     const { userId, colorHex } = await request.json();
 
