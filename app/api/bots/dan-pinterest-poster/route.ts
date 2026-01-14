@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
 
       for (const pin of savedPins) {
         try {
-          const publishResult = await publishToPinterest(pin);
+          const publishResult = await publishToPinterest(pin, PINTEREST_ACCESS_TOKEN, PINTEREST_BOARD_ID);
 
           if (publishResult.success) {
             // Mark as published in F&F database
@@ -251,8 +251,8 @@ export async function POST(request: NextRequest) {
 /**
  * Publish pin to Pinterest using API v5
  */
-async function publishToPinterest(pin: any) {
-  if (!PINTEREST_ACCESS_TOKEN || !PINTEREST_BOARD_ID) {
+async function publishToPinterest(pin: any, accessToken?: string, boardId?: string) {
+  if (!accessToken || !boardId) {
     return {
       success: false,
       error: 'Pinterest API not configured'
@@ -271,11 +271,11 @@ async function publishToPinterest(pin: any) {
     const response = await fetch('https://api.pinterest.com/v5/pins', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${PINTEREST_ACCESS_TOKEN}`,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        board_id: PINTEREST_BOARD_ID,
+        board_id: boardId,
         title: pin.title,
         description: pin.content,
         link: pin.metadata.link || 'https://frequencyandform.com',
