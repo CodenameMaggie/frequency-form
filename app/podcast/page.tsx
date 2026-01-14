@@ -46,10 +46,10 @@ export default function PodcastPage() {
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-sm shadow-sm">
-              <Sparkles className="w-10 h-10 text-[#c9a962] mb-4" />
+            <div className="bg-white p-6 rounded-sm shadow-sm text-center">
+              <Sparkles className="w-10 h-10 text-[#c9a962] mb-4 mx-auto" />
               <h3 className="text-xl font-serif text-[#1a3a2f] mb-3">Topics We Explore</h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-700 text-left">
                 <li className="flex items-start gap-2">
                   <span className="text-[#c9a962] mt-1">•</span>
                   <span>European style & timeless wardrobe essentials</span>
@@ -77,8 +77,8 @@ export default function PodcastPage() {
               </ul>
             </div>
 
-            <div className="bg-white p-6 rounded-sm shadow-sm">
-              <Mic2 className="w-10 h-10 text-[#c9a962] mb-4" />
+            <div className="bg-white p-6 rounded-sm shadow-sm text-center">
+              <Mic2 className="w-10 h-10 text-[#c9a962] mb-4 mx-auto" />
               <h3 className="text-xl font-serif text-[#1a3a2f] mb-3">Our Audience</h3>
               <p className="text-gray-700 mb-4">
                 Style-conscious women and men who value timeless elegance over trends. European fashion enthusiasts,
@@ -128,12 +128,10 @@ export default function PodcastPage() {
                 desc: 'You study textile frequencies, biocompatibility, or how materials affect well-being'
               },
             ].map((guest, idx) => (
-              <div key={idx} className="flex items-start gap-4 bg-[#f8f6f3] p-6 rounded-sm">
-                <CheckCircle2 className="w-6 h-6 text-[#c9a962] flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-serif text-lg text-[#1a3a2f] mb-2">{guest.title}</h3>
-                  <p className="text-sm text-gray-700">{guest.desc}</p>
-                </div>
+              <div key={idx} className="flex flex-col items-center text-center bg-[#f8f6f3] p-6 rounded-sm">
+                <CheckCircle2 className="w-6 h-6 text-[#c9a962] mb-3" />
+                <h3 className="font-serif text-lg text-[#1a3a2f] mb-2">{guest.title}</h3>
+                <p className="text-sm text-gray-700">{guest.desc}</p>
               </div>
             ))}
           </div>
@@ -220,7 +218,7 @@ export default function PodcastPage() {
           <h2 className="text-3xl font-serif text-[#1a3a2f] text-center mb-8">
             Your Host
           </h2>
-          <div className="bg-[#f8f6f3] p-8 rounded-sm">
+          <div className="bg-[#f8f6f3] p-8 rounded-sm text-center">
             <h3 className="text-2xl font-serif text-[#1a3a2f] mb-3">Maggie Forbes</h3>
             <p className="text-gray-700 leading-relaxed mb-4">
               Founder of Frequency & Form and curator of timeless European elegance. Maggie believes true luxury
