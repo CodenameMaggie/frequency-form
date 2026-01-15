@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const EMAIL_API_URL = 'http://5.78.139.9:3000/api/send-email';
+const EMAIL_API_URL = process.env.EMAIL_API_URL || 'http://5.78.139.9:3000/api/email-api';
+const EMAIL_API_KEY = process.env.EMAIL_API_KEY || 'forbes-command-2026';
 
 const FROM_EMAIL_CONCIERGE = process.env.FROM_EMAIL_CONCIERGE || 'concierge@frequencyandform.com';
 const FROM_EMAIL_HENRY = process.env.FROM_EMAIL_HENRY || 'henry@maggieforbesstrategies.com';
@@ -194,11 +195,12 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: options.from || FROM_EMAIL_CONCIERGE,
+        action: 'send',
+        api_key: EMAIL_API_KEY,
+        business: 'FF',
         to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
         subject: options.subject,
         html: options.html,
-        text: options.text,
       }),
     });
 

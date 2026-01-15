@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get('secret');
 
-    if (secret !== process.env.CRON_SECRET) {
+    if (secret !== process.env.FORBES_COMMAND_CRON) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
