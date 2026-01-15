@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Clear state cookie
-    const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/admin?shopify=connected`);
+    const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/admin/dashboard?shopify=connected`);
     response.cookies.delete('shopify_oauth_state');
 
     return response;
