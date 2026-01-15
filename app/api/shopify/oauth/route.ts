@@ -12,7 +12,7 @@ const SHOPIFY_SCOPES = 'read_products,write_products,read_orders,write_orders,re
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const shop = searchParams.get('shop') || 'maggie-forbes-steading.myshopify.com';
+  const shop = searchParams.get('shop') || 'frequency-and-form.myshopify.com';
 
   if (!SHOPIFY_CLIENT_ID) {
     return NextResponse.json({ error: 'Shopify client ID not configured' }, { status: 500 });

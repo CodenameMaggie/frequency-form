@@ -7,7 +7,7 @@
 import { createAdminSupabase } from './supabase-server';
 
 const SHOPIFY_API_VERSION = '2024-01';
-const DEFAULT_SHOP = 'maggie-forbes-steading.myshopify.com';
+const DEFAULT_SHOP = 'frequency-and-form.myshopify.com';
 
 interface ShopifyProduct {
   id: number;
