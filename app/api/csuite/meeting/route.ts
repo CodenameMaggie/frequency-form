@@ -129,17 +129,18 @@ export async function POST(request: NextRequest) {
 
     // Create action item assignments
     for (const item of actionItems) {
-      if (item.assignee && item.assignee !== 'atlas') {
+      const actionItem = item as { action: string; assignee: string; due?: string; priority?: string };
+      if (actionItem.assignee && actionItem.assignee !== 'atlas') {
         await supabase.from('ff_bot_communications').insert({
           from_bot: 'atlas',
-          to_bot: item.assignee,
-          subject: `Action Item: ${item.action.substring(0, 50)}`,
-          message: `From ${meeting_type}: ${item.action}`,
+          to_bot: actionItem.assignee,
+          subject: `Action Item: ${actionItem.action.substring(0, 50)}`,
+          message: `From ${meeting_type}: ${actionItem.action}`,
           message_type: 'request',
-          priority: item.priority || 'normal',
+          priority: actionItem.priority || 'normal',
           requires_response: true,
-          response_deadline: item.due,
-          metadata: { meeting_id: meeting.id, action_item: item }
+          response_deadline: actionItem.due,
+          metadata: { meeting_id: meeting.id, action_item: actionItem }
         });
       }
     }
