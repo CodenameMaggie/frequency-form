@@ -9,23 +9,5 @@
     "autoJobCancelation": true
   },
   "buildCommand": "npm run build",
-  "framework": "nextjs",
-  "crons": [
-    {
-      "path": "/api/bots/henry-partner-discovery?secret=forbes-command-cron-2024",
-      "schedule": "0 6 * * *"
-    },
-    {
-      "path": "/api/bots/dan-partner-outreach?secret=forbes-command-cron-2024",
-      "schedule": "0 10 * * *"
-    },
-    {
-      "path": "/api/bots/dan-partner-followup?secret=forbes-command-cron-2024",
-      "schedule": "0 14 * * *"
-    },
-    {
-      "path": "/api/email-queue-processor?secret=forbes-command-cron-2024",
-      "schedule": "*/5 * * * *"
-    }
-  ]
+  "framework": "nextjs"
 }

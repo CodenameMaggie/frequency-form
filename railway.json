@@ -7,6 +7,29 @@
   "deploy": {
     "startCommand": "npm run start",
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  }
+    "restartPolicyMaxRetries": 10,
+    "cronSchedule": null
+  },
+  "crons": [
+    {
+      "name": "Henry Partner Discovery",
+      "schedule": "0 6 * * *",
+      "endpoint": "/api/bots/henry-partner-discovery?secret=forbes-command-cron-2024"
+    },
+    {
+      "name": "Dan Partner Outreach",
+      "schedule": "0 10 * * *",
+      "endpoint": "/api/bots/dan-partner-outreach?secret=forbes-command-cron-2024"
+    },
+    {
+      "name": "Dan Partner Follow-up",
+      "schedule": "0 14 * * *",
+      "endpoint": "/api/bots/dan-partner-followup?secret=forbes-command-cron-2024"
+    },
+    {
+      "name": "Email Queue Processor",
+      "schedule": "*/5 * * * *",
+      "endpoint": "/api/email-queue-processor?secret=forbes-command-cron-2024"
+    }
+  ]
 }
