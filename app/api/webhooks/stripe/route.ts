@@ -70,7 +70,8 @@ export async function POST(request: NextRequest) {
 
       case 'invoice.paid': {
         const invoice = event.data.object as Stripe.Invoice;
-        if (invoice.subscription) {
+        const subscriptionId = (invoice as any).subscription;
+        if (subscriptionId) {
           await recordSubscriptionPayment(supabaseAdmin, invoice);
         }
         break;
@@ -105,7 +106,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Record revenue (if not a subscription - those are handled by invoice.paid)
-        if (!paymentIntent.invoice) {
+        if (!(paymentIntent as any).invoice) {
           await recordOneTimePayment(supabaseAdmin, paymentIntent);
         }
         break;
@@ -195,7 +196,7 @@ async function handleNewSubscription(
   }
 
   // Get subscription details
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
 
   // Upsert membership
   const { error } = await supabase
@@ -226,7 +227,8 @@ async function updateSubscriptionStatus(
   supabase: ReturnType<typeof createAdminSupabase>,
   subscription: Stripe.Subscription
 ) {
-  const customerId = subscription.customer as string;
+  const sub = subscription as any;
+  const customerId = sub.customer as string;
 
   // Get customer email
   const customer = await stripe.customers.retrieve(customerId);
@@ -237,20 +239,20 @@ async function updateSubscriptionStatus(
     return;
   }
 
-  const status = subscription.status === 'active' ? 'active' :
-                 subscription.status === 'past_due' ? 'past_due' :
-                 subscription.status === 'canceled' ? 'cancelled' : 'inactive';
+  const status = sub.status === 'active' ? 'active' :
+                 sub.status === 'past_due' ? 'past_due' :
+                 sub.status === 'canceled' ? 'cancelled' : 'inactive';
 
   const { error } = await supabase
     .from('ff_user_memberships')
     .update({
       status,
-      current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-      current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-      cancel_at_period_end: subscription.cancel_at_period_end,
+      current_period_start: new Date(sub.current_period_start * 1000).toISOString(),
+      current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
+      cancel_at_period_end: sub.cancel_at_period_end,
       updated_at: new Date().toISOString()
     })
-    .eq('stripe_subscription_id', subscription.id);
+    .eq('stripe_subscription_id', sub.id);
 
   if (error) {
     console.error('[Stripe Webhook] Error updating subscription:', error);
@@ -290,18 +292,19 @@ async function recordSubscriptionPayment(
   supabase: ReturnType<typeof createAdminSupabase>,
   invoice: Stripe.Invoice
 ) {
-  const amountPaid = invoice.amount_paid;
+  const inv = invoice as any;
+  const amountPaid = inv.amount_paid;
   if (amountPaid <= 0) return; // Skip $0 invoices (trials, etc.)
 
   // Get customer details
-  const customer = await stripe.customers.retrieve(invoice.customer as string);
+  const customer = await stripe.customers.retrieve(inv.customer as string);
   const email = (customer as Stripe.Customer).email;
 
   // Get subscription to determine tier
   let tier = 'unknown';
   let interval = 'monthly';
-  if (invoice.subscription) {
-    const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+  if (inv.subscription) {
+    const subscription = await stripe.subscriptions.retrieve(inv.subscription as string) as any;
     tier = subscription.metadata?.tier || 'elevated';
     interval = subscription.metadata?.interval || 'monthly';
   }
@@ -311,17 +314,17 @@ async function recordSubscriptionPayment(
     .insert({
       type: 'subscription',
       amount_cents: amountPaid,
-      currency: invoice.currency,
-      stripe_invoice_id: invoice.id,
-      stripe_subscription_id: invoice.subscription as string,
-      stripe_customer_id: invoice.customer as string,
+      currency: inv.currency,
+      stripe_invoice_id: inv.id,
+      stripe_subscription_id: inv.subscription as string,
+      stripe_customer_id: inv.customer as string,
       customer_email: email,
       customer_name: (customer as Stripe.Customer).name,
       membership_tier: tier,
       billing_interval: interval,
       status: 'succeeded',
-      period_start: invoice.period_start ? new Date(invoice.period_start * 1000).toISOString() : null,
-      period_end: invoice.period_end ? new Date(invoice.period_end * 1000).toISOString() : null
+      period_start: inv.period_start ? new Date(inv.period_start * 1000).toISOString() : null,
+      period_end: inv.period_end ? new Date(inv.period_end * 1000).toISOString() : null
     });
 
   if (error) {
