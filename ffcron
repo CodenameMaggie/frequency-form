@@ -1,0 +1,4 @@
+0 6 * * * curl -s -X POST "https://frequencyandform.com/api/bots/henry-partner-discovery?secret=forbes-command-cron-2024"
+0 10 * * * curl -s -X POST "https://frequencyandform.com/api/bots/dan-partner-outreach?secret=forbes-command-cron-2024"
+0 14 * * * curl -s -X POST "https://frequencyandform.com/api/bots/dan-partner-followup?secret=forbes-command-cron-2024"
+*/5 * * * * curl -s -X POST "https://frequencyandform.com/api/email-queue-processor?secret=forbes-command-cron-2024"
