@@ -154,6 +154,35 @@ interface DashboardStats {
   conversionRate: number;
 }
 
+interface RevenueData {
+  goal: {
+    target: number;
+    current: number;
+    percent: number;
+    timeElapsedPercent: number;
+    onTrack: boolean;
+    yearsRemaining: number;
+    projectedYearsToGoal: number | null;
+  };
+  metrics: {
+    totalRevenue: number;
+    monthlyRevenue: number;
+    mrr: number;
+    arr: number;
+    activeSubscriptions: number;
+  };
+  memberships: {
+    elevated: number;
+    sovereign: number;
+    total: number;
+  };
+  thisMonth: {
+    revenue: number;
+    subscriptionPayments: number;
+    oneTimePayments: number;
+  };
+}
+
 export default function BotsDashboard() {
   const [stats, setStats] = useState<DashboardStats>({
     totalPartners: 0,
@@ -164,6 +193,7 @@ export default function BotsDashboard() {
     monthlyRevenue: 0,
     conversionRate: 0
   });
+  const [revenue, setRevenue] = useState<RevenueData | null>(null);
   const [loading, setLoading] = useState(true);
   const [systemStatus, setSystemStatus] = useState<'healthy' | 'degraded' | 'offline'>('healthy');
 
@@ -185,17 +215,40 @@ export default function BotsDashboard() {
         setSystemStatus('degraded');
       }
 
-      // In production, fetch real stats from API
-      // For now, use placeholder data
-      setStats({
-        totalPartners: 47,
-        activePartners: 12,
-        emailsSent: 234,
-        leadsDiscovered: 156,
-        currentRevenue: 45000,
-        monthlyRevenue: 8500,
-        conversionRate: 8.2
-      });
+      // Fetch real revenue data
+      try {
+        const revenueRes = await fetch(`${baseUrl}/api/revenue`);
+        if (revenueRes.ok) {
+          const revenueData = await revenueRes.json();
+          if (revenueData.success) {
+            setRevenue(revenueData.data);
+            setStats(prev => ({
+              ...prev,
+              currentRevenue: revenueData.data.metrics.totalRevenue,
+              monthlyRevenue: revenueData.data.metrics.monthlyRevenue
+            }));
+          }
+        }
+      } catch (e) {
+        console.log('Revenue API not available yet');
+      }
+
+      // Fetch partner stats
+      try {
+        const partnersRes = await fetch(`${baseUrl}/api/partners/stats`);
+        if (partnersRes.ok) {
+          const partnersData = await partnersRes.json();
+          if (partnersData.success) {
+            setStats(prev => ({
+              ...prev,
+              totalPartners: partnersData.data.total || 0,
+              activePartners: partnersData.data.active || 0
+            }));
+          }
+        }
+      } catch (e) {
+        // Partner stats not available
+      }
 
       setLoading(false);
     } catch {
@@ -204,14 +257,22 @@ export default function BotsDashboard() {
     }
   }
 
-  // Calculate revenue progress
+  // Calculate revenue progress (use API data if available, otherwise calculate)
+  const currentRevenue = revenue?.metrics.totalRevenue || stats.currentRevenue;
   const yearsElapsed = (Date.now() - START_DATE.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
   const expectedRevenue = (REVENUE_GOAL / GOAL_YEARS) * yearsElapsed;
-  const revenueProgress = (stats.currentRevenue / REVENUE_GOAL) * 100;
-  const onTrack = stats.currentRevenue >= expectedRevenue * 0.8;
+  const revenueProgress = revenue?.goal.percent || (currentRevenue / REVENUE_GOAL) * 100;
+  const onTrack = revenue?.goal.onTrack ?? (currentRevenue >= expectedRevenue * 0.8);
 
   // Calculate yearly milestones
   const yearlyMilestone = REVENUE_GOAL / GOAL_YEARS; // $20M per year
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(2)}M`;
+    if (amount >= 1_000) return `$${(amount / 1_000).toFixed(1)}K`;
+    return `$${amount.toFixed(2)}`;
+  };
 
   if (loading) {
     return (
@@ -264,7 +325,7 @@ export default function BotsDashboard() {
               </div>
             </div>
             <div className="text-right">
-              <p className="text-3xl font-bold text-[#c8b28a]">${(stats.currentRevenue / 1000).toFixed(0)}K</p>
+              <p className="text-3xl font-bold text-[#c8b28a]">{formatCurrency(currentRevenue)}</p>
               <p className="text-[#94a3b8] text-sm">Current Revenue</p>
             </div>
           </div>
@@ -373,6 +434,71 @@ export default function BotsDashboard() {
             </div>
           </div>
         </div>
+
+        {/* Revenue Metrics */}
+        {revenue && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <DollarSign className="w-5 h-5 text-green-400" />
+                <span className="text-[#94a3b8] text-sm">MRR</span>
+              </div>
+              <p className="text-2xl font-bold text-green-400">{formatCurrency(revenue.metrics.mrr)}</p>
+              <p className="text-[#94a3b8] text-xs mt-1">Monthly Recurring</p>
+            </div>
+
+            <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <BarChart3 className="w-5 h-5 text-blue-400" />
+                <span className="text-[#94a3b8] text-sm">ARR</span>
+              </div>
+              <p className="text-2xl font-bold text-blue-400">{formatCurrency(revenue.metrics.arr)}</p>
+              <p className="text-[#94a3b8] text-xs mt-1">Annual Run Rate</p>
+            </div>
+
+            <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <Users className="w-5 h-5 text-purple-400" />
+                <span className="text-[#94a3b8] text-sm">Subscriptions</span>
+              </div>
+              <p className="text-2xl font-bold">{revenue.metrics.activeSubscriptions}</p>
+              <p className="text-[#94a3b8] text-xs mt-1">Active members</p>
+            </div>
+
+            <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <TrendingUp className="w-5 h-5 text-[#c8b28a]" />
+                <span className="text-[#94a3b8] text-sm">This Month</span>
+              </div>
+              <p className="text-2xl font-bold">{formatCurrency(revenue.thisMonth.revenue)}</p>
+              <p className="text-[#94a3b8] text-xs mt-1">{revenue.thisMonth.subscriptionPayments} subs, {revenue.thisMonth.oneTimePayments} orders</p>
+            </div>
+          </div>
+        )}
+
+        {/* Membership Breakdown */}
+        {revenue && revenue.memberships.total > 0 && (
+          <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-6 mb-8">
+            <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
+              <Users className="w-5 h-5 text-[#c8b28a]" />
+              Active Memberships
+            </h2>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-[#0f172a] rounded-lg p-4 text-center">
+                <p className="text-3xl font-bold text-purple-400">{revenue.memberships.sovereign}</p>
+                <p className="text-[#94a3b8] text-sm">Sovereign ($149/mo)</p>
+              </div>
+              <div className="bg-[#0f172a] rounded-lg p-4 text-center">
+                <p className="text-3xl font-bold text-blue-400">{revenue.memberships.elevated}</p>
+                <p className="text-[#94a3b8] text-sm">Elevated ($29/mo)</p>
+              </div>
+              <div className="bg-[#0f172a] rounded-lg p-4 text-center">
+                <p className="text-3xl font-bold text-white">{revenue.memberships.total}</p>
+                <p className="text-[#94a3b8] text-sm">Total Paying</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Key Metrics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
