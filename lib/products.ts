@@ -148,7 +148,7 @@ export const PRODUCTS: ProductWithStripe[] = [
     price: 89500,
     tier: 'healing',
     slug: 'baby-cashmere-scarf',
-    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&q=80', // Camel cashmere scarf
+    image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=800&q=80', // Camel cashmere scarf draped
     stripePriceId: 'price_1SmMUMPXo2GMOIj5Re2YbDiI',
     stripeProductId: 'prod_TjqAMLDbdUScUs',
     color: 'camel',
