@@ -76,7 +76,7 @@ export const PRODUCTS: ProductWithStripe[] = [
     price: 129500,
     tier: 'healing',
     slug: 'cashmere-crewneck-sweater',
-    image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&q=80', // Camel cashmere crewneck sweater
+    image: 'https://images.unsplash.com/photo-1614975059251-992f11792571?w=800&q=80', // Camel crewneck sweater folded
     stripePriceId: 'price_1SmMUJPXo2GMOIj5Nomoj03M',
     stripeProductId: 'prod_TjqApwZujcZEqG',
     color: 'camel',
@@ -88,7 +88,7 @@ export const PRODUCTS: ProductWithStripe[] = [
     price: 169500,
     tier: 'healing',
     slug: 'cashmere-cardigan',
-    image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80', // Camel cardigan sweater
+    image: 'https://images.unsplash.com/photo-1638643391904-9b551ba91eaa?w=800&q=80', // Beige/camel open cardigan
     stripePriceId: 'price_1SmMUJPXo2GMOIj53gF26SW7',
     stripeProductId: 'prod_TjqAd4k8iFVlLG',
     color: 'camel',
@@ -100,7 +100,7 @@ export const PRODUCTS: ProductWithStripe[] = [
     price: 74500,
     tier: 'healing',
     slug: 'merino-wool-turtleneck',
-    image: 'https://images.unsplash.com/photo-1608991466422-e0ad905ca8c4?w=800&q=80', // Navy wool turtleneck
+    image: 'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=800&q=80', // Navy turtleneck sweater
     stripePriceId: 'price_1SmMUKPXo2GMOIj5jwExn3tf',
     stripeProductId: 'prod_TjqA7ikVa7Mw8W',
     color: 'navy',
