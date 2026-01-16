@@ -1,12 +1,15 @@
 /**
  * FF Style Studio - Body Scan API
  * Analyzes body measurements from photo upload using AI vision
+ * AI usage tracked against membership tier budget
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminSupabase } from '@/lib/supabase-server';
+import { checkAIBudget, recordAIUsage, estimateCost } from '@/lib/ai-budget';
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+const AI_MODEL = 'claude-sonnet-4-20250514';
 
 interface BodyAnalysisResult {
   measurements: {
@@ -25,9 +28,9 @@ interface BodyAnalysisResult {
   aiRecommendations: string;
 }
 
-async function analyzeBodyWithAI(imageBase64: string, heightInches: number): Promise<BodyAnalysisResult | null> {
+async function analyzeBodyWithAI(imageBase64: string, heightInches: number): Promise<{ result: BodyAnalysisResult | null; inputTokens: number; outputTokens: number }> {
   if (!ANTHROPIC_API_KEY) {
-    return null;
+    return { result: null, inputTokens: 0, outputTokens: 0 };
   }
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -38,7 +41,7 @@ async function analyzeBodyWithAI(imageBase64: string, heightInches: number): Pro
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: AI_MODEL,
       max_tokens: 1024,
       messages: [{
         role: 'user',
@@ -82,28 +85,34 @@ Base all measurements proportionally from the given height. Focus on the body pr
 
   if (!response.ok) {
     console.error('[Body Scan] Anthropic API error:', response.status);
-    return null;
+    return { result: null, inputTokens: 0, outputTokens: 0 };
   }
 
   const data = await response.json();
   const content = data.content?.[0]?.text;
+  const inputTokens = data.usage?.input_tokens || 0;
+  const outputTokens = data.usage?.output_tokens || 0;
 
-  if (!content) return null;
+  if (!content) return { result: null, inputTokens, outputTokens };
 
   try {
-    return JSON.parse(content);
+    const result = JSON.parse(content) as BodyAnalysisResult;
+    return { result, inputTokens, outputTokens };
   } catch {
     console.error('[Body Scan] Failed to parse AI response');
-    return null;
+    return { result: null, inputTokens, outputTokens };
   }
 }
 
 export async function POST(request: NextRequest) {
   const supabase = createAdminSupabase();
+  const startTime = Date.now();
+
   try {
     const formData = await request.formData();
     const image = formData.get('image') as File;
     const userId = formData.get('userId') as string;
+    const email = formData.get('email') as string;
     const heightInches = parseFloat(formData.get('heightInches') as string);
 
     if (!image || !userId || !heightInches) {
@@ -113,12 +122,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check AI budget before making the call
+    if (email) {
+      const budgetCheck = await checkAIBudget(email, 'body_scan');
+      if (!budgetCheck.canProceed) {
+        return NextResponse.json({
+          success: false,
+          error: 'AI budget exceeded',
+          message: budgetCheck.message,
+          remainingCalls: budgetCheck.remainingCalls,
+          tier: budgetCheck.tierName
+        }, { status: 402 }); // Payment Required
+      }
+    }
+
     // Convert image to base64
     const arrayBuffer = await image.arrayBuffer();
     const base64 = Buffer.from(arrayBuffer).toString('base64');
 
     // Analyze with AI
-    const analysisResult = await analyzeBodyWithAI(base64, heightInches);
+    const { result: analysisResult, inputTokens, outputTokens } = await analyzeBodyWithAI(base64, heightInches);
+    const durationMs = Date.now() - startTime;
+    const costCents = estimateCost(inputTokens, outputTokens, AI_MODEL);
+
+    // Record AI usage (behind the scenes)
+    if (email) {
+      await recordAIUsage({
+        userId,
+        email,
+        featureType: 'body_scan',
+        model: AI_MODEL,
+        inputTokens,
+        outputTokens,
+        costCents,
+        durationMs,
+        success: !!analysisResult,
+        error: analysisResult ? undefined : 'Analysis failed'
+      });
+    }
 
     if (!analysisResult) {
       return NextResponse.json({
@@ -150,10 +191,11 @@ export async function POST(request: NextRequest) {
       data: analysisResult,
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('[Body Scan API] Error:', error);
     return NextResponse.json(
-      { error: 'Body scan failed', details: error.message },
+      { error: 'Body scan failed', details: errorMessage },
       { status: 500 }
     );
   }

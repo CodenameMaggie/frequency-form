@@ -1,19 +1,11 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- F&F Brand Colors: Forest Green (#1a3a2f) + Gold (#c9a962) -->
-  <defs>
-    <!-- Subtle linen texture pattern -->
-    <pattern id="linen" patternUnits="userSpaceOnUse" width="4" height="4">
-      <rect width="4" height="4" fill="#1a3a2f"/>
-      <path d="M0,0 L4,4 M4,0 L0,4" stroke="#1f4339" stroke-width="0.5" opacity="0.3"/>
-    </pattern>
-  </defs>
+  <!-- F&F Brand Colors: Charcoal (#1f2937) + Champagne (#c8b28a) -->
+  <rect width="32" height="32" rx="6" fill="#1f2937"/>
 
-  <!-- Background with subtle linen texture -->
-  <rect width="32" height="32" fill="url(#linen)"/>
+  <!-- Elegant ampersand design -->
+  <text x="16" y="22" font-family="Georgia, serif" font-size="18" font-weight="400" text-anchor="middle" fill="#c8b28a">&amp;</text>
 
-  <!-- Elegant F&F monogram -->
-  <text x="16" y="21" font-family="Georgia, Garamond, serif" font-size="14" font-weight="400" text-anchor="middle" fill="#c9a962" letter-spacing="0.15em">F&amp;F</text>
-
-  <!-- Subtle underline representing natural fibers -->
-  <line x1="7" y1="24" x2="25" y2="24" stroke="#c9a962" stroke-width="0.5" opacity="0.6"/>
+  <!-- Subtle F marks on either side -->
+  <text x="7" y="20" font-family="Georgia, serif" font-size="10" font-weight="300" fill="#c8b28a" opacity="0.8">F</text>
+  <text x="22" y="20" font-family="Georgia, serif" font-size="10" font-weight="300" fill="#c8b28a" opacity="0.8">F</text>
 </svg>
