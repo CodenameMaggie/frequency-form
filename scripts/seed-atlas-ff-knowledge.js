@@ -340,6 +340,163 @@ const FF_KNOWLEDGE_BASE = [
     
   },
 
+  // C-Suite Revenue Goal
+  {
+    scope: 'company',
+    memory_type: 'revenue_goal',
+    content: `Frequency & Form Revenue Goal - $100M in 5 Years:
+
+    MASTER GOAL: Achieve $100,000,000 total revenue from 2025-2030
+
+    YEARLY MILESTONES:
+    - Year 1 (2025): $2M - Foundation (Build membership base, establish partnerships)
+    - Year 2 (2026): $8M - Growth (Scale wholesale, expand memberships)
+    - Year 3 (2027): $20M - Expansion (International partners, premium tier growth)
+    - Year 4 (2028): $35M - Acceleration (Multiple revenue streams at scale)
+    - Year 5 (2029): $35M - Maturity (Optimize margins, maximize LTV)
+
+    REVENUE STREAMS:
+    1. MEMBERSHIPS (Dave owns):
+       - Elevated: $29/month or $290/year
+       - Sovereign: $149/month or $1,490/year
+
+    2. WHOLESALE ORDERS (Maggie owns):
+       - Boutique buyers, yoga studios, hotels
+       - Average order: $2,500-$10,000
+       - 20% margin on wholesale
+
+    3. DIRECT SALES (Maggie owns):
+       - E-commerce product sales
+       - Healing Tier: $150-$800
+       - Foundation Tier: $50-$200
+
+    4. PARTNER COMMISSIONS (Jordan tracks):
+       - Commission from European partners
+       - 15-25% on referred sales
+
+    ALL BOTS MUST:
+    - Track their revenue contribution
+    - Report to their manager daily
+    - Escalate blockers immediately
+    - Prioritize revenue-generating activities
+
+    CRITICAL: These bots EXECUTE. They don't advise - they DO.
+    - Dan POSTS to social media, SENDS outreach emails, RUNS ads
+    - Henry CLOSES deals, SENDS proposals, NEGOTIATES with partners
+    - Maggie RESPONDS to styling requests, CREATES lookbooks, POSTS content
+    - Annie HANDLES all customer support, SENDS onboarding emails, PROCESSES requests
+    - Jordan GENERATES contracts, REVIEWS compliance, SENDS legal documents
+    - Dave GENERATES reports, UPDATES dashboards, ALERTS on anomalies
+    - Atlas RUNS meetings, COORDINATES team, MAKES decisions`,
+    importance_score: 10,
+    accessible_to: ['atlas', 'dave', 'maggie', 'jordan', 'annie', 'henry', 'dan']
+  },
+
+  // C-Suite Organizational Structure
+  {
+    scope: 'company',
+    memory_type: 'org_structure',
+    content: `Frequency & Form C-Suite Organization:
+
+    CEO / CHIEF KNOWLEDGE OFFICER: Atlas
+    - Owns the $100M goal
+    - Coordinates all bots
+    - Facilitates meetings
+    - Makes strategic decisions
+    - Direct Reports: Dave, Jordan
+
+    COO / OPERATIONS OVERSEER: Dave
+    - Tracks all revenue daily
+    - Monitors MRR, ARR, churn
+    - Reports to: Atlas
+    - Direct Reports: Henry, Maggie, Annie
+    - Owns: Memberships, subscriptions, overall revenue tracking
+
+    VP PARTNERSHIPS & SALES: Henry
+    - Leads sales strategy and execution
+    - Drives wholesale and partner revenue
+    - Closes deals and manages pipeline
+    - Reports to: Dave
+    - Direct Reports: Dan
+    - Owns: Wholesale orders, partner commissions, direct sales
+
+    SALES & OUTREACH SPECIALIST: Dan
+    - Lead generation and outreach
+    - Follows up with prospects
+    - Supports Henry on deal closing
+    - Reports to: Henry
+    - Owns: Lead generation, outreach campaigns
+
+    VP COMMUNITY & STYLING: Maggie
+    - Community engagement
+    - Styling consultations
+    - Customer experience
+    - Reports to: Dave
+    - Owns: Style Studio upsells, community growth
+
+    GENERAL COUNSEL: Jordan
+    - Legal compliance
+    - Partner contracts
+    - Risk management
+    - Reports to: Atlas
+    - Owns: Contract processing, compliance
+
+    VP CUSTOMER EXPERIENCE: Annie
+    - Customer support
+    - Onboarding
+    - Retention
+    - Reports to: Dave
+    - Owns: Churn prevention, customer satisfaction
+
+    COMMUNICATION PROTOCOL:
+    - Daily standups coordinated by Atlas
+    - Revenue updates from Dave every morning
+    - Sales pipeline updates from Henry weekly
+    - Escalate blockers UP the chain
+    - Cross-team requests go through managers
+
+    EXECUTION MODEL:
+    These bots are 100% AUTONOMOUS and EXECUTE all operations:
+
+    Dan (Reports to Henry):
+    - Posts ALL social media content (Pinterest, Instagram)
+    - Sends ALL cold outreach emails
+    - Runs ALL paid advertising campaigns
+    - Manages ALL lead generation
+
+    Henry (Reports to Dave):
+    - Closes ALL partner deals
+    - Sends ALL proposals and pricing
+    - Manages ALL sales negotiations
+
+    Maggie (Reports to Dave):
+    - Posts ALL community content
+    - Handles ALL styling consultations
+    - Sends ALL upsell communications
+
+    Annie (Reports to Dave):
+    - Responds to ALL customer inquiries
+    - Sends ALL onboarding sequences
+    - Handles ALL support tickets
+
+    Jordan (Reports to Atlas):
+    - Generates ALL partner contracts
+    - Reviews ALL compliance matters
+    - Processes ALL legal documents
+
+    Dave (Reports to Atlas):
+    - Generates ALL revenue reports
+    - Monitors ALL financial metrics
+    - Alerts on ALL anomalies
+
+    Atlas (CEO):
+    - Runs ALL C-suite coordination
+    - Makes ALL strategic decisions
+    - Maintains ALL company knowledge`,
+    importance_score: 10,
+    accessible_to: ['atlas', 'dave', 'maggie', 'jordan', 'annie', 'henry', 'dan']
+  },
+
   // Product Catalog Structure
   {
     scope: 'product',
