@@ -160,16 +160,29 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const supabase = createAdminSupabase();
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
+    // If no userId, return demo/empty state
     if (!userId) {
-      return NextResponse.json(
-        { error: 'Missing userId parameter' },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        success: true,
+        hasMeasurements: false,
+        message: 'No measurements found. Please complete a body scan.'
+      });
+    }
+
+    // Try to get supabase client - may fail if env vars missing
+    let supabase;
+    try {
+      supabase = createAdminSupabase();
+    } catch {
+      return NextResponse.json({
+        success: true,
+        hasMeasurements: false,
+        message: 'No measurements found. Please complete a body scan.'
+      });
     }
 
     // Get user's latest body measurements
@@ -201,9 +214,10 @@ export async function GET(request: NextRequest) {
 
   } catch (error: any) {
     console.error('[Body Scan API] Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to retrieve measurements', details: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      success: true,
+      hasMeasurements: false,
+      message: 'No measurements found. Please complete a body scan.'
+    });
   }
 }

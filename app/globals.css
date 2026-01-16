@@ -2,37 +2,49 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   FREQUENCY & FORM COLOR PALETTE
-   Champagne (feminine, warm) + Navy (masculine, grounding)
+   FREQUENCY & FORM LUXURY COLOR PALETTE
+   Refined elegance with warm tones and rich accents
    ============================================================================ */
 
 :root {
-  /* Champagne - Feminine Foundation */
-  --champagne: 212 200 168; /* #d4c8a8 */
+  /* Primary Colors */
+  --cream: 252 250 245; /* #fcfaf5 - Primary background */
+  --ivory: 245 243 238; /* #f5f3ee - Secondary background */
+  --champagne: 200 178 138; /* #c8b28a - Accent gold */
+  --charcoal: 31 41 55; /* #1f2937 - Primary text */
+  --slate: 107 114 128; /* #6b7280 - Secondary text */
+
+  /* Accent Colors */
+  --rose: 183 148 148; /* #b79494 - Soft rose for CTAs */
+  --forest: 45 90 75; /* #2d5a4b - Deep green accent */
+  --taupe: 168 162 158; /* #a8a29e - Neutral accent */
+
+  /* Background */
+  --ivory-warm: 245 240 232; /* #f5f0e8 */
+
+  /* Legacy mappings (for backward compatibility) */
   --champagne-light: 232 220 196; /* #e8dcc4 */
   --champagne-pale: 245 240 228; /* #f5f0e4 */
   --champagne-dark: 184 168 136; /* #b8a888 */
-
-  /* Navy - Masculine Accent */
-  --navy: 30 42 58; /* #1e2a3a */
+  --navy: 31 41 55; /* #1f2937 */
   --navy-light: 46 58 74; /* #2e3a4a */
   --navy-soft: 58 74 90; /* #3a4a5a */
 
-  /* Background */
-  --ivory: 250 248 244; /* #faf8f4 */
-  --ivory-warm: 245 240 232; /* #f5f0e8 */
-
   /* Text */
-  --text-dark: 30 42 58; /* #1e2a3a - Navy */
-  --text-muted: 90 106 122; /* #5a6a7a */
-  --text-soft: 138 154 170; /* #8a9aaa */
+  --text-dark: 31 41 55; /* #1f2937 - Charcoal */
+  --text-muted: 107 114 128; /* #6b7280 - Slate */
+  --text-soft: 156 163 175; /* #9ca3af */
 
   /* Semantic color mapping for components */
-  --color-primary-rgb: var(--navy);
-  --color-background-rgb: var(--ivory);
+  --color-primary-rgb: var(--charcoal);
+  --color-background-rgb: var(--cream);
   --color-accent-rgb: var(--champagne);
   --color-text-rgb: var(--text-dark);
   --color-muted-rgb: var(--champagne-pale);
+
+  /* Product card contrast backgrounds */
+  --bg-light-product: 31 41 55; /* Dark bg for light products */
+  --bg-dark-product: 252 250 245; /* Light bg for dark products */
 }
 
 /* Frequency tier colors */
@@ -40,8 +52,8 @@
   --color-elevating: var(--champagne);
   --color-elevating-pale: var(--champagne-pale);
   --color-harmonizing: 255 255 255; /* White */
-  --color-depleting: var(--navy);
-  --color-depleting-text: 201 112 112; /* Muted red for synthetics */
+  --color-depleting: var(--charcoal);
+  --color-depleting-text: 183 148 148; /* Rose for warnings */
 }
 
 /* ============================================================================

@@ -1,15 +1,19 @@
+'use client';
+
 import ProductCard, { Product } from './ProductCard';
 
 type ProductGridProps = {
   products: Product[];
   columns?: 2 | 3 | 4;
   className?: string;
+  showQuickAdd?: boolean;
 };
 
 export default function ProductGrid({
   products,
   columns = 4,
-  className = ''
+  className = '',
+  showQuickAdd = true
 }: ProductGridProps) {
   const gridColsClass = {
     2: 'grid-cols-1 sm:grid-cols-2',
@@ -20,7 +24,7 @@ export default function ProductGrid({
   if (products.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-lg text-[rgb(var(--color-text))] opacity-60">
+        <p className="text-lg text-[#6b7280]">
           No products found.
         </p>
       </div>
@@ -30,7 +34,7 @@ export default function ProductGrid({
   return (
     <div className={`grid ${gridColsClass} gap-8 ${className}`}>
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard key={product.id} product={product} showQuickAdd={showQuickAdd} />
       ))}
     </div>
   );
