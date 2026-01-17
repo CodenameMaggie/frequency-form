@@ -337,17 +337,33 @@ export async function POST(request: NextRequest) {
 
     for (const brand of VERIFIED_EUROPEAN_BRANDS) {
       try {
-        // Check if partner already exists
-        const { data: existing } = await supabase
+        // Check if partner already exists by name OR email
+        const { data: existingByName } = await supabase
           .from('ff_partners')
           .select('id')
           .eq('tenant_id', TENANT_ID)
           .eq('brand_name', brand.brand_name)
           .single();
 
-        if (existing) {
+        if (existingByName) {
           partnersSkipped++;
           continue;
+        }
+
+        // Also check by email to prevent duplicates
+        if (brand.contact_email) {
+          const { data: existingByEmail } = await supabase
+            .from('ff_partners')
+            .select('id, brand_name')
+            .eq('tenant_id', TENANT_ID)
+            .eq('contact_email', brand.contact_email)
+            .single();
+
+          if (existingByEmail) {
+            console.log(`[Henry] Skipping ${brand.brand_name} - email ${brand.contact_email} already used by ${existingByEmail.brand_name}`);
+            partnersSkipped++;
+            continue;
+          }
         }
 
         // Add new partner as prospect

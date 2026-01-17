@@ -337,10 +337,41 @@ export async function POST(request: NextRequest) {
 
     let emailsSent = 0;
     let emailsFailed = 0;
+    let partnersSkipped = 0;
     const outreachLog: any[] = [];
+
+    // Track emails we've already sent to in this batch to avoid duplicates
+    const emailsSentThisBatch = new Set<string>();
 
     for (const prospect of prospects) {
       try {
+        // Skip if we already sent to this email in this batch
+        if (emailsSentThisBatch.has(prospect.contact_email.toLowerCase())) {
+          console.log(`[Dan Partner Outreach] Skipping duplicate email: ${prospect.contact_email}`);
+          partnersSkipped++;
+          continue;
+        }
+
+        // Check if we've ever sent to this email before
+        const { data: previouslySent } = await supabase
+          .from('email_sent_log')
+          .select('id')
+          .eq('recipient_email', prospect.contact_email)
+          .eq('email_type', 'partner_outreach')
+          .single();
+
+        if (previouslySent) {
+          console.log(`[Dan Partner Outreach] Already sent to ${prospect.contact_email} previously, skipping`);
+          // Mark this prospect as contacted to prevent future attempts
+          await supabase.from('ff_partners').update({
+            status: 'contacted',
+            outreach_date: new Date().toISOString(),
+            notes: 'Marked as contacted - email already in sent log'
+          }).eq('id', prospect.id);
+          partnersSkipped++;
+          continue;
+        }
+
         // Select appropriate template
         const templateType = selectTemplate(prospect);
         const { subject, html } = generatePartnerEmail(prospect, templateType);
@@ -349,6 +380,9 @@ export async function POST(request: NextRequest) {
 
         // Send via Forbes Command email (Port 25)
         const result = await sendEmailViaForbesCommand(prospect.contact_email, subject, html);
+
+        // Track this email
+        emailsSentThisBatch.add(prospect.contact_email.toLowerCase());
 
         if (!result.success) {
           console.error(`[Dan Partner Outreach] Failed: ${prospect.brand_name} - ${result.error}`);

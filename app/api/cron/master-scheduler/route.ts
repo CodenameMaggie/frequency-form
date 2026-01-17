@@ -118,6 +118,13 @@ const SCHEDULED_JOBS: JobConfig[] = [
     enabled: true
   },
   {
+    name: 'Dan Contact Form Outreach',
+    endpoint: '/api/bots/dan-contact-form-outreach',
+    hours: [11],
+    days: [1, 3, 5], // Mon, Wed, Fri - after Henry discovers new partners
+    enabled: true
+  },
+  {
     name: 'Weekly C-Suite Review',
     endpoint: '/api/csuite/meeting',
     hours: [9],
