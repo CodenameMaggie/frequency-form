@@ -8,6 +8,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminSupabase } from '@/lib/supabase-server';
+import { sendBotMessage } from '@/lib/mfs-bot-comms';
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001';
 const CRON_SECRET = process.env.FORBES_COMMAND_CRON || 'forbes-command-cron-2024';
@@ -294,13 +295,12 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Notify Henry about outreach (via C-suite communication)
+    // Notify Henry about outreach (via unified MFS bot-comms)
     if (emailsSent > 0) {
-      await supabase.from('ff_bot_communications').insert({
-        from_bot: 'dan',
-        to_bot: 'henry',
+      await sendBotMessage('dan', 'henry', {
+        type: 'report',
         subject: `Wholesale Outreach Complete: ${emailsSent} emails sent`,
-        message: `Henry,
+        body: `Henry,
 
 I've completed today's wholesale outreach:
 - Emails sent: ${emailsSent}
@@ -312,6 +312,19 @@ ${results.filter(r => r.status === 'sent').map(r => `- ${r.business}`).join('\n'
 I'll follow up in 3 days with non-responders.
 
 - Dan`,
+        data: {
+          emails_sent: emailsSent,
+          emails_failed: emailsFailed,
+          businesses: results.filter(r => r.status === 'sent').map(r => r.business)
+        }
+      }, { channel: 'OUTREACH', priority: 'NORMAL' });
+
+      // Also log locally for F&F dashboard
+      await supabase.from('ff_bot_communications').insert({
+        from_bot: 'dan',
+        to_bot: 'henry',
+        subject: `Wholesale Outreach Complete: ${emailsSent} emails sent`,
+        message: `Emails sent: ${emailsSent}, Failed: ${emailsFailed}`,
         message_type: 'report',
         priority: 'normal'
       });

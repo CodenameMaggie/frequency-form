@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminSupabase } from '@/lib/supabase-server';
+import { sendBotMessage, broadcastMessage } from '@/lib/mfs-bot-comms';
 
 const CRON_SECRET = process.env.FORBES_COMMAND_CRON || 'forbes-command-cron-2024';
 
@@ -99,12 +100,11 @@ export async function POST(request: NextRequest) {
       .select()
       .single();
 
-    // 6. Dave sends revenue update to Atlas
-    await supabase.from('ff_bot_communications').insert({
-      from_bot: 'dave',
-      to_bot: 'atlas',
+    // 6. Dave sends revenue update to Atlas (via MFS unified bot-comms)
+    await sendBotMessage('dave', 'atlas', {
+      type: 'report',
       subject: `Daily Revenue Report - ${now.toLocaleDateString()}`,
-      message: `Morning Atlas,
+      body: `Morning Atlas,
 
 Revenue Status:
 - Total Revenue: $${totalRevenue.toLocaleString()}
@@ -119,29 +119,21 @@ ${totalRevenue === 0 ? '🚨 ALERT: We are still at $0 revenue. Prioritizing mem
 Ready for today's priorities.
 
 - Dave`,
+      data: { totalRevenue, yesterdayRevenue, activeMembers, goalProgress, meeting_id: meeting?.id }
+    }, { channel: 'REVENUE', priority: totalRevenue === 0 ? 'HIGH' : 'NORMAL' });
+
+    // Also log locally
+    await supabase.from('ff_bot_communications').insert({
+      from_bot: 'dave',
+      to_bot: 'atlas',
+      subject: `Daily Revenue Report - ${now.toLocaleDateString()}`,
+      message: `Revenue: $${totalRevenue.toLocaleString()}, Progress: ${goalProgress}%`,
       message_type: 'report',
-      priority: totalRevenue === 0 ? 'high' : 'normal',
-      metadata: {
-        meeting_id: meeting?.id,
-        metrics: { totalRevenue, yesterdayRevenue, activeMembers, goalProgress }
-      }
+      priority: totalRevenue === 0 ? 'high' : 'normal'
     });
 
-    // 7. Atlas broadcasts daily priorities
-    await supabase.from('ff_bot_communications').insert({
-      from_bot: 'atlas',
-      to_bot: null, // Broadcast to all
-      subject: `Daily Priorities - ${now.toLocaleDateString()}`,
-      message: `Team,
-
-Today we are ${elapsedDays.toFixed(0)} days into our 5-year journey to $100M.
-
-Current Status:
-- Revenue: $${totalRevenue.toLocaleString()} (${goalProgress}% of goal)
-- ${onTrack ? 'We are on track.' : 'We are behind schedule. Let\'s focus.'}
-
-Today's Focus:
-${totalRevenue === 0 ? `
+    // 7. Atlas broadcasts daily priorities (via MFS unified bot-comms)
+    const dailyPriorities = totalRevenue === 0 ? `
 🎯 PRIORITY: First Revenue
 - Henry: Close any warm leads, push partner deals
 - Dan: Accelerate outreach, generate qualified leads for Henry
@@ -151,14 +143,36 @@ ${totalRevenue === 0 ? `
 - Dave: Continue monitoring revenue streams
 - Henry: Progress on sales pipeline
 - Everyone: Maintain momentum
-`}
+`;
+
+    await broadcastMessage('atlas', {
+      type: 'update',
+      subject: `Daily Priorities - ${now.toLocaleDateString()}`,
+      body: `Team,
+
+Today we are ${elapsedDays.toFixed(0)} days into our 5-year journey to $100M.
+
+Current Status:
+- Revenue: $${totalRevenue.toLocaleString()} (${goalProgress}% of goal)
+- ${onTrack ? 'We are on track.' : 'We are behind schedule. Let\'s focus.'}
+
+Today's Focus:
+${dailyPriorities}
 
 Let's make today count.
 
 - Atlas`,
+      data: { meeting_id: meeting?.id, elapsed_days: elapsedDays, revenue: totalRevenue, goal_progress: goalProgress }
+    }, { channel: 'CSUITE', priority: 'NORMAL' });
+
+    // Also log locally
+    await supabase.from('ff_bot_communications').insert({
+      from_bot: 'atlas',
+      to_bot: null,
+      subject: `Daily Priorities - ${now.toLocaleDateString()}`,
+      message: `Day ${elapsedDays.toFixed(0)}: Revenue $${totalRevenue.toLocaleString()} (${goalProgress}%)`,
       message_type: 'update',
-      priority: 'normal',
-      metadata: { meeting_id: meeting?.id }
+      priority: 'normal'
     });
 
     // 8. If revenue is $0, send urgent messages to sales team
