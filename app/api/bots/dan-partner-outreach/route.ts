@@ -19,7 +19,7 @@ const TENANT_ID = '00000000-0000-0000-0000-000000000001';
 // Forbes Command Email API (Port 25)
 const EMAIL_API_URL = process.env.EMAIL_API_URL || 'http://5.78.139.9:3000/api/email-api';
 const EMAIL_API_KEY = process.env.EMAIL_API_KEY || 'forbes-command-2026';
-const FROM_EMAIL = 'maggie@frequencyandform.com';
+const FROM_EMAIL = 'henry@frequencyandform.com';
 const LOOKBOOK_URL = 'https://frequencyandform.com/ff/lookbook';
 const PARTNER_APPLY_URL = 'https://frequencyandform.com/partners/apply';
 
@@ -124,8 +124,8 @@ function generatePartnerEmail(brand: any, templateType: string): { subject: stri
     </p>
     <p style="color: #6b7280; font-size: 13px; margin-top: 16px;">
       Warm regards,<br>
-      <strong>Maggie Forbes</strong><br>
-      Founder, Frequency & Form
+      <strong>Henry</strong><br>
+      Partnerships, Frequency & Form
     </p>
   `;
 

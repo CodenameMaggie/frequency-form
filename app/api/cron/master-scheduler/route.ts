@@ -104,10 +104,29 @@ const SCHEDULED_JOBS: JobConfig[] = [
   // WEEKLY JOBS
   // =====================================================
   {
-    name: 'Henry Partner Discovery',
+    name: 'Henry Real Discovery',
+    endpoint: '/api/bots/henry-real-discovery',
+    hours: [10],
+    days: [1, 3, 5], // Mon, Wed, Fri - real web scraping for leads
+    enabled: true
+  },
+  {
+    name: 'Henry Partner Discovery (Legacy)',
     endpoint: '/api/bots/henry-partner-discovery',
     hours: [10],
-    days: [1, 3, 5], // Mon, Wed, Fri
+    days: [2, 4], // Tue, Thu - hardcoded brands
+    enabled: true
+  },
+  {
+    name: 'MFS Mainframe Sync',
+    endpoint: '/api/bots/mainframe-sync-processor',
+    hours: [6, 12, 18], // 3x daily
+    enabled: true
+  },
+  {
+    name: 'MFS Lead Router',
+    endpoint: '/api/bots/mfs-lead-router',
+    hours: [8, 14, 20], // 3x daily - after mainframe sync
     enabled: true
   },
   {
@@ -115,7 +134,7 @@ const SCHEDULED_JOBS: JobConfig[] = [
     endpoint: '/api/bots/dan-lead-generator',
     hours: [11],
     days: [2, 4], // Tue, Thu
-    enabled: true
+    enabled: false // Disabled - only has fake data
   },
   {
     name: 'Dan Contact Form Outreach',

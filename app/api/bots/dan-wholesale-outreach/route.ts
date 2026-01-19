@@ -16,7 +16,7 @@ const CRON_SECRET = process.env.FORBES_COMMAND_CRON || 'forbes-command-cron-2024
 // Forbes Command Email API
 const EMAIL_API_URL = process.env.EMAIL_API_URL || 'http://5.78.139.9:3000/api/email-api';
 const EMAIL_API_KEY = process.env.EMAIL_API_KEY || 'forbes-command-2026';
-const FROM_EMAIL = 'maggie@frequencyandform.com';
+const FROM_EMAIL = 'henry@frequencyandform.com';
 const WHOLESALE_URL = 'https://frequencyandform.com/wholesale';
 const LOOKBOOK_URL = 'https://frequencyandform.com/ff/lookbook';
 
@@ -176,7 +176,7 @@ function generateWholesaleEmail(buyer: {
 
         <p style="color: #6b7280; font-size: 13px; margin-top: 16px;">
           Warm regards,<br>
-          <strong>Maggie</strong><br>
+          <strong>Henry</strong><br>
           Wholesale Partnerships<br>
           Frequency & Form
         </p>

@@ -158,9 +158,9 @@ You can view our current collection at: https://frequencyandform.com/ff/lookbook
 Would you be open to a quick conversation about how we might work together?
 
 Warm regards,
-Maggie Forbes
-Founder, Frequency & Form
-maggie@frequencyandform.com
+Henry
+Partnerships, Frequency & Form
+henry@frequencyandform.com
 https://frequencyandform.com`
   };
 }
