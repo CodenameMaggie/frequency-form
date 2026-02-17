@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Fitting Room — Frequency & Form</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cormorant Garamond',Georgia,serif;background:#FDF9F3;color:#1e2a3a}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#E8E0D4;border-radius:3px}
+::placeholder{color:#B8A888}
+textarea,input,select,button{font-family:inherit}
+img{display:block}
+@keyframes trspin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var ce=React.createElement,us=React.useState,ue=React.useEffect,uc=React.useCallback;
+var C={navy:"#1e2a3a",gold:"#c9a962",cream:"#FDF9F3",tan:"#b8a888",bdr:"#E8E0D4",mut:"#8B7355",lt:"#FAF8F5"};
+
+var CLOTHING_CATS=["dress","Dress","top","Tops","pants","skirt","shorts","Shorts","cardigan","sweater","Sweaters",
+"Crew Neck Sweaters","Blouse","Wrap Dress","Classic Skirt","Coats","Jackets","Knit Jumpsuits","clothing"];
+
+function buildTryOnPrompt(profile,product){
+  var bd=profile&&profile.bodyType?
+    "Body: "+profile.bodyType+", "+(profile.heightInches?Math.floor(profile.heightInches/12)+"'"+profile.heightInches%12+'"':"avg height")+
+    ", bust "+(profile.bust||"?")+'" waist '+(profile.waist||"?")+'" hips '+(profile.hips||"?")+'".\nColor season: '+(profile.colorSeason||"unknown")+". Undertone: "+(profile.undertone||"unknown")+"."
+    :"Standard fashion model proportions.";
+  return{
+    system:"You are the virtual fitting room AI for Frequency & Form, a luxury natural fiber fashion house.\n\n"+bd+
+"\n\nSVG RULES:\n- viewBox=\"0 0 500 750\"\n- Editorial fashion croquis, elongated 9-head figure with specified body proportions\n"+
+"- Show the ACTUAL GARMENT from the product details\n- Elegant flowing lines, Vogue editorial quality\n"+
+"- Use strokes and minimal fills\n- Show how fabric drapes on THIS body type\n- Include construction details\n"+
+"- Garment color: use the product actual color\n- Skin tone: #D4A574, Hair: #2D1F1F\n"+
+"- Annotation labels: font-family=\"Georgia\" font-size=\"9\" fill=\"#8B7355\"\n"+
+"- Include fit notes specific to this body type\n- Bottom right: frequency Hz badge\n"+
+"- ONLY output valid SVG. No markdown. No backticks. No explanation.\n- Must start with <svg and end with </svg>",
+    user:"Show me wearing this garment:\n\nProduct: "+(product.product_name||product.name)+
+"\nBrand: "+(product.brand_name||product.brand)+"\nCategory: "+(product.category||"")+
+"\nFabric: "+(product.fabric_type||"natural fiber")+" ("+(product.frequency_hz||"?")+" Hz)"+
+"\nColors: "+(product.colors?product.colors.join(", "):"as shown")+
+"\nDescription: "+(product.description||"No description")+
+"\nPrice: "+(product.price_display||"$"+((product.price_cents||0)/100).toFixed(2))+
+"\n\nCreate the SVG illustration showing this exact garment on my body. Show how the fabric falls naturally on my proportions. Include fit annotations."
+  };
+}
+
+function FFTryOn(){
+  var _p=us([]),products=_p[0],setProducts=_p[1];
+  var _l=us(true),loading=_l[0],setLoading=_l[1];
+  var _v=us("browse"),view=_v[0],setView=_v[1];
+  var _f=us("all"),filter=_f[0],setFilter=_f[1];
+  var _s=us(null),selectedProduct=_s[0],setSelectedProduct=_s[1];
+  var _t=us(null),tryOnSvg=_t[0],setTryOnSvg=_t[1];
+  var _g=us(false),isGen=_g[0],setIsGen=_g[1];
+  var _e=us(null),err=_e[0],setErr=_e[1];
+  var _w=us([]),wishlist=_w[0],setWishlistState=_w[1];
+  var _h=us([]),tryHist=_h[0],setTryHistState=_h[1];
+  var _pr=us(null),profile=_pr[0],setProfileState=_pr[1];
+  var _sp=us(false),showProf=_sp[0],setShowProf=_sp[1];
+  var _q=us(""),searchQ=_q[0],setSearchQ=_q[1];
+
+  function saveWL(items){setWishlistState(items);try{localStorage.setItem("ff-wishlist",JSON.stringify(items))}catch(e){}}
+  function saveTH(items){setTryHistState(items);try{localStorage.setItem("ff-tryon-hist",JSON.stringify(items))}catch(e){}}
+  function saveProf(p){setProfileState(p);try{localStorage.setItem("ff-profile",JSON.stringify(p))}catch(e){}}
+
+  ue(function(){
+    try{var w=localStorage.getItem("ff-wishlist");if(w)setWishlistState(JSON.parse(w))}catch(e){}
+    try{var h=localStorage.getItem("ff-tryon-hist");if(h)setTryHistState(JSON.parse(h))}catch(e){}
+    try{var p=localStorage.getItem("ff-profile");if(p)setProfileState(JSON.parse(p))}catch(e){}
+    fetchProducts();
+  },[]);
+
+  function fetchProducts(){
+    setLoading(true);
+    fetch("/api/ff/products?limit=100").then(function(r){return r.json()}).then(function(data){
+      var arr=data.products||data.data||data||[];
+      var clothing=arr.filter(function(p){
+        var cat=(p.category||"").toLowerCase();
+        return cat&&(cat.indexOf("dress")>-1||cat.indexOf("pant")>-1||cat.indexOf("top")>-1||cat.indexOf("blouse")>-1||
+          cat.indexOf("skirt")>-1||cat.indexOf("sweater")>-1||cat.indexOf("cardigan")>-1||cat.indexOf("jacket")>-1||
+          cat.indexOf("coat")>-1||cat.indexOf("short")>-1||cat.indexOf("jumpsuit")>-1||cat.indexOf("shirt")>-1||cat==="clothing");
+      });
+      setProducts(clothing.length>0?clothing:arr.slice(0,30));
+      setLoading(false);
+    }).catch(function(){setProducts([]);setLoading(false)});
+  }
+
+  var cats=["all"];
+  products.forEach(function(p){if(p.category&&cats.indexOf(p.category)===-1)cats.push(p.category)});
+
+  var filtered=products.filter(function(p){
+    var mc=filter==="all"||p.category===filter;
+    var ms=!searchQ||(p.product_name||"").toLowerCase().indexOf(searchQ.toLowerCase())>-1||
+      (p.brand_name||"").toLowerCase().indexOf(searchQ.toLowerCase())>-1||
+      (p.fabric_type||"").toLowerCase().indexOf(searchQ.toLowerCase())>-1;
+    return mc&&ms;
+  });
+
+  function isWL(id){return wishlist.some(function(w){return w.id===id})}
+  function toggleWL(p){isWL(p.id)?saveWL(wishlist.filter(function(w){return w.id!==p.id})):saveWL(wishlist.concat([Object.assign({},p,{savedAt:new Date().toISOString()})]))}
+
+  function tryOn(product){
+    setSelectedProduct(product);setView("trying");setIsGen(true);setErr(null);setTryOnSvg(null);
+    var pr=buildTryOnPrompt(profile,product);
+    var content=[{type:"text",text:pr.user}];
+    fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4000,system:pr.system,messages:[{role:"user",content:content}]})
+    }).then(function(r){return r.json()}).then(function(data){
+      var text=(data.content||[]).map(function(c){return c.text||""}).join("");
+      var match=text.match(/<svg[\s\S]*?<\/svg>/);
+      if(match){
+        setTryOnSvg(match[0]);
+        saveTH([{id:Date.now().toString(),productId:product.id,productName:product.product_name||product.name,brandName:product.brand_name||product.brand,svg:match[0],createdAt:new Date().toISOString()}].concat(tryHist).slice(0,20));
+      }else{setErr("Try-on generation failed. Try again.")}
+      setIsGen(false);
+    }).catch(function(){setErr("Connection error.");setIsGen(false)});
+  }
+
+  /* ═══ PRODUCT CARD ═══ */
+  function Card(p){
+    var tier=p.frequency_tier==="foundation"?{bg:"#F0FAFB",c:"#4A9BA8",b:"#4A9BA8"}:{bg:"#FAF6EE",c:C.gold,b:C.gold};
+    return ce("div",{style:{background:"white",borderRadius:10,border:"1px solid "+C.bdr,overflow:"hidden",boxShadow:"0 2px 12px rgba(30,42,58,0.04)"}},
+      /* Image */
+      ce("div",{style:{position:"relative",aspectRatio:"3/4",background:C.lt,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}},
+        p.image_url?ce("img",{src:p.image_url,alt:p.product_name||"",style:{width:"100%",height:"100%",objectFit:"cover"},
+          onError:function(e){e.target.style.display="none"}}):null,
+        !p.image_url?ce("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",color:C.tan}},
+          ce("span",{style:{fontSize:40,opacity:0.2}},"✦"),ce("span",{style:{fontSize:11,marginTop:4}},"No image")):null,
+        /* Heart */
+        ce("button",{onClick:function(e){e.stopPropagation();toggleWL(p)},
+          style:{position:"absolute",top:8,right:8,width:32,height:32,borderRadius:"50%",border:"none",background:"white",
+            boxShadow:"0 2px 8px rgba(0,0,0,0.15)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}},
+          isWL(p.id)?"\u2764\uFE0F":"\uD83E\uDD0D"),
+        /* Hz badge */
+        ce("div",{style:{position:"absolute",bottom:8,left:8,padding:"3px 8px",borderRadius:12,fontSize:9,
+          letterSpacing:1,textTransform:"uppercase",background:tier.bg,color:tier.c,border:"1px solid "+tier.b}},
+          (p.frequency_hz||"?")+" Hz")
+      ),
+      /* Info */
+      ce("div",{style:{padding:14}},
+        ce("p",{style:{fontSize:10,color:C.gold,textTransform:"uppercase",letterSpacing:1,marginBottom:3}},p.brand_name||p.brand||""),
+        ce("h3",{style:{fontSize:14,color:C.navy,fontWeight:600,marginBottom:6,lineHeight:1.3,
+          display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}},p.product_name||p.name||""),
+        ce("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}},
+          ce("span",{style:{fontSize:16,fontWeight:600,color:C.navy}},p.price_display||"$"+((p.price_cents||0)/100).toFixed(2)),
+          ce("span",{style:{fontSize:11,color:C.tan,textTransform:"capitalize"}},p.fabric_type||"")),
+        p.colors&&p.colors.length?ce("p",{style:{fontSize:11,color:C.mut,marginBottom:10}},p.colors.join(", ")):null,
+        ce("button",{onClick:function(){tryOn(p)},style:{width:"100%",padding:"10px",background:C.navy,color:"#FAFAFA",border:"none",
+          borderRadius:8,cursor:"pointer",fontFamily:"Cinzel,Georgia,serif",fontSize:11,letterSpacing:2,textTransform:"uppercase"}},
+          "\u2728 Try This On Me"))
+    );
+  }
+
+  /* ═══ HEADER ═══ */
+  var header=ce("div",{style:{background:C.navy,padding:"12px 24px",display:"flex",alignItems:"center",justifyContent:"space-between",borderBottom:"2px solid "+C.gold}},
+    ce("div",{style:{display:"flex",alignItems:"center",gap:12}},
+      ce("div",{style:{width:32,height:32,border:"1.5px solid "+C.gold,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center"}},
+        ce("span",{style:{color:C.gold,fontSize:13,fontFamily:"Cinzel,Georgia,serif"}},"FF")),
+      ce("div",null,
+        ce("h1",{style:{color:"#FAFAFA",fontSize:17,fontFamily:"Cinzel,Georgia,serif",fontWeight:400,margin:0,letterSpacing:2}},"VIRTUAL FITTING ROOM"),
+        ce("p",{style:{color:C.gold,fontSize:9,margin:0,letterSpacing:3,textTransform:"uppercase"}},"Frequency & Form — Try Before You Buy"))),
+    ce("div",{style:{display:"flex",alignItems:"center",gap:8}},
+      ce("div",{onClick:function(){setShowProf(!showProf)},style:{padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:11,
+        letterSpacing:1,border:"1px solid "+(profile?C.gold:"#666"),color:profile?C.gold:"#888",fontFamily:"inherit"}},
+        profile?(profile.bodyType||"")+" \u00B7 "+(profile.colorSeason||""):"Set My Profile"),
+      ce("button",{onClick:function(){setView("browse")},style:{padding:"6px 16px",border:"1px solid "+C.gold,borderRadius:4,
+        cursor:"pointer",fontFamily:"inherit",fontSize:12,background:view==="browse"?C.gold:"transparent",color:view==="browse"?C.navy:C.gold}},"Shop"),
+      ce("button",{onClick:function(){setView("wishlist")},style:{padding:"6px 16px",border:"1px solid "+C.gold,borderRadius:4,
+        cursor:"pointer",fontFamily:"inherit",fontSize:12,background:view==="wishlist"?C.gold:"transparent",color:view==="wishlist"?C.navy:C.gold}},"Wishlist ("+wishlist.length+")"))
+    )
+  );
+
+  /* ═══ PROFILE EDITOR ═══ */
+  var profEdit=showProf?ce("div",{style:{background:"white",borderBottom:"1px solid "+C.bdr,padding:"14px 24px"}},
+    ce("div",{style:{maxWidth:800,margin:"0 auto",display:"flex",gap:16,flexWrap:"wrap"}},
+      [["Body Type","bodyType","hourglass"],["Height (in)","heightInches","65"],["Bust","bust",""],["Waist","waist",""],
+       ["Hips","hips",""],["Color Season","colorSeason","warm autumn"],["Undertone","undertone","warm"]].map(function(arr){
+        return ce("div",{key:arr[1],style:{flex:"1 1 120px"}},
+          ce("label",{style:{fontSize:9,color:"#999",display:"block",marginBottom:2,textTransform:"uppercase",letterSpacing:1}},arr[0]),
+          ce("input",{value:profile&&profile[arr[1]]||"",onChange:function(ev){var np=Object.assign({},profile||{});np[arr[1]]=ev.target.value;saveProf(np)},
+            placeholder:arr[2],style:{width:"100%",padding:"6px 8px",border:"1px solid "+C.bdr,borderRadius:4,fontSize:13,outline:"none",boxSizing:"border-box"}}))
+      }))):null;
+
+  /* ═══ BROWSE VIEW ═══ */
+  var browseView=ce("div",{style:{maxWidth:1200,margin:"0 auto",padding:24}},
+    /* Search + filters */
+    ce("div",{style:{display:"flex",gap:12,marginBottom:24,flexWrap:"wrap",alignItems:"center"}},
+      ce("input",{value:searchQ,onChange:function(e){setSearchQ(e.target.value)},placeholder:"Search by name, brand, or fabric...",
+        style:{flex:"1 1 250px",padding:"10px 14px",border:"1px solid "+C.bdr,borderRadius:8,fontSize:14,color:C.navy,outline:"none"}}),
+      ce("div",{style:{display:"flex",gap:6,flexWrap:"wrap"}},
+        cats.map(function(cat){return ce("button",{key:cat,onClick:function(){setFilter(cat)},
+          style:{padding:"6px 14px",borderRadius:20,border:"1px solid "+(filter===cat?C.gold:C.bdr),
+            background:filter===cat?C.gold:"white",color:filter===cat?C.navy:C.mut,cursor:"pointer",fontSize:11,textTransform:"capitalize"}},cat)}))),
+    /* Grid */
+    loading?ce("div",{style:{textAlign:"center",padding:60}},
+      ce("div",{style:{width:40,height:40,border:"3px solid "+C.bdr,borderTopColor:C.gold,borderRadius:"50%",animation:"trspin 1s linear infinite",margin:"0 auto 16px"}}),
+      ce("p",{style:{color:C.mut,fontStyle:"italic"}},"Loading collection...")):
+    ce("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(240px, 1fr))",gap:20}},
+      filtered.map(function(p){return ce(Card,Object.assign({key:p.id},p))})),
+    !loading&&filtered.length===0?ce("div",{style:{textAlign:"center",padding:60,color:C.tan}},
+      ce("p",{style:{fontSize:17,fontStyle:"italic"}},"No products match your search")):null
+  );
+
+  /* ═══ TRY-ON VIEW ═══ */
+  var tryView=selectedProduct?ce("div",{style:{maxWidth:1000,margin:"0 auto",padding:24}},
+    ce("button",{onClick:function(){setView("browse")},style:{background:"none",border:"none",cursor:"pointer",fontSize:13,color:C.gold,marginBottom:16,padding:0}},"\u2190 Back to Shop"),
+    ce("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,minHeight:500}},
+      /* Left: Product */
+      ce("div",{style:{background:"white",borderRadius:12,border:"1px solid "+C.bdr,overflow:"hidden"}},
+        ce("div",{style:{aspectRatio:"3/4",background:C.lt,display:"flex",alignItems:"center",justifyContent:"center"}},
+          selectedProduct.image_url?ce("img",{src:selectedProduct.image_url,alt:"",style:{width:"100%",height:"100%",objectFit:"cover"}}):
+          ce("span",{style:{fontSize:60,opacity:0.15}},"\u2726")),
+        ce("div",{style:{padding:16}},
+          ce("p",{style:{fontSize:10,color:C.gold,textTransform:"uppercase",letterSpacing:1}},selectedProduct.brand_name||""),
+          ce("h2",{style:{fontSize:18,color:C.navy,marginTop:4,marginBottom:8}},selectedProduct.product_name||""),
+          ce("p",{style:{fontSize:22,color:C.navy,fontWeight:600,marginBottom:8}},selectedProduct.price_display||""),
+          ce("p",{style:{fontSize:12,color:C.mut,lineHeight:1.5}},selectedProduct.description||""),
+          ce("div",{style:{marginTop:12,display:"flex",gap:8,flexWrap:"wrap"}},
+            ce("span",{style:{padding:"4px 10px",borderRadius:12,fontSize:10,background:"#FAF6EE",color:C.gold,border:"1px solid "+C.gold}},
+              (selectedProduct.fabric_type||"natural")+" \u00B7 "+(selectedProduct.frequency_hz||"?")+" Hz"),
+            selectedProduct.colors?selectedProduct.colors.map(function(c){return ce("span",{key:c,style:{padding:"4px 10px",borderRadius:12,fontSize:10,background:C.lt,color:C.mut,border:"1px solid "+C.bdr}},c)}):null))),
+      /* Right: Try-On */
+      ce("div",{style:{background:"white",borderRadius:12,border:"1px solid "+C.bdr,display:"flex",flexDirection:"column"}},
+        ce("div",{style:{padding:"12px 16px",borderBottom:"1px solid "+C.bdr,display:"flex",justifyContent:"space-between",alignItems:"center"}},
+          ce("p",{style:{fontSize:10,color:C.mut,textTransform:"uppercase",letterSpacing:2}},
+            profile?"On Your "+profile.bodyType+" Figure":"Virtual Try-On"),
+          ce("button",{onClick:function(){toggleWL(selectedProduct)},style:{background:"none",border:"none",cursor:"pointer",fontSize:18}},
+            isWL(selectedProduct.id)?"\u2764\uFE0F":"\uD83E\uDD0D")),
+        ce("div",{style:{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:16}},
+          isGen?ce("div",{style:{textAlign:"center"}},
+            ce("div",{style:{width:48,height:48,border:"3px solid "+C.bdr,borderTopColor:C.gold,borderRadius:"50%",animation:"trspin 1s linear infinite",margin:"0 auto 16px"}}),
+            ce("p",{style:{color:C.mut,fontSize:15,fontStyle:"italic"}},"Styling this on you..."),
+            profile?ce("p",{style:{color:C.tan,fontSize:12,marginTop:8}},"Adapting for your "+profile.bodyType+" silhouette"):null):
+          err?ce("div",{style:{textAlign:"center",padding:24}},
+            ce("p",{style:{color:"#991B1B",fontSize:14,marginBottom:12}},err),
+            ce("button",{onClick:function(){tryOn(selectedProduct)},style:{padding:"10px 24px",background:C.navy,color:"#FAFAFA",border:"none",borderRadius:8,cursor:"pointer",fontSize:13}},"Try Again")):
+          tryOnSvg?ce("div",{dangerouslySetInnerHTML:{__html:tryOnSvg},style:{maxWidth:"100%",maxHeight:"100%"}}):null),
+        tryOnSvg&&!isGen?ce("div",{style:{padding:"12px 16px",borderTop:"1px solid "+C.bdr,display:"flex",gap:8}},
+          ce("button",{onClick:function(){tryOn(selectedProduct)},style:{flex:1,padding:10,background:C.lt,border:"1px solid "+C.bdr,borderRadius:6,cursor:"pointer",fontSize:12,color:C.navy}},"Regenerate"),
+          selectedProduct.affiliate_url?ce("a",{href:selectedProduct.affiliate_url,target:"_blank",rel:"noopener noreferrer",
+            style:{flex:1,padding:10,background:C.gold,border:"none",borderRadius:6,cursor:"pointer",fontFamily:"Cinzel,Georgia,serif",
+              fontSize:11,color:C.navy,textAlign:"center",textDecoration:"none",letterSpacing:1,textTransform:"uppercase",display:"block"}},"Shop Now \u2192"):null):null)
+    )):null;
+
+  /* ═══ WISHLIST VIEW ═══ */
+  var wishView=ce("div",{style:{maxWidth:1200,margin:"0 auto",padding:24}},
+    ce("div",{style:{textAlign:"center",marginBottom:32}},
+      ce("h2",{style:{fontFamily:"Cinzel,Georgia,serif",fontSize:24,color:C.navy,fontWeight:400,letterSpacing:3}},"MY WISHLIST"),
+      ce("p",{style:{color:C.mut,fontSize:14,marginTop:6}},wishlist.length+" saved piece"+(wishlist.length!==1?"s":""))),
+    wishlist.length===0?ce("div",{style:{textAlign:"center",padding:72,color:C.tan}},
+      ce("div",{style:{fontSize:36,marginBottom:12,opacity:0.2}},"\u2726"),
+      ce("p",{style:{fontSize:17,fontStyle:"italic"}},"Your wishlist is empty"),
+      ce("p",{style:{fontSize:13,marginTop:8}},"Heart products while browsing to save them here")):
+    ce("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(240px, 1fr))",gap:20}},
+      wishlist.map(function(p){return ce(Card,Object.assign({key:p.id},p))})),
+    tryHist.length>0?ce("div",{style:{marginTop:48}},
+      ce("h3",{style:{fontFamily:"Cinzel,Georgia,serif",fontSize:18,color:C.navy,fontWeight:400,letterSpacing:2,marginBottom:16,textAlign:"center"}},"RECENT TRY-ONS"),
+      ce("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:16}},
+        tryHist.map(function(h){return ce("div",{key:h.id,style:{background:"white",borderRadius:10,border:"1px solid "+C.bdr,overflow:"hidden"}},
+          ce("div",{style:{aspectRatio:"5/7",background:C.lt,display:"flex",alignItems:"center",justifyContent:"center",padding:8}},
+            ce("div",{dangerouslySetInnerHTML:{__html:h.svg},style:{maxWidth:"100%",maxHeight:"100%"}})),
+          ce("div",{style:{padding:10}},
+            ce("p",{style:{fontSize:10,color:C.gold,textTransform:"uppercase"}},h.brandName||""),
+            ce("p",{style:{fontSize:12,color:C.navy,lineHeight:1.3}},h.productName||""),
+            ce("p",{style:{fontSize:9,color:C.tan,marginTop:4}},new Date(h.createdAt).toLocaleDateString())))}))):null
+  );
+
+  /* ═══ MAIN RETURN ═══ */
+  return ce("div",{style:{minHeight:"100vh",background:C.cream,fontFamily:"'Cormorant Garamond',Georgia,serif",color:C.navy}},
+    header,profEdit,
+    view==="browse"?browseView:view==="trying"?tryView:wishView);
+}
+
+/* Card is used as a component - need to pass props correctly */
+function Card(props){
+  var p=props;
+  var tier=p.frequency_tier==="foundation"?{bg:"#F0FAFB",c:"#4A9BA8",b:"#4A9BA8"}:{bg:"#FAF6EE",c:C.gold,b:C.gold};
+  var isWL_=false;
+  try{var wl=JSON.parse(localStorage.getItem("ff-wishlist")||"[]");isWL_=wl.some(function(w){return w.id===p.id})}catch(e){}
+  return ce("div",{style:{background:"white",borderRadius:10,border:"1px solid "+C.bdr,overflow:"hidden",boxShadow:"0 2px 12px rgba(30,42,58,0.04)"}},
+    ce("div",{style:{position:"relative",aspectRatio:"3/4",background:C.lt,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}},
+      p.image_url?ce("img",{src:p.image_url,alt:p.product_name||"",style:{width:"100%",height:"100%",objectFit:"cover"},
+        onError:function(ev){ev.target.style.display="none"}}):
+      ce("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",color:C.tan}},
+        ce("span",{style:{fontSize:40,opacity:0.2}},"\u2726"),ce("span",{style:{fontSize:11,marginTop:4}},"No image")),
+      ce("div",{style:{position:"absolute",bottom:8,left:8,padding:"3px 8px",borderRadius:12,fontSize:9,
+        letterSpacing:1,textTransform:"uppercase",background:tier.bg,color:tier.c,border:"1px solid "+tier.b}},
+        (p.frequency_hz||"?")+" Hz")),
+    ce("div",{style:{padding:14}},
+      ce("p",{style:{fontSize:10,color:C.gold,textTransform:"uppercase",letterSpacing:1,marginBottom:3}},p.brand_name||p.brand||""),
+      ce("h3",{style:{fontSize:14,color:C.navy,fontWeight:600,marginBottom:6,lineHeight:1.3,
+        display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}},p.product_name||p.name||""),
+      ce("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}},
+        ce("span",{style:{fontSize:16,fontWeight:600,color:C.navy}},p.price_display||"$"+((p.price_cents||0)/100).toFixed(2)),
+        ce("span",{style:{fontSize:11,color:C.tan,textTransform:"capitalize"}},p.fabric_type||"")),
+      ce("button",{onClick:function(){
+        /* Find parent FFTryOn and call tryOn - use event dispatch */
+        window.dispatchEvent(new CustomEvent("ff-tryon",{detail:p}));
+      },style:{width:"100%",padding:"10px",background:C.navy,color:"#FAFAFA",border:"none",
+        borderRadius:8,cursor:"pointer",fontFamily:"Cinzel,Georgia,serif",fontSize:11,letterSpacing:2,textTransform:"uppercase"}},
+        "\u2728 Try This On Me"))
+  );
+}
+
+/* Mount with event listener bridge */
+function App(){
+  return ce(FFTryOn);
+}
+ReactDOM.render(ce(App),document.getElementById("root"));
+</script>
+</body>
+</html>
