@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Style Profile — Frequency & Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#5C3A40;--wine-deep:#2A1418;--plum:#7D5A60;--rose:#D4A0A6;--mauve:#C49DA2;--taupe:#CBBBAD;--cream:#FAF7F5;--blush:#F5E8EA;--gold:#c9a962;--text:#3D2E2E;--text-light:#8B7676;--border:#E8DDD8;--shadow:0 2px 20px rgba(92,58,64,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;color:var(--text);min-height:100vh}
+.header{background:var(--wine-deep);padding:16px 24px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--rose);font-weight:600}
+.tagline{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--mauve);font-style:italic}
+.progress-wrap{background:var(--blush);padding:0;position:sticky;top:0;z-index:50}
+.progress-bar{height:3px;background:linear-gradient(90deg,var(--wine),var(--rose));transition:width .6s ease;width:0}
+.progress-steps{display:flex;justify-content:center;gap:8px;padding:12px 16px}
+.p-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s}
+.p-dot.active{background:var(--wine);transform:scale(1.3)}
+.p-dot.done{background:var(--rose)}
+.container{max-width:640px;margin:0 auto;padding:24px 20px 80px}
+.step{display:none;animation:fadeUp .5s ease}
+.step.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.step-label{font-family:'Raleway',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--mauve);margin-bottom:8px}
+.step-title{font-family:'Cinzel',serif;font-size:clamp(22px,4vw,30px);font-weight:600;color:var(--wine-deep);letter-spacing:1px;margin-bottom:6px}
+.step-sub{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--plum);margin-bottom:28px;line-height:1.5}
+.input-label{display:block;font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--plum);margin-bottom:6px;margin-top:18px}
+.input-field{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);background:white;outline:none;transition:border .3s}
+.input-field:focus{border-color:var(--rose)}
+.input-row{display:grid;gap:14px;margin-bottom:8px}
+.input-row.two{grid-template-columns:1fr 1fr}
+.input-row.three{grid-template-columns:1fr 1fr 1fr}
+select.input-field{cursor:pointer;-webkit-appearance:none;appearance:none;background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237D5A60' fill='none' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 14px center}
+.body-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:20px 0}
+.body-card{background:white;border:2px solid var(--border);border-radius:12px;padding:16px 8px 12px;text-align:center;cursor:pointer;transition:all .25s}
+.body-card:hover{border-color:var(--mauve);transform:translateY(-2px)}
+.body-card.selected{border-color:var(--wine);background:var(--blush);box-shadow:0 0 0 3px rgba(92,58,64,0.15)}
+.body-card svg{width:44px;height:70px;display:block;margin:0 auto 8px}
+.body-card .card-label{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--plum)}
+.body-card.selected .card-label{color:var(--wine);font-weight:600}
+.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.option-card{background:white;border:2px solid var(--border);border-radius:12px;padding:18px 16px;cursor:pointer;transition:all .25s;text-align:center}
+.option-card:hover{border-color:var(--mauve);transform:translateY(-1px)}
+.option-card.selected{border-color:var(--wine);background:var(--blush);box-shadow:0 0 0 3px rgba(92,58,64,0.15)}
+.option-card .card-label{display:block;font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--wine-deep);margin-bottom:4px}
+.option-card .card-desc{display:block;font-size:13px;color:var(--text-light);line-height:1.4}
+.option-card.selected .card-label{color:var(--wine)}
+.color-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.color-card{background:white;border:2px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all .25s;text-align:center}
+.color-card:hover{border-color:var(--mauve)}
+.color-card.selected{border-color:var(--wine);background:var(--blush);box-shadow:0 0 0 3px rgba(92,58,64,0.15)}
+.color-swatches{display:flex;gap:4px;justify-content:center;margin-bottom:8px}
+.color-sw{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,0.08)}
+.color-card .card-label{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--plum)}
+.chip-wrap{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{padding:8px 16px;border-radius:20px;border:1.5px solid var(--border);background:white;cursor:pointer;font-family:'Raleway',sans-serif;font-size:12px;letter-spacing:.5px;color:var(--plum);transition:all .2s}
+.chip:hover{border-color:var(--mauve)}
+.chip.selected{background:var(--wine);color:white;border-color:var(--wine)}
+.chip.avoid{background:var(--blush);color:var(--plum);border-color:var(--rose)}
+.btn-row{display:flex;justify-content:space-between;margin-top:32px;gap:12px}
+.btn{padding:14px 28px;border-radius:8px;border:none;cursor:pointer;font-family:'Raleway',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
+.btn-next{background:var(--wine);color:var(--cream);flex:1;max-width:200px}
+.btn-next:hover{background:var(--wine-deep)}
+.btn-next:disabled{opacity:.4;cursor:default}
+.btn-back{background:transparent;color:var(--plum);border:1px solid var(--border);flex:0 0 auto}
+.btn-back:hover{border-color:var(--plum)}
+.btn-submit{background:linear-gradient(135deg,var(--wine),var(--plum));color:white;width:100%;padding:16px;font-size:13px;letter-spacing:3px;border-radius:10px;box-shadow:0 4px 16px rgba(92,58,64,0.25)}
+.btn-submit:hover{box-shadow:0 6px 24px rgba(92,58,64,0.35);transform:translateY(-1px)}
+.review-card{background:white;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:12px}
+.review-label{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mauve);margin-bottom:4px}
+.review-value{font-family:'Playfair Display',serif;font-size:15px;color:var(--wine-deep);text-transform:capitalize}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--wine-deep);color:var(--cream);font-family:'Raleway',sans-serif;font-size:12px;letter-spacing:1px;padding:14px 28px;border-radius:8px;border:1px solid var(--rose);z-index:999;transition:transform .4s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{border-color:#c44;background:#3a1418}
+.section-divider{width:40px;height:1px;background:var(--rose);margin:24px 0 20px}
+.note-text{font-size:13px;color:var(--text-light);font-style:italic;line-height:1.5;margin-top:8px}
+.freq-badge{display:inline-block;background:var(--wine-deep);color:var(--rose);font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(250,247,245,0.92);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.loading-overlay.show{display:flex}
+.loading-spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--wine);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){
+  .body-grid{grid-template-columns:repeat(3,1fr)}
+  .color-grid{grid-template-columns:repeat(2,1fr)}
+  .input-row.three{grid-template-columns:1fr}
+  .option-grid{grid-template-columns:1fr}
+  .review-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div><div class="brand">Frequency & Form</div><div class="tagline">Dress in Alignment</div></div>
+  <a href="/membership" style="font-family:Raleway,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);text-decoration:none;border:1px solid var(--rose);padding:6px 14px;border-radius:4px">Join</a>
+</div>
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="progress-steps" id="progressDots"></div>
+</div>
+
+<div class="container">
+<!-- STEP 0: Welcome -->
+<div class="step active" id="step0">
+  <div class="step-label">Begin Your Journey</div>
+  <div class="step-title">Your Frequency Profile</div>
+  <div class="step-sub">Every body has a frequency. Every fabric does too. Let us learn about you so we can curate pieces that truly align — with your shape, your colors, your life.</div>
+  <div class="section-divider"></div>
+  <label class="input-label">Your Name</label>
+  <input class="input-field" id="fullName" placeholder="First and last name">
+  <label class="input-label">Email</label>
+  <input class="input-field" id="email" type="email" placeholder="you@email.com">
+  <div class="note-text">Your profile stays private. We use it only to personalize your lookbooks, fitting room, and recommendations.</div>
+  <div class="btn-row"><div></div><button class="btn btn-next" onclick="nextStep(1)">Begin →</button></div>
+</div>
+
+<!-- STEP 1: Body Shape -->
+<div class="step" id="step1">
+  <div class="step-label">Step 1 of 7</div>
+  <div class="step-title">Your Silhouette</div>
+  <div class="step-sub">Understanding your shape helps us recommend cuts and silhouettes that flatter naturally.</div>
+  <div class="body-grid">
+    <div class="body-card" onclick="selectOne(this,'bodyType','hourglass')">
+      <svg viewBox="0 0 48 80"><ellipse cx="24" cy="14" rx="8" ry="10" fill="none" stroke="#C49DA2" stroke-width="1.5"/><path d="M12 28 Q14 40 20 46 Q14 52 12 64 Q12 70 18 72 Q22 72 24 72 Q26 72 30 72 Q36 70 36 64 Q34 52 28 46 Q34 40 36 28 Z" fill="none" stroke="#C49DA2" stroke-width="1.5"/></svg>
+      <span class="card-label">Hourglass</span>
+    </div>
+    <div class="body-card" onclick="selectOne(this,'bodyType','pear')">
+      <svg viewBox="0 0 48 80"><ellipse cx="24" cy="14" rx="8" ry="10" fill="none" stroke="#C49DA2" stroke-width="1.5"/><path d="M16 28 Q18 38 20 44 Q14 52 10 64 Q10 70 18 72 Q22 72 24 72 Q26 72 30 72 Q38 70 38 64 Q34 52 28 44 Q30 38 32 28 Z" fill="none" stroke="#C49DA2" stroke-width="1.5"/></svg>
+      <span class="card-label">Pear</span>
+    </div>
+    <div class="body-card" onclick="selectOne(this,'bodyType','rectangle')">
+      <svg viewBox="0 0 48 80"><ellipse cx="24" cy="14" rx="8" ry="10" fill="none" stroke="#C49DA2" stroke-width="1.5"/><path d="M14 28 Q15 40 16 52 Q15 62 14 72 Q20 72 24 72 Q28 72 34 72 Q33 62 32 52 Q33 40 34 28 Z" fill="none" stroke="#C49DA2" stroke-width="1.5"/></svg>
+      <span class="card-label">Rectangle</span>
+    </div>
+    <div class="body-card" onclick="selectOne(this,'bodyType','apple')">
+      <svg viewBox="0 0 48 80"><ellipse cx="24" cy="14" rx="8" ry="10" fill="none" stroke="#C49DA2" stroke-width="1.5"/><path d="M14 28 Q10 40 10 50 Q12 62 16 68 Q18 72 24 72 Q30 72 32 68 Q36 62 38 50 Q38 40 34 28 Z" fill="none" stroke="#C49DA2" stroke-width="1.5"/></svg>
+      <span class="card-label">Apple</span>
+    </div>
+    <div class="body-card" onclick="selectOne(this,'bodyType','inverted_triangle')">
+      <svg viewBox="0 0 48 80"><ellipse cx="24" cy="14" rx="8" ry="10" fill="none" stroke="#C49DA2" stroke-width="1.5"/><path d="M8 28 Q12 40 16 52 Q18 62 20 68 Q22 72 24 72 Q26 72 28 68 Q30 62 32 52 Q36 40 40 28 Z" fill="none" stroke="#C49DA2" stroke-width="1.5"/></svg>
+      <span class="card-label">Inverted &#9651;</span>
+    </div>
+  </div>
+  <div class="input-row two">
+    <div><label class="input-label">Height</label>
+      <select class="input-field" id="height"><option value="">Select</option><option>Under 5'2"</option><option>5'2" - 5'4"</option><option>5'4" - 5'6"</option><option>5'6" - 5'8"</option><option>5'8" - 5'10"</option><option>Over 5'10"</option></select>
+    </div>
+    <div><label class="input-label">Age Range</label>
+      <select class="input-field" id="ageRange"><option value="">Select</option><option>18-25</option><option>26-34</option><option>35-44</option><option>45-54</option><option>55-64</option><option>65+</option></select>
+    </div>
+  </div>
+  <div class="btn-row"><button class="btn btn-back" onclick="prevStep(0)">&#8592; Back</button><button class="btn btn-next" onclick="nextStep(2)">Continue &#8594;</button></div>
+</div>
+
+<!-- STEP 2: Sizes -->
+<div class="step" id="step2">
+  <div class="step-label">Step 2 of 7</div>
+  <div class="step-title">Your Sizes</div>
+  <div class="step-sub">So we never recommend something that won't fit beautifully.</div>
+  <div class="input-row three">
+    <div><label class="input-label">Top Size</label>
+      <select class="input-field" id="sizeTop"><option value="">Select</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>3XL</option></select>
+    </div>
+    <div><label class="input-label">Bottom Size</label>
+      <select class="input-field" id="sizeBottom"><option value="">Select</option><option>XS / 0-2</option><option>S / 4-6</option><option>M / 8-10</option><option>L / 12-14</option><option>XL / 16-18</option><option>XXL / 20-22</option><option>3XL / 24+</option></select>
+    </div>
+    <div><label class="input-label">Dress Size</label>
+      <select class="input-field" id="sizeDress"><option value="">Select</option><option>XS / 0-2</option><option>S / 4-6</option><option>M / 8-10</option><option>L / 12-14</option><option>XL / 16-18</option><option>XXL / 20-22</option><option>3XL / 24+</option></select>
+    </div>
+  </div>
+  <div class="btn-row"><button class="btn btn-back" onclick="prevStep(1)">&#8592; Back</button><button class="btn btn-next" onclick="nextStep(3)">Continue &#8594;</button></div>
+</div>
+
+<!-- STEP 3: Budget & Climate -->
+<div class="step" id="step3">
+  <div class="step-label">Step 3 of 7</div>
+  <div class="step-title">Your Comfort Zone</div>
+  <div class="step-sub">Natural fiber pieces range from everyday basics to investment quality. Where do you feel comfortable?</div>
+  <div class="option-grid">
+    <div class="option-card" onclick="selectOne(this,'budget','25-75')"><span class="card-label">$25 &#8211; $75</span><span class="card-desc">Organic basics &amp; everyday essentials</span></div>
+    <div class="option-card" onclick="selectOne(this,'budget','75-150')"><span class="card-label">$75 &#8211; $150</span><span class="card-desc">Quality pieces that last seasons</span></div>
+    <div class="option-card" onclick="selectOne(this,'budget','150-300')"><span class="card-label">$150 &#8211; $300</span><span class="card-desc">Curated investment wardrobe</span></div>
+    <div class="option-card" onclick="selectOne(this,'budget','300+')"><span class="card-label">$300+</span><span class="card-desc">Heritage luxury &amp; heirloom quality</span></div>
+  </div>
+  <div class="section-divider"></div>
+  <label class="input-label">Your Climate</label>
+  <div class="step-sub" style="margin-bottom:12px;font-size:13px">This helps us recommend the right weight and layering.</div>
+  <div class="chip-wrap">
+    <span class="chip" onclick="selectOne(this,'climate','hot')">Warm / Tropical</span>
+    <span class="chip" onclick="selectOne(this,'climate','temperate')">Temperate / Mild</span>
+    <span class="chip" onclick="selectOne(this,'climate','cold')">Cold / Northern</span>
+    <span class="chip" onclick="selectOne(this,'climate','variable')">Four Seasons / Variable</span>
+  </div>
+  <div class="btn-row"><button class="btn btn-back" onclick="prevStep(2)">&#8592; Back</button><button class="btn btn-next" onclick="nextStep(4)">Continue &#8594;</button></div>
+</div>
+
+<!-- STEP 4: Color Season -->
+<div class="step" id="step4">
+  <div class="step-label">Step 4 of 7</div>
+  <div class="step-title">Your Color Season</div>
+  <div class="step-sub">Your undertone determines which colors make you glow. Select the palette that resonates.</div>
+  <div class="color-grid">
+    <div class="color-card" onclick="selectOne(this,'colorSeason','warm_autumn')">
+      <div class="color-swatches"><span class="color-sw" style="background:#8B4513"></span><span class="color-sw" style="background:#DAA520"></span><span class="color-sw" style="background:#654321"></span><span class="color-sw" style="background:#CD853F"></span></div>
+      <span class="card-label">Warm Autumn</span>
+    </div>
+    <div class="color-card" onclick="selectOne(this,'colorSeason','deep_autumn')">
+      <div class="color-swatches"><span class="color-sw" style="background:#5C3317"></span><span class="color-sw" style="background:#8B6914"></span><span class="color-sw" style="background:#704214"></span><span class="color-sw" style="background:#CC7722"></span></div>
+      <span class="card-label">Deep Autumn</span>
+    </div>
+    <div class="color-card" onclick="selectOne(this,'colorSeason','cool_winter')">
+      <div class="color-swatches"><span class="color-sw" style="background:#1C1C1C"></span><span class="color-sw" style="background:#800020"></span><span class="color-sw" style="background:#191970"></span><span class="color-sw" style="background:#C0C0C0"></span></div>
+      <span class="card-label">Cool Winter</span>
+    </div>
+    <div class="color-card" onclick="selectOne(this,'colorSeason','deep_winter')">
+      <div class="color-swatches"><span class="color-sw" style="background:#0D0D0D"></span><span class="color-sw" style="background:#4B0082"></span><span class="color-sw" style="background:#006400"></span><span class="color-sw" style="background:#B22222"></span></div>
+      <span class="card-label">Deep Winter</span>
+    </div>
+    <div class="color-card" onclick="selectOne(this,'colorSeason','warm_spring')">
+      <div class="color-swatches"><span class="color-sw" style="background:#F4A460"></span><span class="color-sw" style="background:#FFD700"></span><span class="color-sw" style="background:#FF6347"></span><span class="color-sw" style="background:#98FB98"></span></div>
+      <span class="card-label">Warm Spring</span>
+    </div>
+    <div class="color-card" onclick="selectOne(this,'colorSeason','light_spring')">
+      <div class="color-swatches"><span class="color-sw" style="background:#FFDAB9"></span><span class="color-sw" style="background:#F0E68C"></span><span class="color-sw" style="background:#FFA07A"></span><span class="color-sw" style="background:#90EE90"></span></div>
+      <span class="card-label">Light Spring</span>
+    </div>
+    <div class="color-card" onclick="selectOne(this,'colorSeason','cool_summer')">
+      <div class="color-swatches"><span class="color-sw" style="background:#B0C4DE"></span><span class="color-sw" style="background:#DDA0DD"></span><span class="color-sw" style="background:#BC8F8F"></span><span class="color-sw" style="background:#6B8E9F"></span></div>
+      <span class="card-label">Cool Summer</span>
+    </div>
+    <div class="color-card" onclick="selectOne(this,'colorSeason','light_summer')">
+      <div class="color-swatches"><span class="color-sw" style="background:#D8BFD8"></span><span class="color-sw" style="background:#E6E6FA"></span><span class="color-sw" style="background:#F5DEB3"></span><span class="color-sw" style="background:#ADD8E6"></span></div>
+      <span class="card-label">Light Summer</span>
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <label class="input-label">Undertone</label>
+  <div class="chip-wrap">
+    <span class="chip" onclick="selectOne(this,'undertone','warm')">Warm (golden, peachy)</span>
+    <span class="chip" onclick="selectOne(this,'undertone','cool')">Cool (pink, blue)</span>
+    <span class="chip" onclick="selectOne(this,'undertone','neutral')">Neutral (mix)</span>
+    <span class="chip" onclick="selectOne(this,'undertone','unsure')">Not Sure</span>
+  </div>
+  <div class="note-text">Not sure? Look at your wrist veins — green suggests warm, blue/purple suggests cool, both suggests neutral.</div>
+  <div class="btn-row"><button class="btn btn-back" onclick="prevStep(3)">&#8592; Back</button><button class="btn btn-next" onclick="nextStep(5)">Continue &#8594;</button></div>
+</div>
+
+<!-- STEP 5: Fabric Preferences -->
+<div class="step" id="step5">
+  <div class="step-label">Step 5 of 7</div>
+  <div class="step-title">Your Fabric Soul</div>
+  <div class="step-sub">What touches your skin matters. Tell us what you love and what to avoid.</div>
+  <label class="input-label">Fabrics You Love <span style="font-weight:400;text-transform:none;letter-spacing:0">(select all that apply)</span></label>
+  <div class="chip-wrap" id="fabricLoveWrap">
+    <span class="chip" onclick="toggleChip(this,'fabricLove')">Linen <span class="freq-badge">5,000 Hz</span></span>
+    <span class="chip" onclick="toggleChip(this,'fabricLove')">Wool / Cashmere <span class="freq-badge">5,000 Hz</span></span>
+    <span class="chip" onclick="toggleChip(this,'fabricLove')">Silk <span class="freq-badge">4,500 Hz</span></span>
+    <span class="chip" onclick="toggleChip(this,'fabricLove')">Organic Cotton <span class="freq-badge">100 Hz</span></span>
+    <span class="chip" onclick="toggleChip(this,'fabricLove')">Hemp</span>
+    <span class="chip" onclick="toggleChip(this,'fabricLove')">Bamboo</span>
+    <span class="chip" onclick="toggleChip(this,'fabricLove')">Merino</span>
+  </div>
+  <div class="section-divider"></div>
+  <label class="input-label">Fabrics to Avoid <span style="font-weight:400;text-transform:none;letter-spacing:0">(sensitivities, dislikes)</span></label>
+  <div class="chip-wrap" id="fabricAvoidWrap">
+    <span class="chip" onclick="toggleChip(this,'fabricAvoid')">Wool (itchy)</span>
+    <span class="chip" onclick="toggleChip(this,'fabricAvoid')">Heavy linen</span>
+    <span class="chip" onclick="toggleChip(this,'fabricAvoid')">Silk (care concerns)</span>
+    <span class="chip" onclick="toggleChip(this,'fabricAvoid')">Stiff fabrics</span>
+    <span class="chip" onclick="toggleChip(this,'fabricAvoid')">Sheer fabrics</span>
+  </div>
+  <div class="note-text">Remember: linen + wool should never be worn together — their frequencies cancel to zero.</div>
+  <div class="btn-row"><button class="btn btn-back" onclick="prevStep(4)">&#8592; Back</button><button class="btn btn-next" onclick="nextStep(6)">Continue &#8594;</button></div>
+</div>
+
+<!-- STEP 6: Lifestyle & Needs -->
+<div class="step" id="step6">
+  <div class="step-label">Step 6 of 7</div>
+  <div class="step-title">Your Life in Alignment</div>
+  <div class="step-sub">How you spend your days shapes what you need in your wardrobe.</div>
+  <label class="input-label">Your Style Preference</label>
+  <div class="chip-wrap">
+    <span class="chip" onclick="selectOne(this,'stylePreference','classic')">Classic / Timeless</span>
+    <span class="chip" onclick="selectOne(this,'stylePreference','minimalist')">Minimalist / Clean</span>
+    <span class="chip" onclick="selectOne(this,'stylePreference','bohemian')">Bohemian / Relaxed</span>
+    <span class="chip" onclick="selectOne(this,'stylePreference','romantic')">Romantic / Feminine</span>
+    <span class="chip" onclick="selectOne(this,'stylePreference','editorial')">Editorial / Statement</span>
+    <span class="chip" onclick="selectOne(this,'stylePreference','practical')">Practical / Functional</span>
+  </div>
+  <div class="section-divider"></div>
+  <label class="input-label">Lifestyle <span style="font-weight:400;text-transform:none;letter-spacing:0">(select all that apply)</span></label>
+  <div class="chip-wrap" id="lifestyleWrap">
+    <span class="chip" onclick="toggleChip(this,'lifestyle')">Work from Home</span>
+    <span class="chip" onclick="toggleChip(this,'lifestyle')">Office / Professional</span>
+    <span class="chip" onclick="toggleChip(this,'lifestyle')">Active / Outdoors</span>
+    <span class="chip" onclick="toggleChip(this,'lifestyle')">Homesteading / Farm</span>
+    <span class="chip" onclick="toggleChip(this,'lifestyle')">Social Events</span>
+    <span class="chip" onclick="toggleChip(this,'lifestyle')">Travel Often</span>
+    <span class="chip" onclick="toggleChip(this,'lifestyle')">Stay-at-Home Parent</span>
+  </div>
+  <div class="section-divider"></div>
+  <label class="input-label">What Do You Need Right Now?</label>
+  <div class="chip-wrap">
+    <span class="chip" onclick="selectOne(this,'currentNeed','everyday')">Everyday Basics</span>
+    <span class="chip" onclick="selectOne(this,'currentNeed','workwear')">Workwear</span>
+    <span class="chip" onclick="selectOne(this,'currentNeed','special')">Special Occasion</span>
+    <span class="chip" onclick="selectOne(this,'currentNeed','loungewear')">Loungewear / Comfort</span>
+    <span class="chip" onclick="selectOne(this,'currentNeed','capsule')">Complete Capsule Wardrobe</span>
+    <span class="chip" onclick="selectOne(this,'currentNeed','seasonal')">Seasonal Refresh</span>
+  </div>
+  <div class="btn-row"><button class="btn btn-back" onclick="prevStep(5)">&#8592; Back</button><button class="btn btn-next" onclick="nextStep(7)">Review Profile &#8594;</button></div>
+</div>
+
+<!-- STEP 7: Review & Submit -->
+<div class="step" id="step7">
+  <div class="step-label">Step 7 of 7</div>
+  <div class="step-title">Confirm Your Profile</div>
+  <div class="step-sub">Everything looks right? We'll use this to curate your lookbooks, fitting room, and recommendations.</div>
+  <div id="reviewContent"></div>
+  <label class="input-label" style="margin-top:20px">Anything Else? <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+  <textarea class="input-field" id="notes" rows="3" placeholder="Brands you love, specific needs, style icons..."></textarea>
+  <div class="btn-row" style="flex-direction:column;gap:12px;margin-top:24px">
+    <button class="btn btn-submit" onclick="submitProfile()">Save My Frequency Profile</button>
+    <button class="btn btn-back" onclick="prevStep(6)" style="width:100%;text-align:center">&#8592; Edit Answers</button>
+  </div>
+</div>
+</div>
+
+<div class="loading-overlay" id="loading">
+  <div class="loading-spin"></div>
+  <div style="font-family:Raleway,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--plum)">Saving your profile...</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var TOTAL_STEPS = 8;
+var currentStep = 0;
+var profile = {
+  fullName:'', email:'', bodyType:'', height:'', ageRange:'',
+  sizeTop:'', sizeBottom:'', sizeDress:'',
+  budget:'', climate:'',
+  colorSeason:'', undertone:'',
+  fabricLove:[], fabricAvoid:[],
+  stylePreference:'', lifestyle:[], currentNeed:'', notes:''
+};
+
+function updateProgress() {
+  var pct = (currentStep / (TOTAL_STEPS - 1)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  var dots = '';
+  for (var i = 0; i < TOTAL_STEPS; i++) {
+    var cls = i === currentStep ? 'active' : (i < currentStep ? 'done' : '');
+    dots += '<div class="p-dot ' + cls + '"></div>';
+  }
+  document.getElementById('progressDots').innerHTML = dots;
+}
+
+function showStep(n) {
+  var steps = document.querySelectorAll('.step');
+  steps.forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('step' + n).classList.add('active');
+  currentStep = n;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep(n) {
+  // Validation
+  if (currentStep === 0) {
+    profile.fullName = document.getElementById('fullName').value.trim();
+    profile.email = document.getElementById('email').value.trim();
+    if (!profile.email || profile.email.indexOf('@') < 0) { toast('Please enter a valid email', true); return; }
+  }
+  if (currentStep === 1) {
+    profile.height = document.getElementById('height').value;
+    profile.ageRange = document.getElementById('ageRange').value;
+  }
+  if (currentStep === 2) {
+    profile.sizeTop = document.getElementById('sizeTop').value;
+    profile.sizeBottom = document.getElementById('sizeBottom').value;
+    profile.sizeDress = document.getElementById('sizeDress').value;
+  }
+  if (n === 7) buildReview();
+  showStep(n);
+}
+function prevStep(n) { showStep(n); }
+
+function selectOne(el, key, val) {
+  var parent = el.parentNode;
+  parent.querySelectorAll('.body-card,.option-card,.color-card,.chip').forEach(function(c) { c.classList.remove('selected'); });
+  el.classList.add('selected');
+  profile[key] = val;
+}
+
+function toggleChip(el, key) {
+  el.classList.toggle('selected');
+  var label = el.textContent.replace(/\d[,\d]* Hz/g, '').trim();
+  if (el.classList.contains('selected')) {
+    if (profile[key].indexOf(label) < 0) profile[key].push(label);
+  } else {
+    profile[key] = profile[key].filter(function(v) { return v !== label; });
+  }
+}
+
+function budgetRange(b) {
+  if (b === '25-75') return { min: 25, max: 75, label: '$25 - $75' };
+  if (b === '75-150') return { min: 75, max: 150, label: '$75 - $150' };
+  if (b === '150-300') return { min: 150, max: 300, label: '$150 - $300' };
+  if (b === '300+') return { min: 300, max: 9999, label: '$300+' };
+  return { min: 0, max: 300, label: 'Not set' };
+}
+
+function formatLabel(s) {
+  return (s || '').replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+}
+
+function buildReview() {
+  var br = budgetRange(profile.budget);
+  var h = '<div class="review-grid">';
+  h += '<div class="review-card"><div class="review-label">Body Type</div><div class="review-value">' + formatLabel(profile.bodyType || 'Not set') + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Height</div><div class="review-value">' + (profile.height || 'Not set') + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Sizes</div><div class="review-value">Top: ' + (profile.sizeTop || '—') + ' · Bottom: ' + (profile.sizeBottom || '—') + ' · Dress: ' + (profile.sizeDress || '—') + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Budget</div><div class="review-value">' + br.label + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Climate</div><div class="review-value">' + formatLabel(profile.climate || 'Not set') + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Color Season</div><div class="review-value">' + formatLabel(profile.colorSeason || 'Not set') + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Undertone</div><div class="review-value">' + formatLabel(profile.undertone || 'Not set') + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Style</div><div class="review-value">' + formatLabel(profile.stylePreference || 'Not set') + '</div></div>';
+  h += '</div>';
+  if (profile.fabricLove.length) h += '<div class="review-card" style="margin-top:12px"><div class="review-label">Fabrics You Love</div><div class="review-value">' + profile.fabricLove.join(', ') + '</div></div>';
+  if (profile.fabricAvoid.length) h += '<div class="review-card"><div class="review-label">Fabrics to Avoid</div><div class="review-value">' + profile.fabricAvoid.join(', ') + '</div></div>';
+  if (profile.lifestyle.length) h += '<div class="review-card"><div class="review-label">Lifestyle</div><div class="review-value">' + profile.lifestyle.join(', ') + '</div></div>';
+  h += '<div class="review-card"><div class="review-label">Current Need</div><div class="review-value">' + formatLabel(profile.currentNeed || 'Not set') + '</div></div>';
+  document.getElementById('reviewContent').innerHTML = h;
+}
+
+function submitProfile() {
+  profile.notes = document.getElementById('notes').value.trim();
+  var br = budgetRange(profile.budget);
+  var payload = {
+    email: profile.email,
+    fullName: profile.fullName,
+    bodyScan: {
+      bodyType: profile.bodyType,
+      height: profile.height,
+      ageRange: profile.ageRange,
+      sizeTop: profile.sizeTop,
+      sizeBottom: profile.sizeBottom,
+      sizeDress: profile.sizeDress
+    },
+    colorProfile: {
+      colorSeason: profile.colorSeason,
+      undertone: profile.undertone
+    },
+    frequencyPreference: 'healing',
+    budgetMin: br.min,
+    budgetMax: br.max,
+    climate: profile.climate,
+    fabricLove: profile.fabricLove,
+    fabricAvoid: profile.fabricAvoid,
+    stylePreference: profile.stylePreference,
+    lifestyle: profile.lifestyle,
+    currentNeed: profile.currentNeed,
+    notes: profile.notes
+  };
+
+  document.getElementById('loading').classList.add('show');
+
+  fetch('/api/ff/save-profile', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    document.getElementById('loading').classList.remove('show');
+    if (data.error) { toast('Error: ' + data.error, true); return; }
+    // Save locally for lookbook personalization
+    localStorage.setItem('ff-profile', JSON.stringify({
+      name: profile.fullName,
+      email: profile.email,
+      bodyType: profile.bodyType,
+      colorSeason: formatLabel(profile.colorSeason),
+      profileId: data.profileId || data.id
+    }));
+    toast('Profile saved! Redirecting to your experience...');
+    setTimeout(function() { window.location.href = '/membership'; }, 1800);
+  })
+  .catch(function(e) {
+    document.getElementById('loading').classList.remove('show');
+    toast('Connection error. Please try again.', true);
+    console.error(e);
+  });
+}
+
+function toast(msg, isError) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(function() { t.className = 'toast'; }, 3500);
+}
+
+updateProgress();
+</script>
+</body>
+</html>
